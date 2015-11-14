@@ -7,3 +7,5 @@ Description: What the package does (one paragraph).
 Depends: R (>= 3.2.2)
 License: MIT + file LICENSE
 LazyData: true
+URL: https://github.com/jennybc/githug
+BugReports: https://github.com/jennybc/githug/issues
