@@ -4,10 +4,14 @@ Version: 0.0.0.9000
 Authors@R: person("Jennifer", "Bryan", role=c("aut", "cre"),
   email = "jenny@stat.ubc.ca")
 Description: What the package does (one paragraph).
-Depends: R (>= 3.2.2)
+Depends:
+    R (>= 3.2.2)
 License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/jennybc/githug
 BugReports: https://github.com/jennybc/githug/issues
-Imports: git2r
-Suggests: testthat
+Imports:
+    git2r
+Suggests:
+    testthat
+RoxygenNote: 5.0.1.9000
