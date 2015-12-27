@@ -10,3 +10,4 @@ LazyData: true
 URL: https://github.com/jennybc/githug
 BugReports: https://github.com/jennybc/githug/issues
 Imports: git2r
+Suggests: testthat
