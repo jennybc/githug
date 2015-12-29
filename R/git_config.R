@@ -107,6 +107,8 @@ git_config <- function(..., repo = NULL,
   cfg <- git2r::config(repo = repo)
   if (is.null(cfg$local))
     cfg$local <- list()
+  if (is.null(cfg$global))
+    cfg$global <- list()
   cfg <- switch(where,
                 de_facto = modifyList(cfg$global, cfg$local),
                 local = cfg$local,
