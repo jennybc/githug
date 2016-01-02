@@ -20,12 +20,14 @@ are returned, i.e. the output should match the result of \code{git config
 \item{repo}{Path to a Git repo. If unspecified, current working directory is
 checked to see if it is or is inside a Git repo.}
 
-\item{where}{Specifies which options. The default, \code{de_facto}, applies
-only to a query and requests the options in force, i.e. where local repo
-options override global user-level options, when both exist. \code{local}
-or \code{global} narrows the scope to the associated configuration file.
-When setting, if \code{where} is unspecified, the local configuration is
-modified.}
+\item{where}{Specifies which variables. The default, \code{de_facto}, applies
+only to a query and requests the variables in force, i.e. where local repo
+variables override global user-level variables, when both are defined.
+\code{local} or \code{global} narrows the scope to the associated
+configuration file: for \code{local}, \code{.git/config} in the targetted
+\code{repo}, and for \code{global}, \code{~/.gitconfig} in user's home
+directory. When setting, if \code{where} is unspecified, the local
+configuration is modified.}
 }
 \value{
 A named list of Git configuration variables.
@@ -35,20 +37,21 @@ A named list of Git configuration variables.
 \code{git_config_local} can be used to query or modify Git configuration.
 }
 \details{
+Variables can be queried by specifying the names as strings or in a unnamed
+list or vector of strings. Don't specify anything if you want to see them
+all. Non-existent variables will return value \code{NULL}.
+
 Variables can be set by specifying them as arguments in \code{variable =
 value} form or as a named list. To unset a variable, i.e. \code{git config
---unset}, specify \code{NULL} as the value. Variables can be queried by
-specifying the names as strings or in a list or vector of strings.
+--unset}, specify \code{NULL} as the value.
 
 When variables are set, the previous values are returned in an invisible
 named list, analogous to \code{\link{par}} or \code{\link{setwd}}. Such a
 list can be passed back in to \code{git_config_local} or
 \code{git_config_global} to restore the previous configuration.
 
-When setting, the inclusion of non-standard variable names leads to silent
-failure. Consult the \href{https://git-scm.com/docs/git-config}{git-config
-man page} for a long yet non-comprehensive list of variables. When querying,
-non-existent variable names return \code{NULL}.
+Consult the \href{https://git-scm.com/docs/git-config}{git-config man page}
+for a long yet non-comprehensive list of variables.
 }
 \section{Functions}{
 \itemize{
