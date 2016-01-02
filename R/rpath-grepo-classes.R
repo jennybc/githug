@@ -22,7 +22,7 @@
 ## workdir():
 ##  * input = git_repository object
 ##  * output = path like ~/foo/  <-- note the terminating file separator
-##    note: returns NULL if bare repo
+##    note: returns NULL if bare repo, which I don't address
 
 ## rpath ------------------------------------------
 
@@ -82,6 +82,38 @@ print.grepo <- function(g) {
 
 ## git_repository ------------------------------------------
 
+#' Open a Git repository, the git2r way
+#'
+#' \code{\link{githug}} uses the \code{\link{git2r}} package, under the hood, to
+#' perform local Git operations. \code{\link{git2r}} handles Git repos as
+#' objects of class \code{\linkS4class{git_repository}}. Use this function to
+#' convert a path (or other way of referring to a Git repo) to the right sort of
+#' input. You might need this to do less common Git operations, i.e. to call
+#' \code{\link{git2r}} functions that aren't exposed via  \code{\link{githug}}.
+#'
+#' @param x Git repository specified as a path. Or as an object of class
+#'   \code{rpath} or code{grepo} (classes used internally in the
+#'   \code{\link{githug}} package) or of class
+#'   \code{\linkS4class{git_repository}} (from the \code{\link{git2r}} package).
+#'
+#' @return An S4 \code{\linkS4class{git_repository}} object
+#' @export
+#'
+#' @examples
+#' repo <- tempfile(pattern = "githug-to-git2r-example-")
+#' git_init(repo)
+#' git_config(repo = repo, user.name="jd", user.email="jd@example.org")
+#' writeLines(paste("Well, I've always believed that if done properly, armed",
+#'                  "robbery doesn't have to be an unpleasant experience."),
+#'                  file.path(repo, "example.txt"))
+#' ## TO DO: revisit once I've wrapped add, status, commit, etc.
+#' git2r::add(as_git_repository(repo), "example.txt")
+#' git2r::commit(as_git_repository(repo), "jd is a smooth talker")
+#'
+#' ## here's a rather exotic Git operation that githug is unlikely to expose:
+#' ## odb_blobs() lists "all blobs reachable from the commits in the object database"
+#' ## pre-process the repo with as_git_repository()
+#' git2r::odb_blobs(as_git_repository(repo))
 as_git_repository <- function(x = ".") {
 
   stopifnot(inherits(x, c("character", "rpath", "grepo", "git_repository")))
