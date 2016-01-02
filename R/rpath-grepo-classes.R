@@ -5,6 +5,8 @@
 ##
 ## rpath: path to working directory of a git repo = parent dir of .git
 ## targetting interactive use, so not worrying about bare repos
+## I never actually create any objects with class rpath, so just used for
+## method dispatch ... is that crazy or silly?
 ##
 ## grepo: list that holds rpath and other useful info on the repo
 ## possibly useful internally? we'll see
@@ -26,9 +28,18 @@
 
 ## rpath ------------------------------------------
 
+rpath <- function(x = NULL) {
+  stopifnot(is.null(x) || (length(x) == 1L && inherits(x, "character")))
+  as.rpath(x)
+}
+
 as.rpath <- function(x, ...) UseMethod("as.rpath")
 
 as.rpath.rpath <- function(x, ...) x
+
+as.rpath.NULL <- function(x, ...) as.rpath(".", ...)
+
+as.rpath.git_repository <- function(x, ...) as.rpath(git2r::workdir(x))
 
 as.rpath.character <- function(x, ...) {
 
@@ -43,22 +54,13 @@ as.rpath.character <- function(x, ...) {
   }
   ## why not use repository(..., discover = TRUE) directly on x?
   ## because it errors if can't discover repo, so would require try() anyway
-  structure(
-    normalizePath(git2r::workdir(git2r::repository(xrepo, discover = TRUE))),
-    class = "rpath"
-  )
+    normalizePath(git2r::workdir(git2r::repository(xrepo, discover = TRUE)))
 
 }
-
-as.rpath.git_repository <- function(x, ...) as.rpath(git2r::workdir(x))
-
-is.rpath <- function(x) inherits(x, "rpath")
 
 is_in_repo <- function(x) !is.null(as.rpath(x))
 
 ##is_a_repo <- function(x) ??/
-
-print.rpath <- function(x) print(as.character(x))
 
 ## grepo ------------------------------------------
 
@@ -136,7 +138,7 @@ as_git_repository <- function(x = ".") {
   if (inherits(x, "grepo"))
     x <- x$path
 
-  git2r::repository(as.character(as.rpath(x)))
+  git2r::repository(as.rpath(x))
 
 }
 

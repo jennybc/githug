@@ -7,7 +7,7 @@ test_that("init works in existing dir that is not a git repo", {
   expect_true(dir.exists(tpath))
   expect_false(git2r::in_repository(tpath))
   tpath <- git_init(tpath)
-  expect_true(git2r::in_repository(as.character(tpath)))
+  expect_true(git2r::in_repository(tpath))
 
 })
 
@@ -17,7 +17,7 @@ test_that("init works in dir that does not exist yet", {
   expect_false(dir.exists(tpath))
   expect_message(tpath <- git_init(tpath), "Creating directory")
   expect_true(dir.exists(tpath))
-  expect_true(git2r::in_repository(as.character(tpath)))
+  expect_true(git2r::in_repository(tpath))
 
 })
 
@@ -26,7 +26,7 @@ test_that("init works in existing dir that is already a git repo", {
   tpath <- tempfile(pattern = "github-test-")
   tpath <- git_init(tpath)
   expect_message(tpath <- git_init(tpath), "appears to already be a Git repo")
-  expect_true(git2r::in_repository(as.character(tpath)))
+  expect_true(git2r::in_repository(tpath))
 
 })
 
@@ -34,7 +34,7 @@ test_that("init creates a repo within a repo iff 'force = TRUE'", {
 
   tpath <- tempfile(pattern = "github-test-")
   tpath <- git_init(tpath)
-  expect_true(git2r::in_repository(as.character(tpath)))
+  expect_true(git2r::in_repository(tpath))
 
   tpath_at_depth <-
     normalizePath(file.path(tpath, "dir1", "dir2"), mustWork = FALSE)
@@ -45,7 +45,7 @@ test_that("init creates a repo within a repo iff 'force = TRUE'", {
 
   expect_message(init_res <- git_init(tpath_at_depth, force = TRUE),
                  "Doing `git init`")
-  expect_identical(as.character(init_res), tpath_at_depth)
+  expect_identical(init_res, tpath_at_depth)
 
 })
 
