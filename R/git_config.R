@@ -83,10 +83,8 @@
 git_config <- function(..., repo = NULL,
                        where = c("de_facto", "local", "global")) {
 
-  if (!is.null(repo)) {
-    repo <- as.grepo(repo)
-    repo <- as_git_repository(repo)
-  }
+  if (!is.null(repo))
+    repo <- as_git_repository(as.rpath(repo))
   where <- match.arg(where)
 
   ddd <- list_depth_one(list(...))
