@@ -82,7 +82,7 @@ git_config_local(repo = repo)
 owd <- setwd(repo)
 
 ## set local variables for current repo
-git_config_local(user.name = "louise", user.email = "louse@example.org")
+git_config_local(user.name = "louise", user.email = "louise@example.org")
 
 ## query specific local variables, including a non-existent one
 git_config_local("user.name", "color.branch", "user.email")
@@ -92,6 +92,10 @@ ocfg <- git_config_local(user.name = "oops", user.email = "oops@example.org")
 git_config_local("user.name", "user.email")
 git_config_local(ocfg)
 git_config_local("user.name", "user.email")
+
+## set a custom variable
+ocfg <- git_config_local(githug.lol = "wut")
+git_config_local("github.lol")
 
 setwd(owd)
 }

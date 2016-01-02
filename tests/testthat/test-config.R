@@ -61,6 +61,10 @@ test_that("set local config vars", {
   expect_identical(o_cfg, list(user.name = NULL))
   o_cfg <- git_config_local(user.name = "erica", repo = tr)
   expect_identical(o_cfg, list(user.name = "julia"))
+  o_cfg <- git_config_local(githug.lol = "wut", repo = tr)
+  expect_identical(o_cfg, list(githug.lol = NULL))
+  expect_identical(git_config_local("githug.lol", repo = tr),
+                   list(githug.lol = "wut"))
 
 })
 
