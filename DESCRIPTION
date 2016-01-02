@@ -1,9 +1,11 @@
 Package: githug
-Title: What the Package Does (one line, title case)
+Title: Interface to local and remote Git operations
 Version: 0.0.0.9000
 Authors@R: person("Jennifer", "Bryan", role=c("aut", "cre"),
   email = "jenny@stat.ubc.ca")
-Description: What the package does (one paragraph).
+Description: Interface to local and remote Git operations. Interface to local
+  and remote Git operations. Interface to local and remote Git operations.
+  Interface to local and remote Git operations.
 Depends:
     R (>= 3.2.2)
 License: MIT + file LICENSE
