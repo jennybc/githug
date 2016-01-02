@@ -22,3 +22,14 @@ renquote <- function(l) {
 }
 ## make into a depth one list but: preserve NULLs + names and atomize vectors
 list_depth_one <- function(x) lapply(unlist(renquote(x)), eval)
+
+## walk up parent dirs until you find one that exists
+least_existing_dir <- function(path) {
+  stopifnot(length(path) == 1L, inherits(path, "character"), path != "")
+  path <- normalizePath(path, mustWork = FALSE)
+  #cat(path, "\n")
+  if (dir.exists(path))
+    return(path)
+  else
+    least_existing_dir(dirname(path))
+}

@@ -38,7 +38,7 @@ as.rpath.character <- function(x, ...) {
   ## TO DECIDE: do I want to set ceiling here? right now we walk up
   xrepo <- git2r::discover_repository(x)
   if (is.null(xrepo)) {
-    message("path does not seem to be or be inside a git repo:\n", x)
+    #message("path does not seem to be or be inside a git repo:\n", x)
     return(invisible(NULL))
   }
   ## why not use repository(..., discover = TRUE) directly on x?
@@ -60,7 +60,13 @@ as.grepo <- function(x, ...) UseMethod("as.grepo")
 
 as.grepo.grepo <- function(x, ...) x
 
-as.grepo.character <- function(x, ...) grepo(as.rpath(x))
+as.grepo.character <- function(x, ...) {
+  x_rpath <- as.rpath(x)
+  if (is.null(x_rpath))
+    return(NULL)
+  else
+    grepo(x_rpath)
+}
 
 as.grepo.git_repository <-
   function(x, ...) as.grepo(as.rpath(git2r::workdir(x)))
@@ -112,7 +118,7 @@ print.grepo <- function(g) {
 #'
 #' ## here's a rather exotic Git operation that githug is unlikely to expose:
 #' ## odb_blobs() lists "all blobs reachable from the commits in the object database"
-#' ## pre-process the repo with as_git_repository()
+#' ## pre-process the repo with as_git_repository() to prepare for git2r
 #' git2r::odb_blobs(as_git_repository(repo))
 as_git_repository <- function(x = ".") {
 

@@ -36,7 +36,7 @@ git2r::commit(as_git_repository(repo), "jd is a smooth talker")
 
 ## here's a rather exotic Git operation that githug is unlikely to expose:
 ## odb_blobs() lists "all blobs reachable from the commits in the object database"
-## pre-process the repo with as_git_repository()
+## pre-process the repo with as_git_repository() to prepare for git2r
 git2r::odb_blobs(as_git_repository(repo))
 }
 

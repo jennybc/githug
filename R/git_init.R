@@ -25,13 +25,21 @@
 #' setwd(owd)
 git_init <- function(path = ".") {
 
+  ## concern: what if path -- once created -- will be within a git repo?
   path <- normalizePath(path, mustWork = FALSE)
-  if (dir.exists(path)) {
-    if (!is.null(as.grepo(path)))
-      message(path, " appears to already be a git repo!")
-  } else {
-    message("Creating directory ", path)
-    dir.create(path, recursive = TRUE)
+  led_path <- least_existing_dir(path)
+
+  if (!identical(path, led_path)) {     ## >= 1 dirs need to be created
+    if (!is.null(as.rpath(led_path))) { ## but path is in existing git repo
+      message(path, " appears to be in an existing git repo!")
+      path <- led_path
+    } else {
+      message("Creating directory ", path)
+      dir.create(path, recursive = TRUE)
+    }
+  } else {                              ## path already exists
+    if (!is.null(as.rpath(path)))       ## path is already git repo
+      message(path, " appears to be an existing git repo!")
   }
 
   message("Doing `git init` in ", path)
