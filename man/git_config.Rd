@@ -74,20 +74,17 @@ git_config_global("user.name", "user.email")
 }
 
 ## specify a Git repo
-## TO DO: edit once git2r::init is wrapped
-path <- tempfile(pattern = "githug-example-")
-dir.create(path)
-repo <- git2r::init(path)
-repo <- git2r::workdir(repo)
+repo <- tempfile(pattern = "githug-config-example-")
+git_init(repo)
 git_config_local(repo = repo)
 
 ## switch working directory to the repo
-owd <- setwd(path)
+owd <- setwd(repo)
 
 ## set local variables for current repo
 git_config_local(user.name = "louise", user.email = "louse@example.org")
 
-## query specific local variables
+## query specific local variables, including a non-existent one
 git_config_local("user.name", "color.branch", "user.email")
 
 ## set local variables, then restore
