@@ -4,11 +4,15 @@
 \alias{git_init}
 \title{Create a new Git repository}
 \usage{
-git_init(path = ".")
+git_init(path = ".", force = FALSE)
 }
 \arguments{
 \item{path}{Where to create the new Git repo. If the directory doesn't exist,
 it will be created via \code{dir.create(path, recursive = TRUE)}.}
+
+\item{force}{Whether to create a Git repo, even if it appears to be inside
+another repo. This is generally a bad idea, so use \code{force = TRUE} at
+your own risk and consider using Git submodules instead.}
 }
 \value{
 character, the path to the repository

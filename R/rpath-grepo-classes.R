@@ -3,8 +3,8 @@
 ##
 ## S3 classes here
 ##
-## rpath: path to working directory of a git repo = parent dir of.git
-## consistent with interactive use, so not worrying about bare repos
+## rpath: path to working directory of a git repo = parent dir of .git
+## targetting interactive use, so not worrying about bare repos
 ##
 ## grepo: list that holds rpath and other useful info on the repo
 ## possibly useful internally? we'll see
@@ -43,14 +43,20 @@ as.rpath.character <- function(x, ...) {
   }
   ## why not use repository(..., discover = TRUE) directly on x?
   ## because it errors if can't discover repo, so would require try() anyway
-  structure(git2r::workdir(git2r::repository(xrepo, discover = TRUE)),
-            class = "rpath")
+  structure(
+    normalizePath(git2r::workdir(git2r::repository(xrepo, discover = TRUE))),
+    class = "rpath"
+  )
 
 }
 
 as.rpath.git_repository <- function(x, ...) as.rpath(git2r::workdir(x))
 
 is.rpath <- function(x) inherits(x, "rpath")
+
+is_in_repo <- function(x) !is.null(as.rpath(x))
+
+##is_a_repo <- function(x) ??/
 
 print.rpath <- function(x) print(as.character(x))
 

@@ -2,6 +2,9 @@
 #'
 #' @param path Where to create the new Git repo. If the directory doesn't exist,
 #'   it will be created via \code{dir.create(path, recursive = TRUE)}.
+#' @param force Whether to create a Git repo, even if it appears to be inside
+#'   another repo. This is generally a bad idea, so use \code{force = TRUE} at
+#'   your own risk and consider using Git submodules instead.
 #'
 #' @return character, the path to the repository
 #' @export
@@ -23,23 +26,32 @@
 #' git2r::commits(as_git_repository())[[1]]
 #'
 #' setwd(owd)
-git_init <- function(path = ".") {
+git_init <- function(path = ".", force = FALSE) {
 
-  ## concern: what if path -- once created -- will be within a git repo?
   path <- normalizePath(path, mustWork = FALSE)
+  path_preexists <- dir.exists(path)
   led_path <- least_existing_dir(path)
+  enclosing_repo <- as.rpath(led_path)
+  path_is_repo <- identical(path, as.character(enclosing_repo))
+  led_is_in_repo <- !is.null(enclosing_repo)
 
-  if (!identical(path, led_path)) {     ## >= 1 dirs need to be created
-    if (!is.null(as.rpath(led_path))) { ## but path is in existing git repo
-      message(path, " appears to be in an existing git repo!")
-      path <- led_path
-    } else {
-      message("Creating directory ", path)
-      dir.create(path, recursive = TRUE)
+  if (path_preexists && path_is_repo) {
+    message("'path' appears to already be a Git repo:\n", path)
+  }
+
+  if ( (path_preexists && !path_is_repo && led_is_in_repo) ||
+       (!path_preexists && led_is_in_repo) ) {
+    message("'path' is or will be nested within an existing Git repo:\n", path)
+    if (!force) {
+      message("If you really want to init a new repo inside an existing ",
+              "repo, use 'git_init(path, force = TRUE)'.")
+      return(invisible(NULL))
     }
-  } else {                              ## path already exists
-    if (!is.null(as.rpath(path)))       ## path is already git repo
-      message(path, " appears to be an existing git repo!")
+  }
+
+  if (!path_preexists) {
+    message("Creating directory ", path)
+    dir.create(path, recursive = TRUE)
   }
 
   message("Doing `git init` in ", path)
