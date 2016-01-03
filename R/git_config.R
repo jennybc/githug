@@ -83,33 +83,37 @@
 #' git_config_local("github.lol")
 #'
 #' setwd(owd)
-git_config <- function(..., repo = NULL,
+git_config <- function(..., repo = ".",
                        where = c("de_facto", "local", "global")) {
 
+  repo <- as.rpath(repo)
   if (!is.null(repo))
-    repo <- as_git_repository(as.rpath(repo))
+    repo <- as_git_repository(repo)
   where <- match.arg(where)
 
   ddd <- list_depth_one(list(...))
   setting <- is_named(ddd)
+
+  cfg <- git2r::config(repo = repo)
+  if (is.null(cfg$local))
+    cfg$local <- list()
+  if (is.null(cfg$global))
+    cfg$global <- list()
 
   if (setting) {
     if (where == "de_facto") {
       message("setting local config")
       where <- "local"
     }
-    ocfg <- git2r::config(repo = repo)[[where]]
+    if (where == "local" && is.null(repo))
+      stop("no local repository found")
+    ocfg <- cfg[[where]]
     cargs <- c(repo = repo, global = where == "global", ddd)
     ncfg <- do.call(git2r::config, cargs)
     return(invisible(screen(ocfg, names(ddd))))
   }
 
   ## querying
-  cfg <- git2r::config(repo = repo)
-  if (is.null(cfg$local))
-    cfg$local <- list()
-  if (is.null(cfg$global))
-    cfg$global <- list()
   cfg <- switch(where,
                 de_facto = modifyList(cfg$global, cfg$local),
                 local = cfg$local,
@@ -128,4 +132,4 @@ git_config_global <-
 #'   --local}
 #' @export
 git_config_local <-
-  function(..., repo = NULL) git_config(..., repo = repo, where = "local")
+  function(..., repo = ".") git_config(..., repo = repo, where = "local")
