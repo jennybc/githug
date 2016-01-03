@@ -6,11 +6,11 @@
 \alias{git_config_local}
 \title{Get and set Git configuration variables}
 \usage{
-git_config(..., repo = NULL, where = c("de_facto", "local", "global"))
+git_config(..., repo = ".", where = c("de_facto", "local", "global"))
 
 git_config_global(...)
 
-git_config_local(..., repo = NULL)
+git_config_local(..., repo = ".")
 }
 \arguments{
 \item{...}{The Git configuration variables to get or set. If unspecified, all
@@ -34,7 +34,8 @@ A named list of Git configuration variables.
 }
 \description{
 \code{git_config} and convenience wrappers \code{git_config_global} and
-\code{git_config_local} can be used to query or modify Git configuration.
+\code{git_config_local} can be used to query or modify Git configuration. All
+reply on \code{\link[git2r]{config}} from \code{\link{git2r}}.
 }
 \details{
 Variables can be queried by specifying the names as strings or in a unnamed

@@ -109,7 +109,7 @@ print.grepo <- function(g) {
 #' \code{\link{git2r}} functions that aren't exposed via  \code{\link{githug}}.
 #'
 #' @param x Git repository specified as a path. Or as an object of class
-#'   \code{rpath} or code{grepo} (classes used internally in the
+#'   \code{rpath} or \code{grepo} (classes used internally in the
 #'   \code{\link{githug}} package) or of class
 #'   \code{\linkS4class{git_repository}} (from the \code{\link{git2r}} package).
 #'
@@ -119,18 +119,19 @@ print.grepo <- function(g) {
 #' @examples
 #' repo <- tempfile(pattern = "githug-to-git2r-example-")
 #' git_init(repo)
-#' git_config(repo = repo, user.name="jd", user.email="jd@example.org")
+#' owd <- setwd(repo)
+#' git_config(user.name = "jd", user.email = "jd@example.org")
 #' writeLines(paste("Well, I've always believed that if done properly, armed",
 #'                  "robbery doesn't have to be an unpleasant experience."),
-#'                  file.path(repo, "example.txt"))
+#'            "jd.txt")
+#' git_add("jd.txt")
 #' ## TO DO: revisit once I've wrapped add, status, commit, etc.
-#' git2r::add(as_git_repository(repo), "example.txt")
-#' git2r::commit(as_git_repository(repo), "jd is a smooth talker")
+#' git2r::commit(as_git_repository(), "jd is a smooth talker")
 #'
 #' ## here's a rather exotic Git operation that githug is unlikely to expose:
 #' ## odb_blobs() lists "all blobs reachable from the commits in the object database"
 #' ## pre-process the repo with as_git_repository() to prepare for git2r
-#' git2r::odb_blobs(as_git_repository(repo))
+#' git2r::odb_blobs(as_git_repository())
 as_git_repository <- function(x = ".") {
 
   stopifnot(inherits(x, c("character", "rpath", "grepo", "git_repository")) ||

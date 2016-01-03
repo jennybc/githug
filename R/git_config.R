@@ -1,7 +1,8 @@
 #' Get and set Git configuration variables
 #'
 #' \code{git_config} and convenience wrappers \code{git_config_global} and
-#' \code{git_config_local} can be used to query or modify Git configuration.
+#' \code{git_config_local} can be used to query or modify Git configuration. All
+#' reply on \code{\link[git2r]{config}} from \code{\link{git2r}}.
 #'
 #' Variables can be queried by specifying the names as strings or in a unnamed
 #' list or vector of strings. Don't specify anything if you want to see them

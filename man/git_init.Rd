@@ -7,12 +7,13 @@
 git_init(path = ".", force = FALSE)
 }
 \arguments{
-\item{path}{Where to create the new Git repo. If the directory doesn't exist,
-it will be created via \code{dir.create(path, recursive = TRUE)}.}
+\item{path}{Where to create the new Git repo. Defaults to current working
+directory. If the \code{path} doesn't exist, it will be created via
+\code{dir.create(path, recursive = TRUE)}.}
 
-\item{force}{Whether to create a Git repo, even if it appears to be inside
-another repo. This is generally a bad idea, so use \code{force = TRUE} at
-your own risk and consider using Git submodules instead.}
+\item{force}{Whether to create a Git repo, even if it will be inside another
+repo. This is generally a bad idea, so use \code{force = TRUE} at your own
+risk and consider using Git submodules instead.}
 }
 \value{
 Path to the associated Git repo.
@@ -28,10 +29,10 @@ git_init(repo)
 owd <- setwd(repo)
 
 ## Config user and make a commit
-git_config(user.name="thelma", user.email="thelma@example.org")
-writeLines("I don't ever remember feeling this awake.", "example.txt")
+git_config(user.name = "thelma", user.email = "thelma@example.org")
+writeLines("I don't ever remember feeling this awake.", "thelma.txt")
+git_add("thelma.txt")
 ## TO DO: revisit once I've wrapped add, status, commit, etc.
-git2r::add(as_git_repository(), "example.txt")
 git2r::status(as_git_repository())
 git2r::commit(as_git_repository(), "thelma is awake")
 git2r::commits(as_git_repository())[[1]]

@@ -4,8 +4,8 @@
 \name{githug}
 \alias{githug}
 \alias{githug-package}
-\title{githug.}
+\title{githug}
 \description{
-githug.
+githug
 }
 

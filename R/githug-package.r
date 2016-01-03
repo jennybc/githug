@@ -1,4 +1,4 @@
-#' githug.
+#' githug
 #'
 #' @name githug
 #' @docType package
