@@ -15,22 +15,23 @@
 ## discover_repository():
 ##  * input = path like ~/foo ~/foo/ ~/foo.git ~/foo.git/
 ##  * output = path like ~/foo/.git/ <-- note the terminating file separator
+##  * discover_repository() will walk up parents unless 'ceiling' is 0 or 1
 ## repository():
 ##  * input = path like ~/foo ~/foo/ ~/foo.git ~/foo.git/
 ##  * output = git_repository object
 ##  * init() also returns these
-##  * repository will walk up parents iff discover = TRUE (should probably
+##  * repository() will walk up parents iff discover = TRUE (should probably
 ##    be re-thought now that we have ceiling arg in discover_repository?)
 ## workdir():
 ##  * input = git_repository object
 ##  * output = path like ~/foo/  <-- note the terminating file separator
-##    note: returns NULL if bare repo, which I don't address
+##  * note: returns NULL if bare repo, which I don't address
 
 ## rpath ------------------------------------------
 
-rpath <- function(x = NULL) {
+rpath <- function(x = NULL, ...) {
   stopifnot(is.null(x) || (length(x) == 1L && inherits(x, "character")))
-  as.rpath(x)
+  as.rpath(x, ...)
 }
 
 as.rpath <- function(x, ...) UseMethod("as.rpath")
@@ -44,23 +45,25 @@ as.rpath.git_repository <- function(x, ...) as.rpath(git2r::workdir(x))
 as.rpath.character <- function(x, ...) {
 
   stopifnot(length(x) == 1L)
+  x <- normalizePath(x, mustWork = FALSE)
 
-  x <- normalizePath(x)
-  ## TO DECIDE: do I want to set ceiling here? right now we walk up
-  xrepo <- git2r::discover_repository(x)
-  if (is.null(xrepo)) {
-    #message("path does not seem to be or be inside a git repo:\n", x)
+  if (!file.exists(x))
     return(invisible(NULL))
-  }
+
+  ## specify 'ceiling' via ... if you wish
+  xrepo <- git2r::discover_repository(x, ...)
+  if (is.null(xrepo))
+    return(invisible(NULL))
+
   ## why not use repository(..., discover = TRUE) directly on x?
   ## because it errors if can't discover repo, so would require try() anyway
-    normalizePath(git2r::workdir(git2r::repository(xrepo, discover = TRUE)))
+  normalizePath(git2r::workdir(git2r::repository(xrepo, discover = TRUE)))
 
 }
 
-is_in_repo <- function(x) !is.null(as.rpath(x))
+is_in_repo <- function(x, ...) !is.null(as.rpath(x, ...))
 
-##is_a_repo <- function(x) ??/
+is_a_repo <- function(x) is_in_repo(x, ceiling = 0)
 
 ## grepo ------------------------------------------
 
