@@ -32,8 +32,8 @@ git_init <- function(path = ".", force = FALSE) {
   path_preexists <- dir.exists(path)
   led_path <- least_existing_dir(path)
   enclosing_repo <- as.rpath(led_path)
-  path_is_repo <- identical(path, enclosing_repo)
-  led_is_in_repo <- !is.null(enclosing_repo)
+  path_is_repo <- is_a_repo(path)
+  led_is_in_repo <- is_in_repo(led_path)
 
   if (path_preexists && path_is_repo) {
     message("'path' appears to already be a Git repo:\n", path)
