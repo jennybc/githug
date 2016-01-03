@@ -6,7 +6,7 @@
 #'   another repo. This is generally a bad idea, so use \code{force = TRUE} at
 #'   your own risk and consider using Git submodules instead.
 #'
-#' @return character, the path to the repository
+#' @template return-repo-path
 #' @export
 #'
 #' @examples

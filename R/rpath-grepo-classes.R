@@ -133,7 +133,8 @@ print.grepo <- function(g) {
 #' git2r::odb_blobs(as_git_repository(repo))
 as_git_repository <- function(x = ".") {
 
-  stopifnot(inherits(x, c("character", "rpath", "grepo", "git_repository")))
+  stopifnot(inherits(x, c("character", "rpath", "grepo", "git_repository")) ||
+              is.null(x))
 
   if (inherits(x, "git_repository"))
     return(invisible(x))

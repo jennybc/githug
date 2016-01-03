@@ -22,8 +22,7 @@
 #' @param ... The Git configuration variables to get or set. If unspecified, all
 #'   are returned, i.e. the output should match the result of \code{git config
 #'   --list}.
-#' @param repo Path to a Git repo. If unspecified, current working directory is
-#'   checked to see if it is or is inside a Git repo.
+#' @template repo
 #' @param where Specifies which variables. The default, \code{de_facto}, applies
 #'   only to a query and requests the variables in force, i.e. where local repo
 #'   variables override global user-level variables, when both are defined.

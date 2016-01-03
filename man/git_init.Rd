@@ -15,7 +15,7 @@ another repo. This is generally a bad idea, so use \code{force = TRUE} at
 your own risk and consider using Git submodules instead.}
 }
 \value{
-character, the path to the repository
+Path to the associated Git repo.
 }
 \description{
 Create a new Git repository
