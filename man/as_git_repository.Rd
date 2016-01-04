@@ -24,16 +24,14 @@ input. You might need this to do less common Git operations, i.e. to call
 \code{\link{git2r}} functions that aren't exposed via  \code{\link{githug}}.
 }
 \examples{
-repo <- tempfile(pattern = "githug-to-git2r-example-")
-git_init(repo)
+repo <- git_init(tempfile("githug-to-git2r-example-"))
 owd <- setwd(repo)
 git_config(user.name = "jd", user.email = "jd@example.org")
 writeLines(paste("Well, I've always believed that if done properly, armed",
                  "robbery doesn't have to be an unpleasant experience."),
            "jd.txt")
 git_add("jd.txt")
-## TO DO: revisit once I've wrapped add, status, commit, etc.
-git2r::commit(as_git_repository(), "jd is a smooth talker")
+git_commit("jd is a smooth talker")
 
 ## here's a rather exotic Git operation that githug is unlikely to expose:
 ## odb_blobs() lists "all blobs reachable from the commits in the object database"

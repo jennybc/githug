@@ -1,5 +1,5 @@
 init_tmp_repo <-
-  function(slug = "github-test-") git_init(tempfile(pattern = slug))
+  function(slug = "githug-test-") git_init(tempfile(pattern = slug))
 
 read_git_config <- function(path) {
   alt_path <- git2r::discover_repository(path)

@@ -75,8 +75,7 @@ git_config_global("user.name", "user.email")
 }
 
 ## specify a Git repo
-repo <- tempfile(pattern = "githug-config-example-")
-git_init(repo)
+repo <- git_init(tempfile("githug-config-example-"))
 git_config_local(repo = repo)
 
 ## switch working directory to the repo

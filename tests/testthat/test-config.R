@@ -102,7 +102,7 @@ test_that("round trips work", {
 
 test_that("calls from outside repo give sane results", {
 
-  path <- tempfile(pattern = "githug-test-NOT-A-GIT-REPO-")
+  path <- tempfile("githug-test-NOT-A-GIT-REPO-")
   dir.create(path)
 
   owd <- setwd(path)

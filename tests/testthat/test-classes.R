@@ -7,7 +7,7 @@ test_that("rpath doesn't accept garbage input", {
 
 test_that("rpath returns path to enclosing git repo", {
 
-  tpath <- tempfile(pattern = "githug-test-")
+  tpath <- tempfile("githug-test-")
 
   ## path does not exist
   expect_null(rpath(tpath))
@@ -47,8 +47,7 @@ test_that("rpath returns path to enclosing git repo", {
 
 test_that("as.rpath works on a git_repository", {
 
-  tpath <- tempfile(pattern = "githug-test-")
-  tpath <- git_init(tpath)
+  tpath <- init_tmp_repo()
   expect_identical(tpath, as.rpath(git2r::repository(tpath, discover = TRUE)))
 
 })

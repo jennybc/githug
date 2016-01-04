@@ -22,8 +22,7 @@ Path to the associated Git repo.
 Create a new Git repository
 }
 \examples{
-repo <- tempfile(pattern = "githug-init-example-")
-git_init(repo)
+repo <- git_init(tempfile("githug-init-example-"))
 
 ## switch working directory to the repo
 owd <- setwd(repo)
@@ -32,9 +31,9 @@ owd <- setwd(repo)
 git_config(user.name = "thelma", user.email = "thelma@example.org")
 writeLines("I don't ever remember feeling this awake.", "thelma.txt")
 git_add("thelma.txt")
-## TO DO: revisit once I've wrapped add, status, commit, etc.
-git2r::status(as_git_repository())
-git2r::commit(as_git_repository(), "thelma is awake")
+git_status()
+git_commit("thelma is awake")
+## TO DO: revisit once I've wrapped commits
 git2r::commits(as_git_repository())[[1]]
 
 setwd(owd)

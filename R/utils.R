@@ -33,3 +33,5 @@ least_existing_dir <- function(path) {
   else
     least_existing_dir(dirname(path))
 }
+
+message_nl <- function(...) message(paste(..., collapse = "\n"))
