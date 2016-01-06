@@ -13,8 +13,9 @@ LazyData: true
 URL: https://github.com/jennybc/githug
 BugReports: https://github.com/jennybc/githug/issues
 Imports:
+    dplyr,
     git2r (>= 0.13.1),
-    dplyr
+    purrr (>= 0.2.0)
 Suggests:
     testthat
 RoxygenNote: 5.0.1.9000

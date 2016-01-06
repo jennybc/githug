@@ -18,8 +18,8 @@ A data frame (or tbl_df) with S3 class \code{git_log} for printing
 Show commit log. Convenience wrapper around
 \code{\link[git2r]{coerce-git_repository-method}} from \code{\link{git2r}},
 which coerces the commits in the repository to a data frame. The print method
-shows compact versions of, e.g., the commit message, time, and SHA, but rest
-assured the full information is present in the returned object.
+shows truncated versions of, e.g., the commit message, time, and SHA, but
+rest assured the full information is present in the returned object.
 }
 \examples{
 require(dplyr, quietly = TRUE)
