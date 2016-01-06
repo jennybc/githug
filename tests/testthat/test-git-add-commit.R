@@ -1,4 +1,4 @@
-context("add and commit")
+context("git add and commit")
 
 test_that("add and ADD work, with repo elsewhere and in wd", {
 

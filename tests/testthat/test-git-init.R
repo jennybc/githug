@@ -1,4 +1,4 @@
-context("init")
+context("git init")
 
 test_that("init works in existing dir that is not a git repo", {
 

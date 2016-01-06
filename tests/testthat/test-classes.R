@@ -1,4 +1,4 @@
-context("rpath-class")
+context("rpath class")
 
 test_that("rpath doesn't accept garbage input", {
   expect_error(rpath(letters[1:2]))

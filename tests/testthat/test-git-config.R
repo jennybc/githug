@@ -1,4 +1,4 @@
-context("config")
+context("git config")
 
 test_that("match content from unqualified git2r::config query", {
 

@@ -40,19 +40,13 @@ print.git_log <- function(x, ...) {
   x %>%
     dplyr::mutate_(message = ~ ellipsize(message, 24),
                    when = ~ format(when, "%Y-%m-%d %H:%M"),
-                   sha = ~ ellipsize(sha, 7, ellipsis = FALSE),
+                   sha = ~ ellipsize(sha, 7, ellipsis = ''),
                    summary = ~ ellipsize(summary, 24)) %>%
     print()
 }
 
-ellipsize <- function(x, n = 20, ellipsis = TRUE) {
-  if (ellipsis) {
-    ellipsis <- "\u2026"
-    n <- n - 1
-  } else {
-    ellipsis <- ''
-  }
-  ifelse(nchar(x) > n + nchar(ellipsis),
-         paste0(substring(x, first = 1, last = n), ellipsis),
+ellipsize <- function(x, n = 20, ellipsis = "\u2026") {
+  ifelse(nchar(x) > n,
+         paste0(substring(x, first = 1, last = n - nchar(ellipsis)), ellipsis),
          x)
 }

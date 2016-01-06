@@ -1,4 +1,4 @@
-context("commit log")
+context("git log")
 
 test_that("git_log works, with repo elsewhere and in wd", {
 
@@ -14,8 +14,8 @@ test_that("git_log works, with repo elsewhere and in wd", {
                    c("message", "when", "author", "sha", "email", "summary"))
 
   setwd(tpath)
-  writeLines("b", file.path(tpath, "b"))
-  git_COMMIT("b", repo = tpath)
+  writeLines("b", "b")
+  git_COMMIT("b")
   expect_message(gl <- git_log(), NA)
   expect_identical(dim(gl), c(2L, 6L))
   expect_identical(gl$message, c("b", "a"))

@@ -1,4 +1,4 @@
-context("status")
+context("git status")
 
 test_that("status works, with repo elsewhere and in wd", {
 
