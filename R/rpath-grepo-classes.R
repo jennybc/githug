@@ -29,11 +29,8 @@
 
 ## rpath ------------------------------------------
 
-rpath <- function(x = NULL, ...) {
-  stopifnot(is.null(x) || (length(x) == 1L && inherits(x, "character")))
-  as.rpath(x, ...)
-}
-
+## what could ... possibly be? the ceiliing argument for
+## git2r::discover_repository()
 as.rpath <- function(x, ...) UseMethod("as.rpath")
 
 as.rpath.rpath <- function(x, ...) x
@@ -59,6 +56,11 @@ as.rpath.character <- function(x, ...) {
   ## because it errors if can't discover repo, so would require try() anyway
   normalizePath(git2r::workdir(git2r::repository(xrepo, discover = TRUE)))
 
+}
+
+rpath <- function(x = NULL, ...) {
+  stopifnot(is.null(x) || (length(x) == 1L && inherits(x, "character")))
+  as.rpath(x, ...)
 }
 
 is_in_repo <- function(x, ...) !is.null(as.rpath(x, ...))
