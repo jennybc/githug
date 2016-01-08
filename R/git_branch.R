@@ -86,7 +86,7 @@ git_branch_create <- function(name, repo = ".", ...) {
   if (is.null(ddd$commit)) {
     stop("Can't confirm a valid commit to use as base of new branch.\n",
          "Use git_log() to see previous commits.\n",
-         "Maybe there aren't any?")
+         "Maybe there aren't any?", call. = FALSE)
   }
 
   message("Basing new branch on:\n  ", msg_fodder)

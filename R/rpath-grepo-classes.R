@@ -39,18 +39,28 @@ as.rpath.NULL <- function(x, ...) as.rpath(".", ...)
 
 as.rpath.git_repository <- function(x, ...) as.rpath(git2r::workdir(x))
 
-as.rpath.character <- function(x, ...) {
+as.rpath.character <- function(x, ..., require = TRUE) {
 
   stopifnot(length(x) == 1L)
   x <- normalizePath(x, mustWork = FALSE)
 
-  if (!file.exists(x))
-    return(invisible(NULL))
+  if (!file.exists(x)) {
+    if (require) {
+      stop("repo path does not exist:\n", x, call. = FALSE)
+    } else {
+      return(invisible(NULL))
+    }
+  }
 
   ## specify 'ceiling' via ... if you wish
   xrepo <- git2r::discover_repository(x, ...)
-  if (is.null(xrepo))
-    return(invisible(NULL))
+  if (is.null(xrepo)) {
+    if (require) {
+      stop("no git repo exists at this path:\n", x, call. = FALSE)
+    } else {
+      return(invisible(NULL))
+    }
+  }
 
   ## why not use repository(..., discover = TRUE) directly on x?
   ## because it errors if can't discover repo, so would require try() anyway
@@ -63,7 +73,7 @@ rpath <- function(x = NULL, ...) {
   as.rpath(x, ...)
 }
 
-is_in_repo <- function(x, ...) !is.null(as.rpath(x, ...))
+is_in_repo <- function(x, ...) !is.null(as.rpath(x, ..., require = FALSE))
 
 is_a_repo <- function(x) is_in_repo(x, ceiling = 0)
 

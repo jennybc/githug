@@ -86,7 +86,7 @@
 git_config <- function(..., repo = ".",
                        where = c("de_facto", "local", "global")) {
 
-  repo <- as.rpath(repo)
+  repo <- as.rpath(repo, require = FALSE)
   if (!is.null(repo))
     repo <- as_git_repository(repo)
   where <- match.arg(where)
@@ -106,7 +106,7 @@ git_config <- function(..., repo = ".",
       where <- "local"
     }
     if (where == "local" && is.null(repo))
-      stop("no local repository found")
+      stop("no local repository found", call. = FALSE)
     ocfg <- cfg[[where]]
     cargs <- c(repo = repo, global = where == "global", ddd)
     ncfg <- do.call(git2r::config, cargs)
