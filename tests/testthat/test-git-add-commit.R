@@ -55,3 +55,12 @@ test_that("commit demands a commit message", {
   expect_error(git_commit(repo = tpath), "you must provide a commit message")
 
 })
+
+test_that("ADD and COMMIT admit it when there's nothing to be done", {
+
+  tpath <- init_tmp_repo()
+  expect_message(git_ADD(repo = tpath), "nothing to ADD")
+  expect_message(git_COMMIT("but there's nothing to commit!", repo = tpath),
+                 "nothing to ADD")
+
+})

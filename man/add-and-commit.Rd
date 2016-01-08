@@ -44,7 +44,7 @@ at once! Convenience wrappers around \code{\link[git2r]{add}},
   \code{path} to the index. They are slated for inclusion in the next commit.
 
 \code{git_commit} stores the current contents of the index in a new
-  commit along with a messag describing the changes.
+  commit along with a message describing the changes.
 
 \code{git_ADD} says "JUST STAGE ALL THE THINGS." Use this when you
   want the next commit to reflect all new files, file deletions, and file

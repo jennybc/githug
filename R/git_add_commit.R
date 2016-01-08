@@ -76,15 +76,18 @@ git_add <- function(path, repo = ".", ...) {
 #' @rdname add-and-commit
 #'
 #' @details \code{git_commit} stores the current contents of the index in a new
-#'   commit along with a messag describing the changes.
+#'   commit along with a message describing the changes.
 #'
 #' @export
 git_commit <- function(message = NULL, repo = ".", ...) {
   if (is.null(message))
     stop("you must provide a commit message", call. = FALSE)
   gr <- as_git_repository(as.rpath(repo))
-  gco <- git2r::commit(repo = gr, message = message, ...)
-  message_nl(capture.output(show(gco)))
+  s <- unlist(git2r::status(repo = gr))
+  if (!is.null(s)) {
+    gco <- git2r::commit(repo = gr, message = message, ...)
+    message_nl(capture.output(show(gco)))
+  }
   invisible(as.rpath(gr))
 }
 
@@ -104,7 +107,12 @@ git_ADD <- function(repo = ".") {
   gr <- as_git_repository(as.rpath(repo))
   s <- git2r::status(repo = gr)
   ## Untracked files + Staged changes + Unstaged changes
-  git2r::add(repo = gr, path = unlist(s))
+  s <- unlist(s)
+  if (is.null(s)) {
+    s <- ""
+    message("nothing to ADD")
+  }
+  git2r::add(repo = gr, path = s)
   invisible(as.rpath(gr))
 }
 
