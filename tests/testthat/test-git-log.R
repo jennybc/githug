@@ -31,3 +31,23 @@ test_that("git_log returns sthg of class git_log, tbl_df", {
   expect_is(gl, c("git_log", "tbl_df"))
 
 })
+
+test_that("git_log warns if no git repo", {
+
+  tpath <- tempfile("githug-test-")
+  dir.create(tpath)
+  expect_true(dir.exists(tpath))
+  expect_warning(res <- git_log(repo = tpath), "no git repo exists")
+  expect_null(res)
+
+})
+
+test_that("git_log printing", {
+
+  tpath <- init_tmp_repo()
+  writeLines("a", file.path(tpath, "a"))
+  git_COMMIT("Goddamn it! I've never been lucky! Not one time!", repo = tpath)
+  glo <- capture.output(git_log(repo = tpath))
+  expect_equal_to_reference(glo, "git_log_print_output.rds")
+
+})
