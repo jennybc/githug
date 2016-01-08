@@ -86,7 +86,7 @@
 git_config <- function(..., repo = ".",
                        where = c("de_facto", "local", "global")) {
 
-  repo <- as.rpath(repo, require = FALSE)
+  repo <- as.rpath(repo, raise = NULL)
   if (!is.null(repo))
     repo <- as_git_repository(repo)
   where <- match.arg(where)

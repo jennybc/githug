@@ -31,7 +31,7 @@ git_init <- function(path = ".", force = FALSE) {
   path <- normalizePath(path, mustWork = FALSE)
   path_preexists <- dir.exists(path)
   led_path <- least_existing_dir(path)
-  enclosing_repo <- as.rpath(led_path, require = FALSE)
+  enclosing_repo <- as.rpath(led_path, raise = NULL)
   path_is_repo <- is_a_repo(path)
   led_is_in_repo <- is_in_repo(led_path)
 

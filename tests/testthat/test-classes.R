@@ -10,14 +10,14 @@ test_that("rpath returns path to enclosing git repo", {
   tpath <- tempfile("githug-test-")
 
   ## path does not exist
-  expect_error(as.rpath(tpath), "repo path does not exist")
-  expect_null(as.rpath(tpath, require = FALSE))
+  expect_error(as.rpath(tpath), "no path exists")
+  expect_null(as.rpath(tpath, raise = NULL))
   expect_false(is_in_repo(tpath))
   expect_false(is_a_repo(tpath))
 
   ## path exists but there is no enclosing git repo
   dir.create(tpath)
-  res <- rpath(tpath, require = FALSE)
+  res <- rpath(tpath, raise = NULL)
   expect_null(res)
   expect_false(is_in_repo(tpath))
   expect_false(is_a_repo(tpath))
@@ -35,13 +35,11 @@ test_that("rpath returns path to enclosing git repo", {
   dir.create(nested_path, recursive = TRUE)
   res <- rpath(nested_path)
   expect_identical(tpath, res)
-  expect_error(rpath(nested_path, ceiling = 0),
-               "no git repo exists at this path")
-  res <- rpath(nested_path, ceiling = 0, require = FALSE)
+  expect_error(rpath(nested_path, ceiling = 0), "no git repo exists")
+  res <- rpath(nested_path, ceiling = 0, raise = NULL)
   expect_null(res)
-  expect_error(rpath(nested_path, ceiling = 1),
-               "no git repo exists at this path")
-  res <- rpath(nested_path, ceiling = 1, require = FALSE)
+  expect_error(rpath(nested_path, ceiling = 1), "no git repo exists")
+  res <- rpath(nested_path, ceiling = 1, raise = NULL)
   expect_null(res)
   expect_true( is_in_repo(nested_path))
   expect_false(is_in_repo(nested_path, ceiling = 0))
