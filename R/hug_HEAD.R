@@ -21,11 +21,11 @@ hug_HEAD <- function(repo = ".") {
   h <- git2r::head(gr)
   if (is.null(h))
     return(h)
-  hl <- dplyr::lst(branch_name = h@name,
-                   branch_type = c("local", "remote")[h@type],
-                   head_sha = git2r::branch_target(h),
-                   head_commit = git2r::lookup(repo = gr, sha = head_sha),
-                   repo = h@repo,
-                   git_branch = h)
+  hl <- dplyr::lst_(branch_name = ~ h@name,
+                    branch_type = ~ c("local", "remote")[h@type],
+                    head_sha = git2r::branch_target(h),
+                    head_commit = ~ git2r::lookup(repo = gr, sha = head_sha),
+                    repo = ~ h@repo,
+                    git_branch = h)
   hl
 }

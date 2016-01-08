@@ -57,6 +57,19 @@ branch name, type (local vs remote), and a list-column of
 \code{\linkS4class{git_branch}} objects.
 }
 
+\section{git_branch_create}{
+
+
+  \code{git_branch_create} creates a new local branch. You must specify the
+  \code{name} of the new branch, at the very least. By default, will try
+  determine \code{repo} from current working directory and then determine
+  current HEAD from that. Optionally, you can provide the path to a
+  \code{repo} and, via \code{...}, even other arguments to
+  \code{\link[git2r]{branch_create}}, such as an arbitrary
+  \code{\linkS4class{git_commit}} object to use as the branch's starting
+  point.
+}
+
 \section{git_checkout}{
 
 
@@ -75,5 +88,9 @@ branch name, type (local vs remote), and a list-column of
 \examples{
 ## TO DO: come back when I can clone and truly show local v. remote
 git_branch_list()
+\dontrun{
+## TODO: come back! this just here to satisfy R CMD check
+git_branch_create()
+}
 }
 

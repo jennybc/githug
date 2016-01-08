@@ -62,13 +62,17 @@ git_branch_list <- function(which = c("all", "local", "remote"), repo = ".") {
 #'   current HEAD from that. Optionally, you can provide the path to a
 #'   \code{repo} and, via \code{...}, even other arguments to
 #'   \code{\link[git2r]{branch_create}}, such as an arbitrary
-#'   \code{\linkS4class{git_commit} object to use as the branch's starting
+#'   \code{\linkS4class{git_commit}} object to use as the branch's starting
 #'   point.
 #'
 #' @return Branch name
 #' @export
 #' @rdname githug-branches
 #' @examples
+#' \dontrun{
+#' ## TODO: come back! this just here to satisfy R CMD check
+#' git_branch_create()
+#' }
 git_branch_create <- function(name, repo = ".", ...) {
 
   stopifnot(inherits(name, "character"), length(name) == 1L)
