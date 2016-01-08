@@ -24,15 +24,20 @@
 #' git_log()
 #' setwd(owd)
 git_log <- function(repo = ".") {
-  gr <- as_git_repository(as.rpath(repo))
-  vars <- c("message", "when", "author", "sha", "email", "summary")
-  ret <- as(gr, "data.frame")[vars]
-  if (is.null(ret)) {
+  repo <- as.rpath(repo, raise = warning)
+  if (is.null(repo)) {
+    gr <- NULL
+  } else {
+    gr <- as_git_repository(repo)
+    vars <- c("message", "when", "author", "sha", "email", "summary")
+    gr <- as(gr, "data.frame")[vars]
+  }
+  if (is.null(gr)) {
     message("no commits yet")
     return(invisible(NULL))
   }
-  ret <- dplyr::tbl_df(ret)
-  structure(ret, class = c("git_log", class(ret)))
+  gr <- dplyr::tbl_df(gr)
+  structure(gr, class = c("git_log", class(gr)))
 }
 
 #' @export

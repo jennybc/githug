@@ -19,11 +19,8 @@
 #' ## Config user and make a commit
 #' git_config(user.name = "thelma", user.email = "thelma@example.org")
 #' writeLines("I don't ever remember feeling this awake.", "thelma.txt")
-#' git_add("thelma.txt")
-#' git_status()
-#' git_commit("thelma is awake")
-#' ## TO DO: revisit once I've wrapped commits
-#' git2r::commits(as_git_repository())[[1]]
+#' git_COMMIT("thelma is awake")
+#' git_log()
 #'
 #' setwd(owd)
 git_init <- function(path = ".", force = FALSE) {

@@ -27,6 +27,11 @@
 #' git_status()
 #' setwd(owd)
 git_status <- function(repo = ".", ...) {
+
+  repo <- as.rpath(repo, raise = warning)
+  if (is.null(repo)) {
+    return(invisible(NULL))
+  }
   gr <- as_git_repository(as.rpath(repo))
   s <- git2r::status(repo = gr, ...)
   structure(s, class = c("git_status", "list"))

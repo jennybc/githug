@@ -87,18 +87,15 @@ git_config <- function(..., repo = ".",
                        where = c("de_facto", "local", "global")) {
 
   repo <- as.rpath(repo, raise = NULL)
-  if (!is.null(repo))
-    repo <- as_git_repository(repo)
+  if (!is.null(repo)) repo <- as_git_repository(repo)
   where <- match.arg(where)
 
   ddd <- list_depth_one(list(...))
   setting <- is_named(ddd)
 
   cfg <- git2r::config(repo = repo)
-  if (is.null(cfg$local))
-    cfg$local <- list()
-  if (is.null(cfg$global))
-    cfg$global <- list()
+  if (is.null(cfg$local)) cfg$local <- list()
+  if (is.null(cfg$global)) cfg$global <- list()
 
   if (setting) {
     if (where == "de_facto") {

@@ -34,7 +34,7 @@ as.rpath <- function(x, ...) UseMethod("as.rpath")
 
 as.rpath.rpath <- function(x, ...) x
 
-as.rpath.NULL <- function(x, ...) as.rpath(".", ...)
+as.rpath.NULL <- function(x, ...) NULL
 
 as.rpath.git_repository <- function(x, ...) as.rpath(git2r::workdir(x))
 
@@ -112,8 +112,7 @@ is_a_repo <- function(x) is_in_repo(x, ceiling = 0)
 #' git2r::odb_blobs(as_git_repository())
 as_git_repository <- function(x = ".") {
 
-  stopifnot(inherits(x, c("character", "rpath", "git_repository")) ||
-              is.null(x))
+  stopifnot(inherits(x, c("character", "rpath", "git_repository")))
 
   if (inherits(x, "git_repository"))
     return(invisible(x))

@@ -30,3 +30,12 @@ test_that("status works, with repo elsewhere and in wd", {
                          untracked = list(untracked = "d")))
 })
 
+test_that("status warns and returns NULL if not git repo", {
+
+  tpath <- tempfile("githug-test-")
+  dir.create(tpath)
+  expect_true(dir.exists(tpath))
+  expect_warning(res <- git_status(repo = tpath), "no git repo exists")
+  expect_null(res)
+
+})
