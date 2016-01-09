@@ -2,7 +2,7 @@
 % Please edit documentation in R/git_log.R
 \name{git_log}
 \alias{git_log}
-\title{Show commit log}
+\title{Get a commit log}
 \usage{
 git_log(repo = ".")
 }
@@ -15,10 +15,12 @@ A data frame (or tbl_df) with S3 class \code{git_log} for printing
   purposes
 }
 \description{
-Show commit log. Convenience wrapper around
-\code{\link[git2r]{coerce-git_repository-method}} from \code{\link{git2r}},
-which coerces the commits in the repository to a data frame. The print method
-shows truncated versions of, e.g., the commit message, time, and SHA, but
+Get a commit log. Convenience wrapper around the \code{\link{git2r}}
+functions \code{\link[git2r]{coerce-git_repository-method}}, which coerces
+the commit log of the repository to a data frame, and
+\code{\link[git2r]{commits}}, which returns individual
+\code{\linkS4class{git_commit}} objects. The print method shows truncated
+versions of selected variables, e.g., the commit message, time, and SHA, but
 rest assured the full information is present in the returned object.
 }
 \examples{

@@ -65,9 +65,9 @@ branch \code{name}, \code{type} (local vs remote), and a list-column of
   determine \code{repo} from current working directory and then determine
   current HEAD from that. Optionally, you can provide the path to a
   \code{repo} and, via \code{...}, even other arguments to
-  \code{\link[git2r]{branch_create}}, such as an arbitrary
+  \code{\link[git2r]{branch_create}}: an arbitrary
   \code{\linkS4class{git_commit}} object to use as the branch's starting
-  point.
+  point or use \code{force = TRUE} to overwrite an existing branch.
 }
 
 \section{git_checkout}{

@@ -7,18 +7,19 @@ test_that("git_log works, with repo elsewhere and in wd", {
   expect_null(gl)
 
   writeLines("a", file.path(tpath, "a"))
-  git_COMMIT("a", repo = tpath)
-  expect_message(gl <- git_log(repo = tpath), NA)
-  expect_identical(dim(gl), c(1L, 6L))
+  git_COMMIT("01", repo = tpath)
+  gl <- git_log(repo = tpath)
+  expect_identical(dim(gl), c(1L, 7L))
   expect_identical(names(gl),
-                   c("message", "when", "author", "sha", "email", "summary"))
+                   c("message", "when", "author", "sha", "email", "summary",
+                     "commit"))
 
   setwd(tpath)
   writeLines("b", "b")
-  git_COMMIT("b")
-  expect_message(gl <- git_log(), NA)
-  expect_identical(dim(gl), c(2L, 6L))
-  expect_identical(gl$message, c("b", "a"))
+  git_COMMIT("02")
+  gl <- git_log()
+  expect_identical(dim(gl), c(2L, 7L))
+  expect_identical(gl$message, c("02", "01"))
 
 })
 

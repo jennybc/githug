@@ -46,7 +46,7 @@ git_branch_list <- function(which = c("all", "local", "remote"), repo = ".") {
   which <- match.arg(which)
   gb <- git2r::branches(repo = gr, flags = which)
   ## TO DO? submit PR w/ proper coerce method to git2r, like the one to coerce
-  ## git_repository objects to data.frame and then use that
+  ## git_repository objects to data.frame and then use that here
   dplyr::data_frame(
     name = purrr::map_chr(gb, slot, "name"),
     type = c("local", "remote")[purrr::map_int(gb, slot, "type")],
@@ -61,9 +61,9 @@ git_branch_list <- function(which = c("all", "local", "remote"), repo = ".") {
 #'   determine \code{repo} from current working directory and then determine
 #'   current HEAD from that. Optionally, you can provide the path to a
 #'   \code{repo} and, via \code{...}, even other arguments to
-#'   \code{\link[git2r]{branch_create}}, such as an arbitrary
+#'   \code{\link[git2r]{branch_create}}: an arbitrary
 #'   \code{\linkS4class{git_commit}} object to use as the branch's starting
-#'   point.
+#'   point or use \code{force = TRUE} to overwrite an existing branch.
 #'
 #' @return Branch name
 #' @export
@@ -83,8 +83,7 @@ git_branch_create <- function(name, repo = ".", ...) {
     ddd$commit <- h$head_commit
     msg_fodder <- capture.output(h$git_branch)
   } else {
-    ## TO DO: get the SHA or something here
-    msg_fodder <- "basing on a commit"
+    msg_fodder <- capture.output(ddd$commit)
   }
 
   if (is.null(ddd$commit)) {

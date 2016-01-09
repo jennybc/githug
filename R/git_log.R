@@ -1,9 +1,11 @@
-#' Show commit log
+#' Get a commit log
 #'
-#' Show commit log. Convenience wrapper around
-#' \code{\link[git2r]{coerce-git_repository-method}} from \code{\link{git2r}},
-#' which coerces the commits in the repository to a data frame. The print method
-#' shows truncated versions of, e.g., the commit message, time, and SHA, but
+#' Get a commit log. Convenience wrapper around the \code{\link{git2r}}
+#' functions \code{\link[git2r]{coerce-git_repository-method}}, which coerces
+#' the commit log of the repository to a data frame, and
+#' \code{\link[git2r]{commits}}, which returns individual
+#' \code{\linkS4class{git_commit}} objects. The print method shows truncated
+#' versions of selected variables, e.g., the commit message, time, and SHA, but
 #' rest assured the full information is present in the returned object.
 #'
 #' @template repo
@@ -24,20 +26,38 @@
 #' git_log()
 #' setwd(owd)
 git_log <- function(repo = ".") {
+
   repo <- as.rpath(repo, raise = warning)
+
   if (is.null(repo)) {
+
     gr <- NULL
+
   } else {
+
     gr <- as_git_repository(repo)
-    vars <- c("message", "when", "author", "sha", "email", "summary")
-    gr <- as(gr, "data.frame")[vars]
+
+    commits <- git2r::commits(gr)
+    commits <- dplyr::data_frame(sha = purrr::map_chr(commits, slot, "sha"),
+                                 commit = commits)
+
+    gr <- as(gr, "data.frame")
+    if (is.null(gr)) gr <- dplyr::data_frame(sha = character())
+    gr <- dplyr::tbl_df(gr)
+
+    ## using match to have absolute control over row order
+    gr <- gr %>%
+      dplyr::mutate(commit = commits$commit[match(gr$sha, commits$sha)])
+
   }
-  if (is.null(gr)) {
+
+  if (is.null(gr) || nrow(gr) < 1) {
     message("no commits yet")
     return(invisible(NULL))
   }
-  gr <- dplyr::tbl_df(gr)
-  structure(gr, class = c("git_log", class(gr)))
+
+  vars <- c("message", "when", "author", "sha", "email", "summary", "commit")
+  structure(gr[vars], class = c("git_log", class(gr)))
 }
 
 #' @export
