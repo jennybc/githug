@@ -110,15 +110,13 @@ is_a_repo <- function(x) is_in_repo(x, ceiling = 0)
 #' ## odb_blobs() lists "all blobs reachable from the commits in the object database"
 #' ## pre-process the repo with as_git_repository() to prepare for git2r
 #' git2r::odb_blobs(as_git_repository())
+#' setwd(owd)
 as_git_repository <- function(x = ".") {
 
   stopifnot(inherits(x, c("character", "rpath", "git_repository")))
 
   if (inherits(x, "git_repository"))
     return(invisible(x))
-
-  if (inherits(x, "grepo"))
-    x <- x$path
 
   git2r::repository(as.rpath(x))
 

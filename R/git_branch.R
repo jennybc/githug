@@ -39,7 +39,19 @@ NULL
 #' @rdname githug-branches
 #' @examples
 #' ## TO DO: come back when I can clone and truly show local v. remote
+#' repo <- git_init(tempfile("githug-"))
+#' owd <- setwd(repo)
+#' ## no branches yet, because no commits
 #' git_branch_list()
+#' ## commit and now we have master
+#' writeLines('a', 'a')
+#' git_COMMIT('a commit')
+#' git_branch_list()
+#' ## create new branch that points at HEAD
+#' git_branch_create("alpha")
+#' git_branch_list()
+#'
+#' setwd(owd)
 git_branch_list <- function(which = c("all", "local", "remote"), repo = ".") {
 
   gr <- as_git_repository(as.rpath(repo))

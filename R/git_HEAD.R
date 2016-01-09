@@ -19,7 +19,8 @@
 #'
 #' @export
 #' @examples
-#' git_HEAD()
+#' repo <- git_init(tempfile("githug-"))
+#' git_HEAD(repo = repo)
 git_HEAD <- function(repo = ".") {
   gr <- as_git_repository(as.rpath(repo))
   h <- git2r::head(gr)

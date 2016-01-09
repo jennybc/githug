@@ -37,5 +37,6 @@ git_commit("jd is a smooth talker")
 ## odb_blobs() lists "all blobs reachable from the commits in the object database"
 ## pre-process the repo with as_git_repository() to prepare for git2r
 git2r::odb_blobs(as_git_repository())
+setwd(owd)
 }
 

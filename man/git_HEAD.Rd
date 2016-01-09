@@ -28,6 +28,7 @@ Convenience wrapper around \code{\link[git2r]{head-methods}} from
 \code{\link{git2r}}.
 }
 \examples{
-git_HEAD()
+repo <- git_init(tempfile("githug-"))
+git_HEAD(repo = repo)
 }
 
