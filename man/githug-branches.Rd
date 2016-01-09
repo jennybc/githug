@@ -12,7 +12,7 @@ git_branch_list(which = c("all", "local", "remote"), repo = ".")
 
 git_branch_create(name, repo = ".", ...)
 
-git_checkout(name, repo = ".", ...)
+git_checkout(name = "master", repo = ".", ...)
 
 git_CHECKOUT(name, repo = ".", ...)
 }
@@ -73,9 +73,9 @@ branch \code{name}, \code{type} (local vs remote), and a list-column of
 \section{git_checkout}{
 
 
-  \code{git_checkout} checks out an existing branch. You must specify the
-  branch \code{name} at the very least. This wraps \code{\link{git2r}}'s
-  \code{\link[git2r]{checkout,git_branch-method}}.
+  \code{git_checkout} checks out an existing local branch. Specify the branch
+  by \code{name} or checkout \code{master} by default. This wraps
+  \code{\link{git2r}}'s \code{\link[git2r]{checkout,git_branch-method}}.
 }
 
 \section{git_CHECKOUT}{

@@ -102,22 +102,25 @@ git_branch_create <- function(name, repo = ".", ...) {
 
 #' @section git_checkout:
 #'
-#'   \code{git_checkout} checks out an existing branch. You must specify the
-#'   branch \code{name} at the very least. This wraps \code{\link{git2r}}'s
-#'   \code{\link[git2r]{checkout,git_branch-method}}.
+#'   \code{git_checkout} checks out an existing local branch. Specify the branch
+#'   by \code{name} or checkout \code{master} by default. This wraps
+#'   \code{\link{git2r}}'s \code{\link[git2r]{checkout,git_branch-method}}.
 #'
 #' @export
 #' @rdname githug-branches
-git_checkout <- function(name, repo = ".", ...) {
+git_checkout <- function(name = "master", repo = ".", ...) {
   stopifnot(inherits(name, "character"), length(name) == 1L)
-  ## QUESTION: could the branch be remote?
   gbl <- git_branch_list(which = "local", repo = repo)
-  gb <- gbl$git_branch[gbl$name == name]
-  ## TO DO: make sure gb is reasonable
+  gb <- gbl$git_branch[[name]]
+  if (is.null(gb)) {
+    msg <- "'%s' does not match any of the known local branches:\n%s"
+    bl <- paste(gbl$name[gbl$type == "local"], collapse = "\n")
+    stop(sprintf(msg, name, bl), call. = FALSE)
+  }
   git2r::checkout(object = gb, ...)
-  ## get HEAD and return branch name? I have to return something and checkout
-  ## returns NULL invisibly
-
+  ghead <- git_HEAD(repo = repo)
+  message("Switched to branch '", ghead$branch_name, "'")
+  invisible(ghead$branch_name)
 }
 
 #' @section git_CHECKOUT:
@@ -135,7 +138,8 @@ git_CHECKOUT <- function(name, repo = ".", ...) {
   ## wrt messaging and checks?
   gr <- as_git_repository(as.rpath(repo))
   git2r::checkout(object = gr, branch = name, create = TRUE, ...)
-  ## get HEAD and return branch name? I have to return something and checkout
-  ## returns NULL invisibly
+  ghead <- git_HEAD(repo = repo)
+  message("Switched to branch '", ghead$branch_name, "'")
+  invisible(ghead$branch_name)
 
 }
