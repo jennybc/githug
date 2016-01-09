@@ -53,7 +53,7 @@ How it corresponds to command line Git:
 }
 
 Returns a data frame (or tbl_df) with one row per branch. Variables are
-branch name, type (local vs remote), and a list-column of
+branch \code{name}, \code{type} (local vs remote), and a list-column of
 \code{\linkS4class{git_branch}} objects.
 }
 

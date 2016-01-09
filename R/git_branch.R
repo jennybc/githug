@@ -29,7 +29,7 @@ NULL
 #' }
 #'
 #' Returns a data frame (or tbl_df) with one row per branch. Variables are
-#' branch name, type (local vs remote), and a list-column of
+#' branch \code{name}, \code{type} (local vs remote), and a list-column of
 #' \code{\linkS4class{git_branch}} objects.
 #'
 #' @param which Which branches to list: \code{all} (the default), \code{local}
@@ -51,7 +51,7 @@ git_branch_list <- function(which = c("all", "local", "remote"), repo = ".") {
     name = purrr::map_chr(gb, slot, "name"),
     type = c("local", "remote")[purrr::map_int(gb, slot, "type")],
     git_branch = gb
-    )
+  )
 }
 
 #' @section git_branch_create:
