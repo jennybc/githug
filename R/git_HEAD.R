@@ -1,7 +1,7 @@
 #' Get HEAD for a repository
 #'
 #' Convenience wrapper around \code{\link[git2r]{head-methods}} from
-#' \code{\link{git2r}}. For internal use.
+#' \code{\link{git2r}}.
 #'
 #' @template repo
 #'
@@ -16,7 +16,11 @@
 #'   \item{\code{repo}}{associated \code{\linkS4class{git_repository}} object}
 #'   \item{\code{git_branch}}{associated \code{\linkS4class{git_branch}} object}
 #' }
-hug_HEAD <- function(repo = ".") {
+#'
+#' @export
+#' @examples
+#' git_HEAD()
+git_HEAD <- function(repo = ".") {
   gr <- as_git_repository(as.rpath(repo))
   h <- git2r::head(gr)
   if (is.null(h))

@@ -79,7 +79,7 @@ git_branch_create <- function(name, repo = ".", ...) {
 
   ddd <- list(...)
   if (is.null(ddd$commit)) {
-    h <- hug_HEAD(repo = repo)
+    h <- git_HEAD(repo = repo)
     ddd$commit <- h$head_commit
     msg_fodder <- capture.output(h$git_branch)
   } else {
