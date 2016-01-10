@@ -81,6 +81,7 @@ NULL
 #'
 #' ## checkout an existing branch
 #' git_checkout("earlybranch")
+#' git_branch()
 #' git_HEAD()
 #'
 #' ## checkout master
@@ -132,6 +133,17 @@ git_branch_list <- function(
   ## apply git_log class for printing purposes
   structure(gbl, class = c("git_log", class(gbl)))
 
+}
+
+#' @section git_branch:
+#'
+#'   \code{git_branch} tells which branch you're on.
+#'
+#' @export
+#' @rdname githug-branches
+git_branch <- function(repo = ".") {
+  gr <- as_git_repository(as.rpath(repo))
+  git_HEAD(repo = repo)$branch_name
 }
 
 #' @section git_branch_create:

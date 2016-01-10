@@ -28,14 +28,13 @@
 #' setwd(owd)
 git_status <- function(repo = ".", ...) {
 
-  ## TO DO: say what branch we're on
-
   repo <- as.rpath(repo, raise = warning)
   if (is.null(repo)) {
     return(invisible(NULL))
   }
   gr <- as_git_repository(as.rpath(repo))
   s <- git2r::status(repo = gr, ...)
+  message("On branch ", git_branch(repo = repo))
   structure(s, class = c("git_status", "list"))
   #message_nl(capture.output(show(s)))
   #invisible(as.rpath(gr))

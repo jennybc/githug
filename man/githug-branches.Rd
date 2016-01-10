@@ -2,6 +2,7 @@
 % Please edit documentation in R/git_branch.R
 \name{githug-branches}
 \alias{git_CHECKOUT}
+\alias{git_branch}
 \alias{git_branch_create}
 \alias{git_branch_delete}
 \alias{git_branch_list}
@@ -11,6 +12,8 @@
 \usage{
 git_branch_list(which = c("all", "local", "remote"), repo = ".",
   tips = FALSE)
+
+git_branch(repo = ".")
 
 git_branch_create(name, repo = ".", ...)
 
@@ -63,6 +66,12 @@ are branch \code{name}, \code{type} (local vs remote), and a list-column of
 \code{\linkS4class{git_branch}} objects. If \code{tips = TRUE}, additional
 variables from \code{\link{git_log}} are returned, describing the the commit
 each branch points to at the time of the call.
+}
+
+\section{git_branch}{
+
+
+  \code{git_branch} tells which branch you're on.
 }
 
 \section{git_branch_create}{
@@ -139,6 +148,7 @@ git_branch_list(tips = TRUE)
 
 ## checkout an existing branch
 git_checkout("earlybranch")
+git_branch()
 git_HEAD()
 
 ## checkout master

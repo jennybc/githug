@@ -36,7 +36,11 @@ git_HEAD <- function(repo = ".") {
     )
   )
 
-  hl
+  structure(hl, class = c("git_HEAD", "list"))
 }
 
-## TO DO: print method
+#' @export
+print.git_HEAD <- function(x, ...) {
+  cat(sprintf("On branch %s.\nMost recent commit:\n", x$branch_name))
+  print(x$head_commit)
+}
