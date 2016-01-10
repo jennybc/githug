@@ -27,6 +27,18 @@ test_that("new repo lists no branch .. <commit> .. then local master branch", {
 
 })
 
+test_that("we can get info on commits at branch tips", {
+
+  tpath <- init_tmp_repo()
+  writeLines('a', file.path(tpath, 'a'))
+  git_COMMIT('a commit', repo = tpath)
+  gbl_wt <- git_branch_list(repo = tpath, tips = TRUE)
+  expect_identical(dim(gbl_wt), c(1L, 10L))
+  gl <- git_log(repo = tpath)
+  expect_true(all(names(gl) %in% names(gbl_wt)))
+
+})
+
 test_that("we can create then checkout a branch", {
 
   tpath <- init_tmp_repo()
