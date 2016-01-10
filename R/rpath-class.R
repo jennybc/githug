@@ -85,7 +85,7 @@ is_a_repo <- function(x) is_in_repo(x, ceiling = 0)
 #' perform local Git operations. \code{\link{git2r}} handles Git repos as
 #' objects of class \code{\linkS4class{git_repository}}. Use this function to
 #' convert a path (or other way of referring to a Git repo) to the right sort of
-#' input. You might need this to do less common Git operations, i.e. to call
+#' input. You might need this for more exotic Git operations, i.e. to call
 #' \code{\link{git2r}} functions that aren't exposed via  \code{\link{githug}}.
 #'
 #' @param x Git repository specified as a path. Or as an object of class

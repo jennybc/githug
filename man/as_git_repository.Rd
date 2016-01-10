@@ -20,7 +20,7 @@ An S4 \code{\linkS4class{git_repository}} object
 perform local Git operations. \code{\link{git2r}} handles Git repos as
 objects of class \code{\linkS4class{git_repository}}. Use this function to
 convert a path (or other way of referring to a Git repo) to the right sort of
-input. You might need this to do less common Git operations, i.e. to call
+input. You might need this for more exotic Git operations, i.e. to call
 \code{\link{git2r}} functions that aren't exposed via  \code{\link{githug}}.
 }
 \examples{

@@ -11,8 +11,10 @@ git_log(repo = ".")
 checked to see if it is or is inside a Git repo.}
 }
 \value{
-A data frame (or tbl_df) with S3 class \code{git_log} for printing
-  purposes
+A data frame (or tbl_df) with S3 class \code{git_log}, solely for
+  printing purposes. Variables: the commit \code{message}, \code{when} the
+  commit happened, \code{author}, \code{SHA}, \code{email}, \code{summary},
+  and a list-column of objects of class \code{\linkS4class{git_commit}}.
 }
 \description{
 Get a commit log. Convenience wrapper around the \code{\link{git2r}}

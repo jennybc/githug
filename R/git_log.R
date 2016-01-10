@@ -9,8 +9,10 @@
 #' rest assured the full information is present in the returned object.
 #'
 #' @template repo
-#' @return A data frame (or tbl_df) with S3 class \code{git_log} for printing
-#'   purposes
+#' @return A data frame (or tbl_df) with S3 class \code{git_log}, solely for
+#'   printing purposes. Variables: the commit \code{message}, \code{when} the
+#'   commit happened, \code{author}, \code{SHA}, \code{email}, \code{summary},
+#'   and a list-column of objects of class \code{\linkS4class{git_commit}}.
 #' @export
 #' @examples
 #' require(dplyr, quietly = TRUE)
@@ -45,7 +47,7 @@ git_log <- function(repo = ".") {
     if (is.null(gr)) gr <- dplyr::data_frame(sha = character())
     gr <- dplyr::tbl_df(gr)
 
-    ## using match to have absolute control over row order
+    ## using match because row order must absolutely be retained
     gr <- gr %>%
       dplyr::mutate(commit = commits$commit[match(gr$sha, commits$sha)])
 
@@ -57,7 +59,7 @@ git_log <- function(repo = ".") {
   }
 
   vars <- c("message", "when", "author", "sha", "email", "summary", "commit")
-  structure(gr[vars], class = c("git_log", class(gr)))
+  structure(dplyr::select_(gr, .dots = vars), class = c("git_log", class(gr)))
 }
 
 #' @export
