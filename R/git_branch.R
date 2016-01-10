@@ -15,7 +15,9 @@ NULL
 #' @section git_branch_list:
 #'
 #'   \code{git_branch_list} returns a data frame of information provided by the
-#'   \code{\link[git2r]{branches}} function of \code{\link{git2r}}.
+#'   \code{\link[git2r]{branches}} function of \code{\link{git2r}} and,
+#'   optionally, commit information for the current branch tips from
+#'   \code{\link{git_log}}.
 #'
 #' How it corresponds to command line Git:
 #'
@@ -28,42 +30,72 @@ NULL
 #'   only remote branches.}
 #' }
 #'
-#' Returns a data frame (or tbl_df) with one row per branch. Variables are
-#' branch \code{name}, \code{type} (local vs remote), and a list-column of
-#' \code{\linkS4class{git_branch}} objects.
+#' Returns a data frame (or tbl_df) with one row per branch. Default variables
+#' are branch \code{name}, \code{type} (local vs remote), and a list-column of
+#' \code{\linkS4class{git_branch}} objects. If \code{tips = TRUE}, additional
+#' variables from \code{\link{git_log}} are returned, describing the the commit
+#' each branch points to at the time of the call.
 #'
 #' @param which Which branches to list: \code{all} (the default), \code{local}
 #'   only, or \code{remote} only.
+#' @param tips Logical. Requests information from \code{\link{git_log}} on the
+#'   commit currently at the tip of each branch. Defalts to \code{FALSE}.
 #'
 #' @export
 #' @rdname githug-branches
 #' @examples
-#' ## TO DO: come back when I can clone and truly show local v. remote
 #' repo <- git_init(tempfile("githug-"))
 #' owd <- setwd(repo)
+#'
 #' ## no branches yet, because no commits
 #' git_branch_list()
-#' ## commit and now we have master
+#'
+#' ## commit and ... now we have master
 #' writeLines('a', 'a')
 #' git_COMMIT('a commit')
 #' git_branch_list()
+#'
 #' ## create new branch that points at HEAD
 #' git_branch_create("alpha")
 #' git_branch_list()
 #'
 #' setwd(owd)
-git_branch_list <- function(which = c("all", "local", "remote"), repo = ".") {
+git_branch_list <- function(
+  which = c("all", "local", "remote"), repo = ".", tips = FALSE) {
 
   gr <- as_git_repository(as.rpath(repo))
   which <- match.arg(which)
+
   gb <- git2r::branches(repo = gr, flags = which)
+  if (is.null(gb) || length(gb) < 1) {
+    message("No branches to list.")
+    return(invisible(NULL))
+  }
+
   ## TO DO? submit PR w/ proper coerce method to git2r, like the one to coerce
   ## git_repository objects to data.frame and then use that here
-  dplyr::data_frame(
+  gbl <- dplyr::data_frame(
     name = purrr::map_chr(gb, slot, "name"),
     type = c("local", "remote")[purrr::map_int(gb, slot, "type")],
     git_branch = gb
   )
+
+  if (!tips) {
+    return(gbl)
+  }
+
+  gbl <-
+    dplyr::mutate_(gbl,
+                   sha = ~ purrr::map_chr(gbl$git_branch, git2r::branch_target))
+  glog <- git_log(repo = repo)
+  vars <- c("name", "type", "sha", "message", "when", "author", "email",
+            "summary", "commit", "git_branch")
+  gbl <- gbl %>%
+    dplyr::left_join(glog) %>%
+    dplyr::select_(.dots = vars)
+  ## apply git_log class for printing purposes
+  structure(gbl, class = c("git_log", class(gbl)))
+
 }
 
 #' @section git_branch_create:
@@ -77,14 +109,23 @@ git_branch_list <- function(which = c("all", "local", "remote"), repo = ".") {
 #'   \code{\linkS4class{git_commit}} object to use as the branch's starting
 #'   point or use \code{force = TRUE} to overwrite an existing branch.
 #'
-#' @return Branch name
 #' @export
 #' @rdname githug-branches
 #' @examples
-#' \dontrun{
-#' ## TODO: come back! this just here to satisfy R CMD check
-#' git_branch_create()
-#' }
+#' repo <- git_init(tempfile("githug-"))
+#' owd <- setwd(repo)
+#' writeLines("Well, we're not in the middle of nowhere...", "nowhere.txt")
+#' git_COMMIT('01')
+#' write("but we can see it from here.", "nowhere.txt", append = TRUE)
+#' git_COMMIT('02')
+#'
+#' ## create new branch that points at *first commit*, not HEAD
+#' (gl <- git_log())
+#' git_branch_create("point_01", commit  = gl$commit[[2]])
+#' git_branch_list()
+#' git_branch_list(tips = TRUE)
+#'
+#' setwd(owd)
 git_branch_create <- function(name, repo = ".", ...) {
 
   stopifnot(inherits(name, "character"), length(name) == 1L)

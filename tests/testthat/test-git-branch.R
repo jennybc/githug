@@ -14,9 +14,8 @@ test_that("new repo lists no branch .. <commit> .. then local master branch", {
   tpath <- init_tmp_repo()
 
   ## no commits yet
-  expect_message(gb <- git_branch_list(repo = tpath), NA)
-  expect_is(gb, "tbl_df")
-  expect_identical(dim(gb), c(0L, 3L))
+  expect_message(gb <- git_branch_list(repo = tpath), "No branches to list.")
+  expect_null(gb)
 
   ## yes commits
   writeLines('a', file.path(tpath, 'a'))
