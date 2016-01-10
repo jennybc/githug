@@ -38,3 +38,5 @@ git_HEAD <- function(repo = ".") {
 
   hl
 }
+
+## TO DO: print method

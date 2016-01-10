@@ -38,7 +38,7 @@ NULL
 #'
 #' @param which Which branches to list: \code{all} (the default), \code{local}
 #'   only, or \code{remote} only.
-#' @param tips Logical. Requests information from \code{\link{git_log}} on the
+#' @param tips Logical. Adds information from \code{\link{git_log}} on the
 #'   commit currently at the tip of each branch. Defalts to \code{FALSE}.
 #'
 #' @export
@@ -47,16 +47,52 @@ NULL
 #' repo <- git_init(tempfile("githug-"))
 #' owd <- setwd(repo)
 #'
-#' ## no branches yet, because no commits
+#' ## no commits --> no branches
 #' git_branch_list()
 #'
 #' ## commit and ... now we have master
-#' writeLines('a', 'a')
-#' git_COMMIT('a commit')
+#' writeLines("Well, we're not in the middle of nowhere...", "nowhere.txt")
+#' git_COMMIT('1: not in the middle of nowhere')
 #' git_branch_list()
+#' git_branch_list(tips = TRUE)
 #'
 #' ## create new branch that points at HEAD
-#' git_branch_create("alpha")
+#' git_branch_create("earlybranch")
+#' git_branch_list()
+#'
+#' ## another commit
+#' write("but we can see it from here.", "nowhere.txt", append = TRUE)
+#' git_COMMIT('2: but we can see it from here')
+#'
+#' ## create new branch that points at *first commit*, not HEAD
+#' (gl <- git_log())
+#' git_branch_create("hindsight", commit  = gl$commit[[2]])
+#' git_branch_list()
+#' git_branch_list(tips = TRUE)
+#'
+#' \dontrun{
+#' ## try to re-create an existing branch and fail
+#' git_branch_create("hindsight")
+#' }
+#'
+#' ## try try again ... and use the force = TRUE
+#' git_branch_create("hindsight", force = TRUE)
+#' git_branch_list(tips = TRUE)
+#'
+#' ## checkout an existing branch
+#' git_checkout("earlybranch")
+#' git_HEAD()
+#'
+#' ## checkout master
+#' git_checkout()
+#' git_HEAD()
+#'
+#' ## checkout AND CREATE all at once
+#' git_CHECKOUT("IMMEDIATE-GRATIFICATION")
+#' git_HEAD()
+#'
+#' ## delete a branch
+#' git_branch_delete("earlybranch")
 #' git_branch_list()
 #'
 #' setwd(owd)
@@ -101,31 +137,16 @@ git_branch_list <- function(
 #' @section git_branch_create:
 #'
 #'   \code{git_branch_create} creates a new local branch. You must specify the
-#'   \code{name} of the new branch, at the very least. By default, will try
-#'   determine \code{repo} from current working directory and then determine
-#'   current HEAD from that. Optionally, you can provide the path to a
-#'   \code{repo} and, via \code{...}, even other arguments to
+#'   \code{name} of the new branch, at the very least. By default, will try to
+#'   determine \code{repo} from current working directory, get current HEAD from
+#'   that, and point the new branch there. Optionally, you can provide the path
+#'   to a \code{repo} and, via \code{...}, even other arguments to
 #'   \code{\link[git2r]{branch_create}}: an arbitrary
 #'   \code{\linkS4class{git_commit}} object to use as the branch's starting
-#'   point or use \code{force = TRUE} to overwrite an existing branch.
+#'   point or \code{force = TRUE} to overwrite an existing branch.
 #'
 #' @export
 #' @rdname githug-branches
-#' @examples
-#' repo <- git_init(tempfile("githug-"))
-#' owd <- setwd(repo)
-#' writeLines("Well, we're not in the middle of nowhere...", "nowhere.txt")
-#' git_COMMIT('01')
-#' write("but we can see it from here.", "nowhere.txt", append = TRUE)
-#' git_COMMIT('02')
-#'
-#' ## create new branch that points at *first commit*, not HEAD
-#' (gl <- git_log())
-#' git_branch_create("point_01", commit  = gl$commit[[2]])
-#' git_branch_list()
-#' git_branch_list(tips = TRUE)
-#'
-#' setwd(owd)
 git_branch_create <- function(name, repo = ".", ...) {
 
   stopifnot(inherits(name, "character"), length(name) == 1L)
@@ -151,6 +172,28 @@ git_branch_create <- function(name, repo = ".", ...) {
   message("Creating branch ", gb@name)
   invisible(gb@name)
 
+}
+
+#' @section git_branch_delete:
+#'
+#'   \code{git_branch_delete} deletes an existing local branch. Specify the
+#'   branch by \code{name}. This wraps \code{\link[git2r]{branch_delete}} from
+#'   \code{\link{git2r}}.
+#'
+#' @export
+#' @rdname githug-branches
+git_branch_delete <- function(name, repo = ".", ...) {
+  stopifnot(inherits(name, "character"), length(name) == 1L)
+  gbl <- git_branch_list(which = "local", repo = repo)
+  gb <- gbl$git_branch[[name]]
+  if (is.null(gb)) {
+    msg <- "'%s' does not match any of the known local branches:\n%s"
+    bl <- paste(gbl$name[gbl$type == "local"], collapse = "\n")
+    stop(sprintf(msg, name, bl), call. = FALSE)
+  }
+  git2r::branch_delete(gb)
+  message("Deleted branch '", name, "'")
+  invisible(NULL)
 }
 
 #' @section git_checkout:
@@ -197,24 +240,3 @@ git_CHECKOUT <- function(name, repo = ".", ...) {
 
 }
 
-#' @section git_branch_delete:
-#'
-#'   \code{git_branch_delete} deletes an existing local branch. Specify the
-#'   branch by \code{name}. This wraps \code{\link[git2r]{branch_delete}} from
-#'   \code{\link{git2r}}.
-#'
-#' @export
-#' @rdname githug-branches
-git_branch_delete <- function(name, repo = ".", ...) {
-  stopifnot(inherits(name, "character"), length(name) == 1L)
-  gbl <- git_branch_list(which = "local", repo = repo)
-  gb <- gbl$git_branch[[name]]
-  if (is.null(gb)) {
-    msg <- "'%s' does not match any of the known local branches:\n%s"
-    bl <- paste(gbl$name[gbl$type == "local"], collapse = "\n")
-    stop(sprintf(msg, name, bl), call. = FALSE)
-  }
-  git2r::branch_delete(gb)
-  message("Deleted branch '", name, "'")
-  invisible(NULL)
-}

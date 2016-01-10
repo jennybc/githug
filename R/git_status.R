@@ -28,6 +28,8 @@
 #' setwd(owd)
 git_status <- function(repo = ".", ...) {
 
+  ## TO DO: say what branch we're on
+
   repo <- as.rpath(repo, raise = warning)
   if (is.null(repo)) {
     return(invisible(NULL))
