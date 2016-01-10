@@ -36,12 +36,13 @@ test_that("we can create then checkout a branch", {
 
   writeLines('a', file.path(tpath, 'a'))
   git_COMMIT('a commit', repo = tpath)
+
   expect_identical(git_branch_create("alpha", repo = tpath), "alpha")
   gbl <- git_branch_list(repo = tpath)
   expect_is(gbl, "tbl_df")
   expect_equal(gbl[c("name", "type")],
                dplyr::data_frame(name = c("alpha", "master"),
-                                          type = c("local", "local")))
+                                 type = c("local", "local")))
 
   expect_message(gco <- git_checkout("alpha", repo = tpath),
                  "Switched to branch 'alpha'")
@@ -51,7 +52,7 @@ test_that("we can create then checkout a branch", {
 
 })
 
-test_that("we can pass args through git2r::branch_create", {
+test_that("we can pass args through to git2r::branch_create", {
 
   tpath <- init_tmp_repo()
   writeLines("Hello world!", file.path(tpath, "world.txt"))
@@ -83,14 +84,14 @@ test_that("we can pass args through git2r::branch_create", {
 
 })
 
-test_that("error if checkout a branch that doesn't exist", {
+test_that("you can't checkout a branch that doesn't exist", {
 
   tpath <- init_tmp_repo()
   expect_error(git_checkout("nope", repo = tpath), "does not match")
 
 })
 
-test_that("CREATE AND CHECKOUT ALL AT ONCE", {
+test_that("you can CREATE AND CHECKOUT ALL AT ONCE!", {
 
   tpath <- init_tmp_repo()
   writeLines("Hello world!", file.path(tpath, "world.txt"))
@@ -103,5 +104,36 @@ test_that("CREATE AND CHECKOUT ALL AT ONCE", {
 
   ## did we check it out?
   expect_identical(git_HEAD(repo = tpath)$branch_name, "BOOM")
+
+})
+
+test_that("you can delete a branch", {
+
+  tpath <- init_tmp_repo()
+  writeLines("Hello world!", file.path(tpath, "world.txt"))
+  git_COMMIT("01_world", repo = tpath)
+  git_branch_create("branch", repo = tpath)
+  git_branch_delete("branch", repo = tpath)
+
+})
+
+test_that("you can't delete a branch that doesn't exist", {
+
+  tpath <- init_tmp_repo()
+  expect_error(git_branch_delete("nope"), "does not match")
+
+})
+
+test_that("you can't delete the branch you are on", {
+
+  tpath <- init_tmp_repo()
+  writeLines("Hello world!", file.path(tpath, "world.txt"))
+  git_COMMIT("01_world", repo = tpath)
+
+  boom <- git_CHECKOUT("BOOM", repo = tpath)
+  writeLines("Hello universe!", file.path(tpath, "universe.txt"))
+  git_COMMIT("02_universe", repo = tpath)
+
+  expect_error(git_branch_delete("BOOM", repo = tpath), "current HEAD")
 
 })
