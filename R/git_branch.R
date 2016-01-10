@@ -1,4 +1,4 @@
-#' List, query, create, or checkout branches
+#' List, create, checkout, or delete branches
 #'
 #' Convenience wrappers around branch-related functions from
 #' \code{\link{git2r}}.
@@ -195,4 +195,26 @@ git_CHECKOUT <- function(name, repo = ".", ...) {
   message("Switched to branch '", ghead$branch_name, "'")
   invisible(ghead$branch_name)
 
+}
+
+#' @section git_branch_delete:
+#'
+#'   \code{git_branch_delete} deletes an existing local branch. Specify the
+#'   branch by \code{name}. This wraps \code{\link[git2r]{branch_delete}} from
+#'   \code{\link{git2r}}.
+#'
+#' @export
+#' @rdname githug-branches
+git_branch_delete <- function(name, repo = ".", ...) {
+  stopifnot(inherits(name, "character"), length(name) == 1L)
+  gbl <- git_branch_list(which = "local", repo = repo)
+  gb <- gbl$git_branch[[name]]
+  if (is.null(gb)) {
+    msg <- "'%s' does not match any of the known local branches:\n%s"
+    bl <- paste(gbl$name[gbl$type == "local"], collapse = "\n")
+    stop(sprintf(msg, name, bl), call. = FALSE)
+  }
+  git2r::branch_delete(gb)
+  message("Deleted branch '", name, "'")
+  invisible(NULL)
 }

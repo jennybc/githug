@@ -3,18 +3,22 @@
 \name{githug-branches}
 \alias{git_CHECKOUT}
 \alias{git_branch_create}
+\alias{git_branch_delete}
 \alias{git_branch_list}
 \alias{git_checkout}
 \alias{githug-branches}
-\title{List, query, create, or checkout branches}
+\title{List, create, checkout, or delete branches}
 \usage{
-git_branch_list(which = c("all", "local", "remote"), repo = ".")
+git_branch_list(which = c("all", "local", "remote"), repo = ".",
+  tips = FALSE)
 
 git_branch_create(name, repo = ".", ...)
 
 git_checkout(name = "master", repo = ".", ...)
 
 git_CHECKOUT(name, repo = ".", ...)
+
+git_branch_delete(name, repo = ".", ...)
 }
 \arguments{
 \item{which}{Which branches to list: \code{all} (the default), \code{local}
@@ -23,13 +27,13 @@ only, or \code{remote} only.}
 \item{repo}{Path to a Git repo. If unspecified, current working directory is
 checked to see if it is or is inside a Git repo.}
 
+\item{tips}{Logical. Requests information from \code{\link{git_log}} on the
+commit currently at the tip of each branch. Defalts to \code{FALSE}.}
+
 \item{name}{Name of the branch.}
 
 \item{...}{Additional optional arguments to pass along to
 \code{\link{git2r}}.}
-}
-\value{
-Branch name
 }
 \description{
 Convenience wrappers around branch-related functions from
@@ -39,7 +43,9 @@ Convenience wrappers around branch-related functions from
 
 
   \code{git_branch_list} returns a data frame of information provided by the
-  \code{\link[git2r]{branches}} function of \code{\link{git2r}}.
+  \code{\link[git2r]{branches}} function of \code{\link{git2r}} and,
+  optionally, commit information for the current branch tips from
+  \code{\link{git_log}}.
 
 How it corresponds to command line Git:
 
@@ -52,9 +58,11 @@ How it corresponds to command line Git:
   only remote branches.}
 }
 
-Returns a data frame (or tbl_df) with one row per branch. Variables are
-branch \code{name}, \code{type} (local vs remote), and a list-column of
-\code{\linkS4class{git_branch}} objects.
+Returns a data frame (or tbl_df) with one row per branch. Default variables
+are branch \code{name}, \code{type} (local vs remote), and a list-column of
+\code{\linkS4class{git_branch}} objects. If \code{tips = TRUE}, additional
+variables from \code{\link{git_log}} are returned, describing the the commit
+each branch points to at the time of the call.
 }
 
 \section{git_branch_create}{
@@ -85,12 +93,44 @@ branch \code{name}, \code{type} (local vs remote), and a list-column of
   wraps \code{\link{git2r}}'s
   \code{\link[git2r]{checkout,git_repository-method}}.
 }
-\examples{
-## TO DO: come back when I can clone and truly show local v. remote
-git_branch_list()
-\dontrun{
-## TODO: come back! this just here to satisfy R CMD check
-git_branch_create()
+
+\section{git_branch_delete}{
+
+
+  \code{git_branch_delete} deletes an existing local branch. Specify the
+  branch by \code{name}. This wraps \code{\link[git2r]{branch_delete}} from
+  \code{\link{git2r}}.
 }
+\examples{
+repo <- git_init(tempfile("githug-"))
+owd <- setwd(repo)
+
+## no branches yet, because no commits
+git_branch_list()
+
+## commit and ... now we have master
+writeLines('a', 'a')
+git_COMMIT('a commit')
+git_branch_list()
+
+## create new branch that points at HEAD
+git_branch_create("alpha")
+git_branch_list()
+
+setwd(owd)
+repo <- git_init(tempfile("githug-"))
+owd <- setwd(repo)
+writeLines("Well, we're not in the middle of nowhere...", "nowhere.txt")
+git_COMMIT('01')
+write("but we can see it from here.", "nowhere.txt", append = TRUE)
+git_COMMIT('02')
+
+## create new branch that points at *first commit*, not HEAD
+(gl <- git_log())
+git_branch_create("point_01", commit  = gl$commit[[2]])
+git_branch_list()
+git_branch_list(tips = TRUE)
+
+setwd(owd)
 }
 
