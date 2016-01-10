@@ -8,15 +8,3 @@ if (length(gcfg) == 0L)
 suppressMessages(
   git_init(".")
 )
-
-## other repos used in tests
-path <- "repo01-blah"
-
-if (!dir.exists(path)) {
-
-  message("creating repo01-blah!")
-  git_init(path = path, force = TRUE)
-  git_config_local(repo = path,
-                   user.name = "jane", user.email = "jane@example.org")
-
-}
