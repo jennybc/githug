@@ -15,11 +15,8 @@ path <- "repo01-blah"
 if (!dir.exists(path)) {
 
   message("creating repo01-blah!")
-  ## I don't use git_init() because I actually WANT to create a git repo
-  ## within a git repo here
-  dir.create(path)
-  repo <- git2r::init(path)
-  git_config_local(repo = repo,
+  git_init(path = path, force = TRUE)
+  git_config_local(repo = path,
                    user.name = "jane", user.email = "jane@example.org")
 
 }
