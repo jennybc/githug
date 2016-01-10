@@ -55,7 +55,7 @@ devtools::install_github("jennybc/githug")
     -   ~~init~~
     -   ~~discover~~
     -   ~~status, log, etc etc~~
-    -   branch
+    -   ~~branch~~
 -   Authentication stuff: set up, query, modify
     -   turn on keychain for HTTPS people
     -   help set up SSH keys and configure ssh-agent?
