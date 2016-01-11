@@ -3,6 +3,7 @@
 S3method(print,git_HEAD)
 S3method(print,git_log)
 export(as_git_repository)
+export(gh_pat)
 export(git_ADD)
 export(git_CHECKOUT)
 export(git_COMMIT)
