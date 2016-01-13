@@ -52,7 +52,7 @@ test_that("commit demands a commit message", {
   tpath <- init_tmp_repo()
   lapply(letters[1:2], function(x) writeLines(x, file.path(tpath, x)))
   git_ADD(repo = tpath)
-  expect_error(git_commit(repo = tpath), "you must provide a commit message")
+  expect_error(git_commit(repo = tpath), "You must provide a commit message")
 
 })
 

@@ -43,7 +43,7 @@ as.rpath.character <- function(x, ...,
                                msg = "no %s exists here:\n%s") {
 
   stopifnot(length(x) == 1L)
-  x <- normalizePath(x, mustWork = FALSE)
+  x <- normalizePath(x, winslash = "/", mustWork = FALSE)
 
   if (!file.exists(x)) {
     if (!is.null(raise)) {
@@ -64,7 +64,8 @@ as.rpath.character <- function(x, ...,
 
   ## why not use repository(..., discover = TRUE) directly on x?
   ## because it errors if can't discover repo, so would require try() anyway
-  normalizePath(git2r::workdir(git2r::repository(xrepo, discover = TRUE)))
+  normalizePath(git2r::workdir(git2r::repository(xrepo, discover = TRUE)),
+                winslash = "/")
 
 }
 

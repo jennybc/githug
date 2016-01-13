@@ -26,7 +26,7 @@ list_depth_one <- function(x) lapply(unlist(renquote(x)), eval)
 ## walk up parent dirs until you find one that exists
 least_existing_dir <- function(path) {
   stopifnot(length(path) == 1L, inherits(path, "character"), path != "")
-  path <- normalizePath(path, mustWork = FALSE)
+  path <- normalizePath(path, winslash = "/", mustWork = FALSE)
   #cat(path, "\n")
   if (dir.exists(path))
     return(path)

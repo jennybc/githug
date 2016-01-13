@@ -86,10 +86,11 @@ git_add <- function(path, repo = ".", ...) {
 #' @export
 git_commit <- function(message = NULL, repo = ".", ...) {
   if (is.null(message))
-    stop("you must provide a commit message", call. = FALSE)
+    stop("You must provide a commit message", call. = FALSE)
   gr <- as_git_repository(as.rpath(repo))
   s <- unlist(git2r::status(repo = gr))
   if (!is.null(s)) {
+    message("Committing ...")
     gco <- git2r::commit(repo = gr, message = message, ...)
     message_nl(capture.output(show(gco)))
   }
@@ -117,6 +118,7 @@ git_ADD <- function(repo = ".") {
     s <- ""
     message("nothing to ADD")
   }
+  message("Adding files:\n", paste(s, collapse = "\n"))
   git2r::add(repo = gr, path = s)
   invisible(as.rpath(gr))
 }

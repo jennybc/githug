@@ -63,7 +63,7 @@ Git config: DONE.
 
 Git init in Project: DONE.
 
-Emulate `hub create jennybc/foo`
+Emulate `hub create jennybc/foo`. DONE.
 
   - init local repo, if not done already
   - add and commit
@@ -71,12 +71,3 @@ Emulate `hub create jennybc/foo`
   - add as remote
   - push the current branch
   - visit GitHub repo in the browser
-
-What needs to be done:
-
-  - ?something about auth?
-  - GitHub repo: list / just one / create / delete
-  - Remote: list / just one / add / delete / rename
-  - Branch: list / just one / set with respect to upstream tracking
-  - *Commit, push, pull only at key times when I must and when I can guarantee things are simple. Otherwise, people should use RStudio or other Git client.*
-  - Visit GitHub remote in the browser, a la `hub browse`.

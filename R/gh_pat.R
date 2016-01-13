@@ -33,7 +33,7 @@
 #'
 #' @param envvar Name of the environment variable in which the GitHub personal
 #'   access token is stored. Can be a character vector, with names in order of
-#'   preference
+#'   preference.
 #'
 #' @return The GitHub personal access token, invisibly.
 #' @export

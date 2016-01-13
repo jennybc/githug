@@ -35,7 +35,8 @@ test_that("init creates a repo within a repo iff 'force = TRUE'", {
   expect_true(git2r::in_repository(tpath))
 
   tpath_at_depth <-
-    normalizePath(file.path(tpath, "dir1", "dir2"), mustWork = FALSE)
+    normalizePath(file.path(tpath, "dir1", "dir2"), winslash = "/",
+                  mustWork = FALSE)
 
   expect_message(init_res <- git_init(tpath_at_depth),
                  "use 'git_init\\(path, force = TRUE\\)'")

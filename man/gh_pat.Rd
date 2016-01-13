@@ -9,7 +9,7 @@ gh_pat(envvar = c("GITHUB_PAT", "GITHUB_TOKEN"))
 \arguments{
 \item{envvar}{Name of the environment variable in which the GitHub personal
 access token is stored. Can be a character vector, with names in order of
-preference}
+preference.}
 }
 \value{
 The GitHub personal access token, invisibly.

@@ -25,7 +25,7 @@
 #' setwd(owd)
 git_init <- function(path = ".", force = FALSE) {
 
-  path <- normalizePath(path, mustWork = FALSE)
+  path <- normalizePath(path, winslash = "/", mustWork = FALSE)
   path_preexists <- dir.exists(path)
   led_path <- least_existing_dir(path)
   enclosing_repo <- as.rpath(led_path, raise = NULL)
