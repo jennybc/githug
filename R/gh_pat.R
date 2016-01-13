@@ -26,6 +26,9 @@
 #' \item Restart R. \code{.Renviron} is processed only during
 #' \code{\link{Startup}}.
 #'
+#' \item Check your work with \code{Sys.getenv("GITHUB_PAT")}. Your PAT should
+#' print to screen.
+#'
 #' }
 #'
 #' @param envvar Name of the environment variable in which the GitHub personal

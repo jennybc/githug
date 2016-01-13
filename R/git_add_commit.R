@@ -61,12 +61,15 @@
 #' setwd(owd)
 NULL
 
-#' @rdname add-and-commit
+#'@rdname add-and-commit
 #'
-#' @details \code{git_add} adds the current content of files identified via
-#'   \code{path} to the index. They are slated for inclusion in the next commit.
+#'@details \code{git_add} adds the current content of files identified via
+#'  \code{path} to the index, using \code{\link[git2r]{add}} from
+#'  \code{\link{git2r}}. These files are slated for inclusion in the next
+#'  commit. What might go in \code{...}? You could set `force = TRUE` if you
+#'  want to force add ignored files.
 #'
-#' @export
+#'@export
 git_add <- function(path, repo = ".", ...) {
   gr <- as_git_repository(as.rpath(repo))
   git2r::add(repo = gr, path = path, ...)
@@ -76,7 +79,9 @@ git_add <- function(path, repo = ".", ...) {
 #' @rdname add-and-commit
 #'
 #' @details \code{git_commit} stores the current contents of the index in a new
-#'   commit along with a message describing the changes.
+#'   commit along with a message describing the changes. What might go in
+#'   \code{...}? Read up on the arguments to \code{\link[git2r]{commit}} from
+#'   \code{\link{git2r}}, which this wraps.
 #'
 #' @export
 git_commit <- function(message = NULL, repo = ".", ...) {

@@ -3,7 +3,7 @@
 ^README\.Rmd$
 ^README\.html$
 ^README-.*\.png$
-^scratch\.R$
+^scratch[0-9]*\.R$
 ^wercker\.yml$
 ^img$
 ^man-roxygen$
