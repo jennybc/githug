@@ -99,9 +99,7 @@ If you want to specify credentials explicitly, see
 \dontrun{
 ## Example 1:
 ## create a directory and local repo and remote repo, all at once
-## will require a GitHub username in user's global git config file
-## TO DO: re-run this now that I've realized global githug.user not necessary
-## TO DO: remove private = TRUE once I've live-tested
+## TO DO: remove private = TRUE maybe
 githug_init(path = tempfile("init-test-"), private = TRUE)
 }
 
@@ -114,14 +112,13 @@ repo <- git_init(tempfile("githug-init-example-"))
 owd <- setwd(repo)
 
 ## Config local git user and make a commit
-TO DO: rerun post-github-user-epiphany
 git_config(user.name = "thelma", user.email = "thelma@example.org")
 writeLines("I don't ever remember feeling this awake.", "thelma.txt")
 git_COMMIT("thelma is awake")
 git_log()
 
 ## Connect it to GitHub! Visit the new repo in the browser.
-## TO DO: rerun this and then remove private = TRUE
+## TO DO: remove private = TRUE maybe
 githug_init(private = TRUE)
 
 ## see that the 'origin' is now set to the GitHub remote
@@ -143,7 +140,7 @@ setwd(owd)
 repo <- tempfile("githug-init-example-")
 dir.create(repo)
 owd <- setwd(repo)
-## TO DO: rerun then remove private = TRUE
+## TO DO:remove private = TRUE maybe
 githug_init(private = TRUE)
 setwd(owd)
 }
