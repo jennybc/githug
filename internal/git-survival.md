@@ -1,6 +1,6 @@
-``` r
-## demo of basic git survival
+### demo of functions for basic git survival
 
+``` r
 library(githug)
 library(dplyr)
 ```
@@ -16,10 +16,11 @@ library(dplyr)
     ## 
     ##     intersect, setdiff, setequal, union
 
-``` r
-## git config -------------------------
+#### git config
 
-## see git config currently in effect, based on working directory
+see git config currently in effect, based on working directory
+
+``` r
 git_config()         # local > global, same as git_config(where = "de_facto")
 ```
 
@@ -46,9 +47,6 @@ git_config()         # local > global, same as git_config(where = "de_facto")
     ## 
     ## $user.name
     ## [1] "jennybc"
-    ## 
-    ## $a.a
-    ## [1] "a"
     ## 
     ## $branch.master.merge
     ## [1] "refs/heads/master"
@@ -87,9 +85,6 @@ git_config()         # local > global, same as git_config(where = "de_facto")
 git_config_local()   #                 same as git_config(where = "local")
 ```
 
-    ## $a.a
-    ## [1] "a"
-    ## 
     ## $branch.master.merge
     ## [1] "refs/heads/master"
     ## 
@@ -154,8 +149,9 @@ git_config_global()  #                 same as git-config(where = "global")
     ## $user.name
     ## [1] "jennybc"
 
+set, query, restore global config
+
 ``` r
-## set and query global config
 (ocfg <-
    git_config_global(user.name = "thelma", user.email = "thelma@example.org"))
 ```
@@ -177,7 +173,7 @@ git_config_global("user.name", "user.email")
     ## [1] "thelma@example.org"
 
 ``` r
-## restore / complete the round trip
+## complete the round trip
 git_config_global(ocfg)
 git_config_global("user.name", "user.email")
 ```
@@ -188,14 +184,15 @@ git_config_global("user.name", "user.email")
     ## $user.email
     ## [1] "jenny@stat.ubc.ca"
 
+a whole bunch of adding, commiting, ADDING, and COMMITTING
+
 ``` r
-## a whole bunch of adding, commiting, ADDING, and COMMITTING
 ## conventional git add, status, commit
-repo <- git_init(tempfile("githug-"))
+repo <- git_init(tempfile("githug-commits-"))
 ```
 
-    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpaMJofs/githug-1477363d1be24
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpaMJofs/githug-1477363d1be24
+    ## Creating directory  /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/githug-commits-17c3051a51c1a
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/githug-commits-17c3051a51c1a
 
 ``` r
 owd <- setwd(repo)
@@ -214,7 +211,7 @@ git_commit("Brains'll only get you so far and luck always runs out.")
 ```
 
     ## Committing ...
-    ## [ba09737] 2016-01-15: Brains'll only get you so far and luck always runs out.
+    ## [a13de74] 2016-01-16: Brains'll only get you so far and luck always runs out.
 
 ``` r
 git_status()
@@ -226,13 +223,16 @@ git_status()
 
 ``` r
 setwd(owd)
-
-## THE SHOUTY COMMANDS
-repo <- git_init(tempfile("GITHUG-"))
 ```
 
-    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpaMJofs/GITHUG-147735f1a60ae
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpaMJofs/GITHUG-147735f1a60ae
+**THE SHOUTY COMMANDS**
+
+``` r
+repo <- git_init(tempfile("GITHUG-SHOUTING-"))
+```
+
+    ## Creating directory  /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/GITHUG-SHOUTING-17c306d46a1a0
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/GITHUG-SHOUTING-17c306d46a1a0
 
 ``` r
 owd <- setwd(repo)
@@ -263,7 +263,7 @@ git_commit("initial")
 ```
 
     ## Committing ...
-    ## [2c420a6] 2016-01-15: initial
+    ## [be4f722] 2016-01-16: initial
 
 ``` r
 write("OK", "change-me", append = TRUE)
@@ -331,7 +331,7 @@ git_COMMIT("JUST DO IT.")
     ## delete-me
     ## add-me
     ## Committing ...
-    ## [6279120] 2016-01-15: JUST DO IT.
+    ## [8b24066] 2016-01-16: JUST DO IT.
 
 ``` r
 git_status()
@@ -343,36 +343,58 @@ git_status()
 
 ``` r
 setwd(owd)
-
-## all the branch things -----------------------
-repo <- git_init(tempfile("githug-"))
 ```
 
-    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpaMJofs/githug-147733cc17049
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpaMJofs/githug-147733cc17049
+all the branch things -----------------------
+
+``` r
+repo <- git_init(tempfile("githug-branches-"))
+```
+
+    ## Creating directory  /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/githug-branches-17c30a3c203c
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/githug-branches-17c30a3c203c
+
+``` r
+repo
+```
+
+    ## [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpMQpVJX/githug-branches-17c30a3c203c"
 
 ``` r
 owd <- setwd(repo)
+getwd()
+```
 
-## no commits --> no branches
-git_branch_list()
+    ## [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpMQpVJX/githug-branches-17c30a3c203c"
+
+``` r
+## **NOTE TO SELF:** I have no idea why this setwd() does not take effect. WTF?
+## Temporary workaround: specify repo everywhere below.
+```
+
+no commits --&gt; no branches
+
+``` r
+git_branch_list(repo = repo)
 ```
 
     ## No branches to list.
 
+commit and ... now we have master
+
 ``` r
-## commit and ... now we have master
-writeLines("Well, we're not in the middle of nowhere...", "nowhere.txt")
-git_COMMIT('1: not in the middle of nowhere')
+writeLines("Well, we're not in the middle of nowhere...",
+           file.path(repo, "nowhere.txt"))
+git_COMMIT('1: not in the middle of nowhere', repo = repo)
 ```
 
     ## Adding files:
     ## nowhere.txt
     ## Committing ...
-    ## [744f898] 2016-01-15: 1: not in the middle of nowhere
+    ## [601c6e9] 2016-01-16: 1: not in the middle of nowhere
 
 ``` r
-git_branch_list()
+git_branch_list(repo = repo)
 ```
 
     ## Source: local data frame [1 x 3]
@@ -382,7 +404,7 @@ git_branch_list()
     ## 1 master local <S4:git_branch>
 
 ``` r
-git_branch_list(tips = TRUE)
+git_branch_list(tips = TRUE, repo = repo)
 ```
 
     ## Joining by: "sha"
@@ -391,21 +413,22 @@ git_branch_list(tips = TRUE)
     ## 
     ##     name  type     sha                  message             when  author
     ##    (chr) (chr)   (chr)                    (chr)            (chr)   (chr)
-    ## 1 master local 744f898 1: not in the middle of… 2016-01-15 09:48 jennybc
+    ## 1 master local 601c6e9 1: not in the middle of… 2016-01-16 08:48 jennybc
     ## Variables not shown: email (chr), summary (chr), commit (list), git_branch
     ##   (list).
 
+create new branch that points at HEAD
+
 ``` r
-## create new branch that points at HEAD
-git_branch_create("earlybranch")
+git_branch_create("earlybranch", repo = repo)
 ```
 
     ## Basing new branch on:
-    ##   [744f89] (Local) (HEAD) master
+    ##   [601c6e] (Local) (HEAD) master
     ## Creating branch earlybranch
 
 ``` r
-git_branch_list()
+git_branch_list(repo = repo)
 ```
 
     ## Source: local data frame [2 x 3]
@@ -415,40 +438,43 @@ git_branch_list()
     ## 1 earlybranch local <S4:git_branch>
     ## 2      master local <S4:git_branch>
 
+another commit
+
 ``` r
-## another commit
-write("but we can see it from here.", "nowhere.txt", append = TRUE)
-git_COMMIT('2: but we can see it from here')
+write("but we can see it from here.",
+      file.path(repo, "nowhere.txt"), append = TRUE)
+git_COMMIT('2: but we can see it from here', repo = repo)
 ```
 
     ## Adding files:
     ## nowhere.txt
     ## Committing ...
-    ## [8edf81d] 2016-01-15: 2: but we can see it from here
+    ## [5a604b6] 2016-01-16: 2: but we can see it from here
+
+create new branch that points at *first commit*, not HEAD
 
 ``` r
-## create new branch that points at *first commit*, not HEAD
-(gl <- git_log())
+(gl <- git_log(repo = repo))
 ```
 
     ## Source: local data frame [2 x 7]
     ## 
     ##                    message             when  author     sha
     ##                      (chr)            (chr)   (chr)   (chr)
-    ## 1 2: but we can see it fr… 2016-01-15 09:48 jennybc 8edf81d
-    ## 2 1: not in the middle of… 2016-01-15 09:48 jennybc 744f898
+    ## 1 2: but we can see it fr… 2016-01-16 08:48 jennybc 5a604b6
+    ## 2 1: not in the middle of… 2016-01-16 08:48 jennybc 601c6e9
     ## Variables not shown: email (chr), summary (chr), commit (list).
 
 ``` r
-git_branch_create("hindsight", commit  = gl$commit[[2]])
+git_branch_create("hindsight", commit  = gl$commit[[2]], repo = repo)
 ```
 
     ## Basing new branch on:
-    ##   [744f898] 2016-01-15: 1: not in the middle of nowhere
+    ##   [601c6e9] 2016-01-16: 1: not in the middle of nowhere
     ## Creating branch hindsight
 
 ``` r
-git_branch_list()
+git_branch_list(repo = repo)
 ```
 
     ## Source: local data frame [3 x 3]
@@ -460,7 +486,7 @@ git_branch_list()
     ## 3      master local <S4:git_branch>
 
 ``` r
-git_branch_list(tips = TRUE)
+git_branch_list(tips = TRUE, repo = repo)
 ```
 
     ## Joining by: "sha"
@@ -469,126 +495,122 @@ git_branch_list(tips = TRUE)
     ## 
     ##          name  type     sha                  message             when
     ##         (chr) (chr)   (chr)                    (chr)            (chr)
-    ## 1 earlybranch local 744f898 1: not in the middle of… 2016-01-15 09:48
-    ## 2   hindsight local 744f898 1: not in the middle of… 2016-01-15 09:48
-    ## 3      master local 8edf81d 2: but we can see it fr… 2016-01-15 09:48
+    ## 1 earlybranch local 601c6e9 1: not in the middle of… 2016-01-16 08:48
+    ## 2   hindsight local 601c6e9 1: not in the middle of… 2016-01-16 08:48
+    ## 3      master local 5a604b6 2: but we can see it fr… 2016-01-16 08:48
     ## Variables not shown: author (chr), email (chr), summary (chr), commit
     ##   (list), git_branch (list).
 
+try to re-create an existing branch and fail
+
 ``` r
-## try to re-create an existing branch and fail
-git_branch_create("hindsight")
+git_branch_create("hindsight", repo = repo)
 ```
 
     ## Basing new branch on:
-    ##   [9c4077] (Local) (HEAD) IMMEDIATE-GRATIFICATION
+    ##   [5a604b] (Local) (HEAD) master
 
     ## Error in (structure(function (commit, name, force = FALSE) : Error in 'git2r_branch_create': Failed to write reference 'refs/heads/hindsight': a reference with that name already exists.
 
+try try again ... and use the force = TRUE
+
 ``` r
-## try try again ... and use the force = TRUE
-git_branch_create("hindsight", force = TRUE)
+git_branch_create("hindsight", force = TRUE, repo = repo)
 ```
 
     ## Basing new branch on:
-    ##   [9c4077] (Local) (HEAD) IMMEDIATE-GRATIFICATION
+    ##   [5a604b] (Local) (HEAD) master
     ## Creating branch hindsight
 
 ``` r
-git_branch_list(tips = TRUE)
+git_branch_list(tips = TRUE, repo = repo)
 ```
 
     ## Joining by: "sha"
 
-    ## Source: local data frame [5 x 10]
+    ## Source: local data frame [3 x 10]
     ## 
-    ##                      name   type     sha                  message
-    ##                     (chr)  (chr)   (chr)                    (chr)
-    ## 1               hindsight  local 9c4077b githug_init ... "it wor…
-    ## 2 IMMEDIATE-GRATIFICATION  local 9c4077b githug_init ... "it wor…
-    ## 3                  master  local 9c4077b githug_init ... "it wor…
-    ## 4             origin/HEAD remote      NA                       NA
-    ## 5           origin/master remote 9c4077b githug_init ... "it wor…
-    ## Variables not shown: when (chr), author (chr), email (chr), summary (chr),
-    ##   commit (list), git_branch (list).
+    ##          name  type     sha                  message             when
+    ##         (chr) (chr)   (chr)                    (chr)            (chr)
+    ## 1 earlybranch local 601c6e9 1: not in the middle of… 2016-01-16 08:48
+    ## 2   hindsight local 5a604b6 2: but we can see it fr… 2016-01-16 08:48
+    ## 3      master local 5a604b6 2: but we can see it fr… 2016-01-16 08:48
+    ## Variables not shown: author (chr), email (chr), summary (chr), commit
+    ##   (list), git_branch (list).
+
+checkout an existing branch
 
 ``` r
-## checkout an existing branch
-git_checkout("earlybranch")
+git_checkout("earlybranch", repo = repo)
 ```
 
-    ## Error: 'earlybranch' does not match any of the known local branches:
-    ## hindsight
-    ## IMMEDIATE-GRATIFICATION
-    ## master
+    ## Switched to branch 'earlybranch'
 
 ``` r
-git_branch()
+git_branch(repo = repo)
 ```
 
-    ## [1] "IMMEDIATE-GRATIFICATION"
+    ## [1] "earlybranch"
 
 ``` r
-git_HEAD()
+git_HEAD(repo = repo)
 ```
 
-    ## On branch IMMEDIATE-GRATIFICATION.
+    ## On branch earlybranch.
     ## Most recent commit:
-    ## [9c4077b] 2016-01-13: githug_init ... "it works for me!"
+    ## [601c6e9] 2016-01-16: 1: not in the middle of nowhere
+
+checkout master
 
 ``` r
-## checkout master
-git_checkout()
+git_checkout(repo = repo)
 ```
 
     ## Switched to branch 'master'
 
 ``` r
-git_HEAD()
+git_HEAD(repo = repo)
 ```
 
     ## On branch master.
     ## Most recent commit:
-    ## [9c4077b] 2016-01-13: githug_init ... "it works for me!"
+    ## [5a604b6] 2016-01-16: 2: but we can see it from here
+
+checkout AND CREATE all at once
 
 ``` r
-## checkout AND CREATE all at once
-git_CHECKOUT("IMMEDIATE-GRATIFICATION")
+git_CHECKOUT("IMMEDIATE-GRATIFICATION", repo = repo)
 ```
 
     ## Switched to branch 'IMMEDIATE-GRATIFICATION'
 
 ``` r
-git_HEAD()
+git_HEAD(repo = repo)
 ```
 
     ## On branch IMMEDIATE-GRATIFICATION.
     ## Most recent commit:
-    ## [9c4077b] 2016-01-13: githug_init ... "it works for me!"
+    ## [5a604b6] 2016-01-16: 2: but we can see it from here
+
+delete a branch
 
 ``` r
-## delete a branch
-git_branch_delete("earlybranch")
+git_branch_delete("earlybranch", repo = repo)
 ```
 
-    ## Error: 'earlybranch' does not match any of the known local branches:
-    ## hindsight
-    ## IMMEDIATE-GRATIFICATION
-    ## master
+    ## Deleted branch 'earlybranch'
 
 ``` r
-git_branch_list()
+git_branch_list(repo = repo)
 ```
 
-    ## Source: local data frame [5 x 3]
+    ## Source: local data frame [3 x 3]
     ## 
-    ##                      name   type      git_branch
-    ##                     (chr)  (chr)          (list)
-    ## 1               hindsight  local <S4:git_branch>
-    ## 2 IMMEDIATE-GRATIFICATION  local <S4:git_branch>
-    ## 3                  master  local <S4:git_branch>
-    ## 4             origin/HEAD remote <S4:git_branch>
-    ## 5           origin/master remote <S4:git_branch>
+    ##                      name  type      git_branch
+    ##                     (chr) (chr)          (list)
+    ## 1               hindsight local <S4:git_branch>
+    ## 2 IMMEDIATE-GRATIFICATION local <S4:git_branch>
+    ## 3                  master local <S4:git_branch>
 
 ``` r
 setwd(owd)
