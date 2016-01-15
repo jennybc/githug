@@ -16,48 +16,62 @@ Wrap yourself in the warm embrace of Git from the comfort of R.
 
 This package facilitates common Git tasks by gluing together features from [git2r](https://github.com/ropensci/git2r) and [gh](https://github.com/gaborcsardi/gh), with special attention to things you can't do with RStudio's Git client.
 
-I teach "data analysis with R". Alot, often under time constraints, with students running Mac OS, Windows, and Linux. I like to touch on Git and GitHub, but hate to get bogged down in Git-related [command-line bullshittery](http://www.pgbovine.net/command-line-bullshittery.htm). The immediate goal for `githug` is to do basic, mission critical Git/GitHub operations from within R.
+What's the point?
+
+-   **Use in teaching:** I teach "data analysis with R". Alot, under time constraints, with students running Mac OS, Windows, and Linux. I like to touch on Git and GitHub, but hate to get bogged down in Git-related [command-line bullshittery](http://www.pgbovine.net/command-line-bullshittery.htm). An immediate goal for `githug` is to do basic, mission critical Git/GitHub operations from within R, with minimal fuss. I'd like to write lessons more easily, i.e. stay in R and avoid writing "Mac OS: do this, Windows: do that, ...".
+-   **Selfishness:** There are a few things I do often that I wish were even easier. Karthik and Scott told me about the [`hub`](https://hub.github.com) command line tool, which has a few commands worth imitating, e.g., `hub create` and `hub browse`.
 
 ### Installation
+
+*this is really really a work in progress, so just know that*
+
+*current quality level = "it works for me"*
 
 ``` r
 devtools::install_github("jennybc/githug")
 ```
 
-#### Use cases
+#### What can you do with it?
 
-Basic Git survival kit
+Basic Git survival. \* See lots of compiled examples here: [`make-me-a-new-github-repo`](https://github.com/jennybc/githug/blob/master/internal/git-survival.md)
 
 -   config
 -   init
 -   status, log, HEAD
 -   add, commit, ADD, COMMIT
 -   branch list, create, delete, checkout, CHECKOUT
+-   *to do: remotes, initiate branch tracking after-the-fact*
 
-Connect an existing R project (usually a RStudio Project) to a newly created GitHub remote. See the draft vignette [From R/RStudio to GitHub](vignettes/rstudio-to-github.Rmd).
+Connect a new or existing R project (usually a RStudio Project) to a newly created GitHub remote.
 
-Authentication help.
+``` r
+library(githug)
+## remove `private = TRUE` if you wish / must
+githug_init(path = tempfile("githug-loves-me-"), private = TRUE)`
+```
 
--   stow or confirm PAT for GitHub API
--   *TO DO: turn on keychain for HTTPS people? help set up SSH keys and configure ssh-agent?*
+-   See 3 worked examples here: [`make-me-a-new-github-repo`](https://github.com/jennybc/githug/blob/master/internal/make-me-a-new-github-repo.md)
+-   Motivation recorded in a draft vignette [From R/RStudio to GitHub](vignettes/rstudio-to-github.Rmd) for notes.
 
 Forks. *to do*
 
--   fork
--   pull fork
--   use git config file and custom config var to record "this repo is a fork of that repo"
--   add fork origin as remote and introduce some convention about name ... fork-origin?
+-   fork, pull
+-   record the fork relationship in local git config so we can make it easier for novices to ...
 -   **update fork based on fork origin!!!**
 
-More user-facing functions re: GitHub API *to do*
+GitHub API operations. *to do*
 
--   help people figure out what's possible?
--   what do I do most? wrap this?
+-   wrap and vectorize the `gh` calls for of the most common tasks
     -   (create | edit | delete | list) \* (repos, teams, issues)
 
-Git support *to do*
+*Git diagnostic support for teaching?*
 
 -   Is Git installed? Where is it? What version? Is it on the `PATH`?
+
+*Authentication help?*
+
+-   store PAT for GitHub API into `.Renviron`?
+-   help setting up ssh keys? configure ssh-agent?
 
 ### The existing landscape
 

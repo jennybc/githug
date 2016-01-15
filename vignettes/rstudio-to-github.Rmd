@@ -71,3 +71,5 @@ Emulate `hub create jennybc/foo`. DONE.
   - add as remote
   - push the current branch
   - visit GitHub repo in the browser
+
+Replace the content of this vignette with an actual demo!
