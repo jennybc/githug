@@ -242,6 +242,7 @@ githug_init <- function(
               name = githug_config_vars$githug.remotename,
               refspec = "refs/heads/master",
               credentials = cred)
+  git2r::branch_set_upstream(git_HEAD(path)$git_branch, "origin/master")
 
   ## is this terribly annoying?
   ## regardless, it should be it's own function ... nod to `hub browse`

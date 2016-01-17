@@ -36,11 +36,6 @@ git2r::remote_url(as_git_repository())
 
 ## see that local master is tracking remote master
 git2r::branch_get_upstream(git_HEAD()$git_branch)
-## TO DO: figure out why this says NULL even though is tracking
-## for example, `git remote show origin` shows all is well
-## also pull/push greyed out in RStudio
-## `git push -u origin master` straightens it out
-## it will be satisfying to get to the bottom of this
 
 setwd(owd)
 
