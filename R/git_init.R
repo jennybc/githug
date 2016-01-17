@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' repo <- git_init(tempfile("githug-init-example-"))
+#' repo <- git_init(tempfile("git-init-example-"))
 #'
 #' ## switch working directory to the repo
 #' owd <- setwd(repo)
@@ -27,16 +27,17 @@ git_init <- function(path = ".", force = FALSE) {
 
   path <- normalizePath(path, winslash = "/", mustWork = FALSE)
   path_preexists <- dir.exists(path)
-  led_path <- least_existing_dir(path)
-  enclosing_repo <- as.rpath(led_path, raise = NULL)
-  path_is_repo <- is_a_repo(path)
+  path_is_repo   <- is_a_repo(path)
+
+  led_path       <- least_existing_dir(path)
   led_is_in_repo <- is_in_repo(led_path)
 
   if (path_preexists && path_is_repo) {
     message("'path' appears to already be a Git repo:\n", path)
   }
 
-  if ( (path_preexists && !path_is_repo && led_is_in_repo) ||
+  ## could be just 'if (led_is_in_repo)' but want to avoid double message
+  if (  (path_preexists && !path_is_repo && led_is_in_repo) ||
        (!path_preexists && led_is_in_repo) ) {
     message("'path' is or will be nested within an existing Git repo:\n", path)
     if (!force) {

@@ -22,7 +22,7 @@ Path to the associated Git repo.
 Create a new Git repository
 }
 \examples{
-repo <- git_init(tempfile("githug-init-example-"))
+repo <- git_init(tempfile("git-init-example-"))
 
 ## switch working directory to the repo
 owd <- setwd(repo)
