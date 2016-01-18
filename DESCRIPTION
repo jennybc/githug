@@ -24,6 +24,6 @@ Suggests:
     withr
 RoxygenNote: 5.0.1.9000
 Remotes: 
-    gaborcsardi/gh
+    gaborcsardi/gh,
     ropensci/git2r@ff7a0c60ed
 VignetteBuilder: knitr
