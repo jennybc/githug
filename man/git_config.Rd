@@ -35,7 +35,7 @@ A named list of Git configuration variables.
 \description{
 \code{git_config} and convenience wrappers \code{git_config_global} and
 \code{git_config_local} can be used to query or modify Git configuration. All
-reply on \code{\link[git2r]{config}} from \code{\link{git2r}}.
+rely on \code{\link[git2r]{config}} from \code{\link{git2r}}.
 }
 \details{
 Variables can be queried by specifying the names as strings or in a unnamed
@@ -54,9 +54,9 @@ list can be passed back in to \code{git_config_local} or
 Consult the \href{https://git-scm.com/docs/git-config}{git-config man page}
 for a long yet non-comprehensive list of variables.
 
-It is highly recommended that you specify an email address that is associated
-with your GitHub account:
-\url{https://help.github.com/articles/setting-your-email-in-git/}.
+For future GitHub happiness, it is highly recommended that you set
+\code{user.name} to an email address that is associated with your GitHub
+account: \url{https://help.github.com/articles/setting-your-email-in-git/}.
 }
 \section{Functions}{
 \itemize{
