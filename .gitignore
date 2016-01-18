@@ -4,3 +4,5 @@
 README.html
 *scratch*
 inst/doc
+internal/*.html
+internal/tracking-experiment*
