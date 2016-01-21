@@ -45,9 +45,10 @@ Convenience wrappers around branch-related functions from
 \section{git_branch_list}{
 
 
-  \code{git_branch_list} returns a data frame of information provided by the
-  \code{\link[git2r]{branches}} function of \code{\link{git2r}} and,
-  optionally, commit information for the current branch tips from
+  \code{git_branch_list} returns a data frame of information provided by
+  \code{\link[git2r]{branches}} and
+  \code{\link[git2r]{head,git_repository-method}} from \code{\link{git2r}}
+  and, optionally, commit information for the current branch tips from
   \code{\link{git_log}}.
 
 How it corresponds to command line Git:

@@ -110,8 +110,6 @@
 #'
 #' ## see that local master is tracking remote master
 #' git2r::branch_get_upstream(git_HEAD()$git_branch)
-#' ## TO DO: figure out why this says NULL even though is tracking
-#' ## for example, `git remote show origin` shows all is well
 #'
 #' setwd(owd)
 #' }
