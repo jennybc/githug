@@ -14,9 +14,10 @@ NULL
 
 #' @section git_branch_list:
 #'
-#'   \code{git_branch_list} returns a data frame of information provided by the
-#'   \code{\link[git2r]{branches}} function of \code{\link{git2r}} and,
-#'   optionally, commit information for the current branch tips from
+#'   \code{git_branch_list} returns a data frame of information provided by
+#'   \code{\link[git2r]{branches}} and
+#'   \code{\link[git2r]{head,git_repository-method}} from \code{\link{git2r}}
+#'   and, optionally, commit information for the current branch tips from
 #'   \code{\link{git_log}}.
 #'
 #' How it corresponds to command line Git:
@@ -104,7 +105,7 @@ git_branch_list <- function(
   which <- match.arg(which)
 
   gb <- git2r::branches(repo = gr, flags = which)
-  if (is.null(gb) || length(gb) < 1) {
+  if (length(gb) < 1) {
     message("No branches to list.")
     return(invisible(NULL))
   }
@@ -117,6 +118,16 @@ git_branch_list <- function(
     git_branch = gb
   )
 
+  ## TO PONDER: I would prefer to NOT put current branch info into the object,
+  ## but to communicate via print method ... but that's a bigger task and gets
+  ## into the whole issue of git_log printing and printing data.frames that
+  ## contain a list-column of S4 objects. Puzzle over that later. This is useful
+  ## now.
+  gbl <- gbl %>%
+    dplyr::mutate_(curr = ~ ifelse (name == git_HEAD(repo = repo)$branch_name,
+                                    "<-- ", "")) %>%
+    dplyr::select_(~ name, ~ curr, ~ type, ~ git_branch)
+
   if (!tips) {
     return(gbl)
   }
@@ -125,8 +136,8 @@ git_branch_list <- function(
     dplyr::mutate_(gbl,
                    sha = ~ purrr::map_chr(gbl$git_branch, git2r::branch_target))
   glog <- git_log(repo = repo)
-  vars <- c("name", "type", "sha", "message", "when", "author", "email",
-            "summary", "commit", "git_branch")
+  vars <- c("name", "curr", "type", "sha", "message", "when", "author",
+            "email", "summary", "commit", "git_branch")
   gbl <- gbl %>%
     dplyr::left_join(glog) %>%
     dplyr::select_(.dots = vars)

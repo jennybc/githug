@@ -8,14 +8,15 @@
 #' @return A list with components:
 #' \describe{
 #'   \item{\code{branch_name}}{the name and ...}
-#'   \item{\code{branch_type}}{type of the branch whose tip HEAD currently
-#'   points to}
+#'   \item{\code{branch_type}}{type (local vs. remote) of the branch whose tip
+#'   HEAD currently points to}
 #'   \item{\code{head_sha}}{the SHA and ...}
 #'   \item{\code{head_commit}}{\code{\linkS4class{git_commit}} object for the
 #'   specific commit HEAD points to}
 #'   \item{\code{repo}}{associated \code{\linkS4class{git_repository}} object}
 #'   \item{\code{git_branch}}{associated \code{\linkS4class{git_branch}} object}
 #' }
+#' or \code{NULL} if \code{HEAD} does not exist.
 #'
 #' @export
 #' @examples
