@@ -6,3 +6,4 @@ README.html
 inst/doc
 internal/*.html
 internal/tracking-experiment*
+tests/testthat/githugci-PAT.txt
