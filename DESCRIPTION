@@ -6,24 +6,25 @@ Authors@R: person("Jennifer", "Bryan", role=c("aut", "cre"),
 Description: Interface to local and remote Git operations. Interface to local
   and remote Git operations. Interface to local and remote Git operations.
   Interface to local and remote Git operations.
-Depends: 
+Depends:
     R (>= 3.2.2)
 License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/jennybc/githug
 BugReports: https://github.com/jennybc/githug/issues
-Imports: 
+Imports:
     dplyr,
     gh,
     git2r (>= 0.13.1),
     purrr (>= 0.2.0),
-Suggests: 
+Suggests:
     testthat,
     knitr,
     rmarkdown,
     withr
 RoxygenNote: 5.0.1.9000
-Remotes: 
+Remotes:
     gaborcsardi/gh,
-    ropensci/git2r@ff7a0c60ed
+    ropensci/git2r@ff7a0c60ed,
+    hadley/dplyr
 VignetteBuilder: knitr
