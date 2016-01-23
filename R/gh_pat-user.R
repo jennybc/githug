@@ -21,7 +21,7 @@
 #' \item Add a line like this: \code{GITHUB_PAT=blahblahblahblahblahblah}, where
 #' \code{blahblahblahblahblahblah} is your PAT. Make sure the last line in the
 #' file is empty. Otherwise R will \strong{silently} fail to load the file.
-#' Save. And yes you do want to use a filiename that begins with a dot.
+#' Save. And yes you do want to use a filename that begins with a dot.
 #'
 #' \item Restart R. \code{.Renviron} is processed only during
 #' \code{\link{Startup}}.
@@ -46,7 +46,10 @@
 gh_pat <- function(envvar = c("GITHUB_PAT", "GITHUB_TOKEN")) {
   ## part of reason for name gh_pat vs github_pat is to not mask
   ## devtools::github_pat
+  ## also maybe in future: bb_pat(), gl_pat() for bitbucket, gitlab, etc?
+
   stopifnot(inherits(envvar, "character"), length(envvar) > 0)
+
   ## if only one element comes back, name gets dropped, so restore it
   candidates <- stats::setNames(Sys.getenv(envvar), envvar)
   candidates <- candidates[candidates != ""]
@@ -90,3 +93,25 @@ gh_pat <- function(envvar = c("GITHUB_PAT", "GITHUB_TOKEN")) {
 #
 ## since top-level fxns from gh just want the token, that's what we'll provide
 ## following gh convention re: sending "" (not NULL) when PAT not found
+
+#' Get authenticated user
+#'
+#' Get the authenticated user associated with a GitHub personal access token.
+#' Wraps the
+#' \href{https://developer.github.com/v3/users/#get-the-authenticated-user}{authenticated
+#' user} endpoint of the \href{https://developer.github.com/v3/}{GitHub API}.
+#'
+#' @param pat A GitHub personal access token (PAT).
+#'
+#' @return character, a GitHub username
+#' @seealso \code{\link{gh_pat}()}
+#' @export
+#'
+#' @examples
+#' gh_pat_user()
+gh_pat_user <- function(pat = gh_pat()) {
+  f <- purrr::safely(gh::gh)
+  res <- f(endpoint = "/user", .token = pat)
+  if (is.null(res$error)) return(res$result$login)
+  stop(conditionMessage(res$error), call. = FALSE)
+}

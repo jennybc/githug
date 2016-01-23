@@ -133,17 +133,11 @@ githug_init <- function(
   ...) {
 
   protocol <- match.arg(protocol)
+  gh_user <- gh_pat_user(pat = pat)
 
   path <- normalizePath(path, winslash = "/", mustWork = FALSE)
-
   git_init(path = path, force = FALSE)
 
-  gh_user <- tryCatch(
-    gh::gh("/user", .token = pat)$login,
-    error = function(.) {
-      stop("'pat' not associated with any user known to GitHub",
-           call. = FALSE)
-    })
   git_config_local(githug.user = gh_user)
   message("GitHub username: ", gh_user)
 

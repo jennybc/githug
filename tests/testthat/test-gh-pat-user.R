@@ -41,9 +41,22 @@ test_that("we don't retrieve github PAT when we should not", {
   expect_identical(pat, "")
 
   ## defaults exist but user is asking for something else
-  withr::with_envvar(c("GITHUB_PAT" = "GITHUB_PAT", "GITHUB_TOKEN" = "GITHUB_TOKEN"), {
+  withr::with_envvar(c("GITHUB_PAT" = "GITHUB_PAT",
+                       "GITHUB_TOKEN" = "GITHUB_TOKEN"), {
     pat <- gh_pat("a")
   })
   expect_identical(pat, "")
 
+})
+
+test_that("we can get authenticated user from valid PAT", {
+  skip_if_no_internet()
+  ## TO PONDER: for tests to work for others, this should be less specific
+  expect_true(gh_pat_user() %in% c("jennybc", "githugci"))
+})
+
+test_that("we can't get authenticated user from bad or empty PAT", {
+  skip_if_no_internet()
+  expect_error(gh_pat_user("nope"), "Bad credentials")
+  expect_error(gh_pat_user(gh_pat("nope")), "Requires authentication")
 })
