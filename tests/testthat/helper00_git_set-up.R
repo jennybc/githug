@@ -18,3 +18,13 @@ if (file.exists("githugci-PAT.txt")) {
   Sys.setenv(GITHUB_PAT = scan("githugci-PAT.txt", what = character(),
                                quiet = TRUE))
 }
+
+## do we have an internet connection?
+## use for a custom skipper
+safe_cfm <- purrr::safely(curl::curl_fetch_memory)
+req <- safe_cfm("https://httpbin.org/get")
+Sys.setenv(INTERNET = is.null(req$error))
+cat("INTERNET = ", Sys.getenv("INTERNET"), "\n")
+skip_if_no_internet <- function() {
+  if (!identical(Sys.getenv("INTERNET"), "TRUE")) skip("No internet connection")
+}

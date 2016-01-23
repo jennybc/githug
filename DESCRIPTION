@@ -21,7 +21,8 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    withr
+    withr,
+    curl
 RoxygenNote: 5.0.1.9000
 Remotes:
     gaborcsardi/gh,
