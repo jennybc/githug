@@ -1,3 +1,8 @@
+# taking bits from
+# https://github.com/hadley/xml2/blob/master/.travis.yml
+# consider taking more from here, esp. re: pandoc, tex, vignettes, etc.
+# https://github.com/hadley/tidyr/blob/master/.travis.yml
+# https://github.com/yihui/knitr/blob/master/.travis.yml
 language: c
 sudo: false
 addons:
@@ -7,7 +12,6 @@ addons:
     packages:
     - r-base-dev
     - r-recommended
-    - pandoc
 env:
   matrix:
   - R_LIBS_USER=~/R/library
