@@ -1,4 +1,4 @@
-context("auth")
+context("gh PATs & users")
 
 test_that("we can retrieve github PAT from env var", {
 
