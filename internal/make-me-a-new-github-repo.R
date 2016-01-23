@@ -1,7 +1,5 @@
 #' ---
-#' output:
-#'   md_document:
-#'     variant: markdown_github
+#' output: github_document
 #' ---
 
 library(githug)

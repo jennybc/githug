@@ -1,3 +1,8 @@
+make-me-a-new-github-repo.R
+================
+jenny
+Sat Jan 23 00:03:31 2016
+
 ``` r
 library(githug)
 
@@ -8,16 +13,25 @@ library(githug)
 githug_init(path = tempfile("init-test-"), private = TRUE)
 ```
 
-    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//Rtmpiue5C5/init-test-978454b9ea
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//Rtmpiue5C5/init-test-978454b9ea
+    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpDN6nJf/init-test-177df786e8ef3
+
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpDN6nJf/init-test-177df786e8ef3
+
     ## GitHub personal access token found in env var GITHUB_PAT
+
     ## GitHub username: jennybc
-    ## GitHub repo name: init-test-978454b9ea
+
+    ## GitHub repo name: init-test-177df786e8ef3
+
     ## Creating README.md
+
     ## Committing ...
-    ## [ccf8711] 2016-01-17: add README.md
+
+    ## [fe7b5d9] 2016-01-23: add README.md
+
     ## Adding remote named 'origin':
-    ## https://github.com/jennybc/init-test-978454b9ea.git
+    ## https://github.com/jennybc/init-test-177df786e8ef3.git
+
     ## Pushing to GitHub and setting remote tracking branch
 
 ``` r
@@ -27,8 +41,9 @@ githug_init(path = tempfile("init-test-"), private = TRUE)
 repo <- git_init(tempfile("githug-init-example-"))
 ```
 
-    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//Rtmpiue5C5/githug-init-example-9785679b3de
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//Rtmpiue5C5/githug-init-example-9785679b3de
+    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpDN6nJf/githug-init-example-177df226b314a
+
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpDN6nJf/githug-init-example-177df226b314a
 
 ``` r
 ## switch working directory to the repo
@@ -47,8 +62,10 @@ git_COMMIT("thelma is awake")
 
     ## Adding files:
     ## thelma.txt
+
     ## Committing ...
-    ## [84cd1c1] 2016-01-17: thelma is awake
+
+    ## [3e168b2] 2016-01-23: thelma is awake
 
 ``` r
 git_log()
@@ -58,7 +75,7 @@ git_log()
     ## 
     ##           message             when author     sha              email
     ##             (chr)            (chr)  (chr)   (chr)              (chr)
-    ## 1 thelma is awake 2016-01-17 00:32 thelma 84cd1c1 thelma@example.org
+    ## 1 thelma is awake 2016-01-23 00:03 thelma 3e168b2 thelma@example.org
     ## Variables not shown: summary (chr), commit (list).
 
 ``` r
@@ -67,16 +84,25 @@ githug_init(private = TRUE)
 ```
 
     ## 'path' appears to already be a Git repo:
-    ## /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpiue5C5/githug-init-example-9785679b3de
-    ## Doing `git init` in /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpiue5C5/githug-init-example-9785679b3de
+    ## /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpDN6nJf/githug-init-example-177df226b314a
+
+    ## Doing `git init` in /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpDN6nJf/githug-init-example-177df226b314a
+
     ## GitHub personal access token found in env var GITHUB_PAT
+
     ## GitHub username: jennybc
-    ## GitHub repo name: githug-init-example-9785679b3de
+
+    ## GitHub repo name: githug-init-example-177df226b314a
+
     ## Creating README.md
+
     ## Committing ...
-    ## [f78e34f] 2016-01-17: add README.md
+
+    ## [b1a3e16] 2016-01-23: add README.md
+
     ## Adding remote named 'origin':
-    ## https://github.com/jennybc/githug-init-example-9785679b3de.git
+    ## https://github.com/jennybc/githug-init-example-177df226b314a.git
+
     ## Pushing to GitHub and setting remote tracking branch
 
 ``` r
@@ -91,14 +117,14 @@ git2r::remotes()
 git2r::remote_url(as_git_repository())
 ```
 
-    ## [1] "https://github.com/jennybc/githug-init-example-9785679b3de.git"
+    ## [1] "https://github.com/jennybc/githug-init-example-177df226b314a.git"
 
 ``` r
 ## see that local master is tracking remote master
 git2r::branch_get_upstream(git_HEAD()$git_branch)
 ```
 
-    ## [f78e34] (origin @ https://github.com/jennybc/githug-init-example-9785679b3de.git) master
+    ## [b1a3e1] (origin @ https://github.com/jennybc/githug-init-example-177df226b314a.git) master
 
 ``` r
 setwd(owd)
@@ -111,15 +137,23 @@ owd <- setwd(repo)
 githug_init(private = TRUE)
 ```
 
-    ## Doing `git init` in /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpiue5C5/githug-init-example-978500fe02c
+    ## Doing `git init` in /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpDN6nJf/githug-init-example-177df2b7102ed
+
     ## GitHub personal access token found in env var GITHUB_PAT
+
     ## GitHub username: jennybc
-    ## GitHub repo name: githug-init-example-978500fe02c
+
+    ## GitHub repo name: githug-init-example-177df2b7102ed
+
     ## Creating README.md
+
     ## Committing ...
-    ## [0d42691] 2016-01-17: add README.md
+
+    ## [56c7bf8] 2016-01-23: add README.md
+
     ## Adding remote named 'origin':
-    ## https://github.com/jennybc/githug-init-example-978500fe02c.git
+    ## https://github.com/jennybc/githug-init-example-177df2b7102ed.git
+
     ## Pushing to GitHub and setting remote tracking branch
 
 ``` r

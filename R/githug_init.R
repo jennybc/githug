@@ -134,36 +134,18 @@ githug_init <- function(
   gh_user <- gh_pat_user(pat = pat)
 
   path <- normalizePath(path, winslash = "/", mustWork = FALSE)
-  git_init(path = path, force = FALSE)
+  repo <- git_init(path = path, force = FALSE)
 
   git_config_local(githug.user = gh_user)
   message("GitHub username: ", gh_user)
 
-  if (is.null(name)) {
-    rproj <- list.files(path = path, pattern = ".*\\.Rproj$")
-    projdir <- basename(path)
-    choices <- tools::file_path_sans_ext(c(rproj, projdir))
-    name <- choices[1]
-  }
-  message("GitHub repo name: ", name)
+  name <- name %||% githug_name(path = repo)
   description <- description %||% "R work of staggering genius"
+  message("GitHub repo name: ", name, appendLF = FALSE)
 
-  ## TO DO: this should be a separate function
-  fls <- list.files(path = path, pattern = "^README\\.md$")
-  if (length(fls) < 1) {
-    message("Creating README.md")
-    writeLines(sprintf("# %s\n\n%s", name, description),
-               file.path(path, "README.md"))
-    git_add(path = file.path(path, "README.md"), repo = path)
-    git_commit("add README.md", repo = path)
-  }
-
-  ## TO DO: write a helper that detects if working directory clean
-  suppressMessages(
-    s <- git_status(repo = path)
-  )
-  if (length(unlist(s))) {
-    git_COMMIT("prepare to push to github")
+  githug_README(path = repo, name = name, description = description)
+  if (wd_is_dirty(repo = repo))
+    git_COMMIT("add README.md", repo = repo)
   }
 
   ## TO DO: move into a function that creates a df about remotes

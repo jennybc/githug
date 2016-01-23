@@ -74,10 +74,6 @@ rpath <- function(x = NULL, ...) {
   as.rpath(x, ...)
 }
 
-is_in_repo <- function(x, ...) !is.null(as.rpath(x, ..., raise = NULL))
-
-is_a_repo <- function(x) is_in_repo(x, ceiling = 0)
-
 ## git_repository ------------------------------------------
 
 #' Open a Git repository, the git2r way
