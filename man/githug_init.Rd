@@ -12,7 +12,7 @@ githug_init(name = NULL, description = NULL, remote_name = "origin",
 \item{name}{Name of the new repository, optional. Default behavior if
 unspecified: if an RStudio project file is found in \code{path},
 \code{name} will be the filename, after removing the \code{.Rproj}
-extension. Otherwise, \code{name} will be the \link{basename} of
+extension. Otherwise, \code{name} will be the \code{\link{basename}()} of
 \code{path}.}
 
 \item{description}{Short description of the GitHub repository, optional.}
@@ -29,9 +29,9 @@ command line, you can probably ignore this. See details for more.}
 \item{pat}{A GitHub personal access token (PAT) from
 \url{https://github.com/settings/tokens}.  The "repo" scope is required
 which is one of the default scopes for a new PAT. By default, \code{pat}
-will be obtained via \code{\link{gh_pat}}, which consults your environment
-variables (by default, \code{GITHUB_PAT} and \code{GITHUB_TOKEN}, in that
-order).}
+will be obtained via \code{\link{gh_pat}()}, which consults your
+environment variables (by default, \code{GITHUB_PAT} and
+\code{GITHUB_TOKEN}, in that order).}
 
 \item{path}{Path to the directory where a Git repo should be initialized, if
 not done already, and connected to GitHub, optional. Defaults to working
@@ -49,8 +49,8 @@ Path to the local repository.
 \description{
 Take a local project, put it under version control if necessary, create a
 companion repository on GitHub, connect them, and, in an interactive session,
-visit the new repo in the browser. Insipred by \code{hub create} from the
-\href{URL}{hub} command line tool
+visit the new repo in the browser. Inspired by \code{hub create} from the
+\href{https://hub.github.com}{hub} command line tool
 }
 \details{
 This requires a free GitHub account, which can be registered at
@@ -60,27 +60,26 @@ This requires a free GitHub account, which can be registered at
 \describe{
 \item{GitHub personal access token}{The only way to create a GitHub
 repository is through the API, so you must obtain a personal access token
-(PAT). For advice on how to store your PAT, see \code{\link{gh_pat}}}.
-\item{GitHub username}{\code{githug_init} uses your PAT to lookup your GitHub
-username. This information, and much more, is stored in custom Git variables
-for downstream use. The GitHub username is stored under \code{githug.user}
-and can be configured globally, i.e. at the user level, or locally, i.e. at
-the repo level (the default behavior of \code{githug_init}). To set or modify
-\code{githug.user} manually, use \code{git_config_global(githug.user =
-<YOUR-GITHUB-USERNAME>)} or \code{git_config_local(githug.user =
-<YOUR-GITHUB-USERNAME>)}.}
-}
+(PAT). For advice on how to store your PAT, see \code{\link{gh_pat}()}.}
+\item{GitHub username}{\code{githug_init()} uses your PAT to lookup your
+GitHub username. This information, and much more, is stored in custom Git
+variables for downstream use. The GitHub username is stored under
+\code{githug.user} and can be configured globally, i.e. at the user level, or
+locally, i.e. at the repo level (the default behavior of
+\code{githug_init()}). To set or modify \code{githug.user} manually, use
+\code{git_config_global(githug.user = <YOUR-GITHUB-USERNAME>)} or
+\code{git_config_local(githug.user = <YOUR-GITHUB-USERNAME>)}.} }
 
-At the moment, \code{githug_init} expects to be creating a new GitHub repo,
-though that should change. Currently, the function just stops if it detects
-evidence of a pre-existing remote/GitHub setup. What to do:
+At the moment, \code{githug_init()} is designed only to create a new GitHub
+repo, though that should change. Currently, the function just stops if it
+detects evidence of a pre-existing remote/GitHub setup. What to do:
 
 \itemize{
 \item If the local repo is valuable and the GitHub remote is expendable,
 delete the GitHub repo. For now, do that in the browser. Also delete the
 \code{origin} remote from the local repository, via
 \code{git2r::remote_remove(as_git_repository(), "origin")} in R or \code{git
-remote rm origin} in the shell. And call \code{githug_init} again.
+remote rm origin} in the shell. And call \code{githug_init()} again.
 \item If the GitHub repo is valuable and the local repo is expendable, delete
 local. And use `git clone` or RStudio to clone the GitHub repo.
 \item If both are valuable, \code{githug} can't help you yet.

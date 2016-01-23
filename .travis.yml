@@ -1,39 +1,36 @@
-# copied from https://github.com/hadley/xml2/blob/master/.travis.yml
 language: c
 sudo: false
-
 addons:
   apt:
     sources:
-      - r-packages-precise
+    - r-packages-precise
     packages:
-      - r-base-dev
-      - r-recommended
-      - pandoc
-
+    - r-base-dev
+    - r-recommended
+    - pandoc
 env:
+  matrix:
   - R_LIBS_USER=~/R/library
-
+  global:
+    secure: 2ofPJB0k11cxrmUL9pTgqIj2fDTdG9YlEUFnOwys1Phx3+IT2i23/VDiTcksYPmqEMJAELEzJfowmm4ktBpkas8RHqPMFa+HyaFzP7NRRjTm1bABdFTzNrLveFWpMG0Xwd6FeooEUDuBac450uPeCrX3UYzCTZIUdQ0Etwcea333yWR2Nc1N8vtNW+oo+lI+VCWhJKxri3GdjvHYP4vQY712XjLNNI7zY28sFx2N4++sYzwnt/wNkImbpy+CL9EvoNf6iiozJkFZ3aRwzNzfx8xpZWko0FGadcxRJxHwAZVvCQ4OTzwdNBvcVS7YPbyk+rGI026Ek2vNFG6ZsE7b40XBJlbZ/yBpISv0UQzHzuRm1aT75Hmjb9BPMGtQajHpn9Co3QBbDRmo3iVqO8He/9sj/LRVlrnO0aKHqpeDibgDuEXMs73Re8/e23py1CZv8Fv6QOnNlLGv8BkHwA3+1C0bXeTIr3ZbCHjcYYNNtTCUn6QeN1YGBIE5YHid4///R6wV20LeQV9YRyz36tigZcERnI+48K8mXUpzQeyFf5tNgFldbFf/88LpzfMvX/pqbH+w18F7KrrG/Yuf00UUcUAPg074lWkqX5/ZG97k1D+YQ3RDIN69ZpAQNW3BZCUmiDyS/ZYAs9/WLZyLYdBvZVmWSCw8rz2FDJMvX9g9hhM=
 cache:
-  directories:
-    $R_LIBS_USER
-
+  directories: $R_LIBS_USER
 before_script:
-  - git config --global user.name "githugci"
-  - git config --global user.email "githugci@bryanbc.com"
-  - mkdir -p "$R_LIBS_USER"
-  - Rscript -e 'if (length(find.package("devtools", quiet = TRUE)) == 0L) { install.packages("devtools", repos = "http://cran.rstudio.com") }'
-  - Rscript -e 'library(devtools);update_packages("devtools", repos = "http://cran.rstudio.com")'
-  - Rscript -e 'library(devtools);install_deps(repos = "http://cran.rstudio.com", dependencies = TRUE)'
-
+- git config --global user.name "githugci"
+- git config --global user.email "githugci@bryanbc.com"
+- mkdir -p "$R_LIBS_USER"
+- Rscript -e 'if (length(find.package("devtools", quiet = TRUE)) == 0L) { install.packages("devtools",
+  repos = "http://cran.rstudio.com") }'
+- Rscript -e 'library(devtools);update_packages("devtools", repos = "http://cran.rstudio.com")'
+- Rscript -e 'library(devtools);install_deps(repos = "http://cran.rstudio.com", dependencies
+  = TRUE)'
 script:
-  - Rscript -e 'devtools::check(vignettes = FALSE)'
-
+- Rscript -e 'devtools::check(vignettes = FALSE)'
 notifications:
   email:
     on_success: change
     on_failure: change
-
 after_success:
-  - Rscript -e 'if (length(find.package("covr", quiet = TRUE)) == 0L) { install.packages("covr", repos = "http://cran.rstudio.com") }'
-  - Rscript -e 'covr::codecov()'
+- Rscript -e 'if (length(find.package("covr", quiet = TRUE)) == 0L) { install.packages("covr",
+  repos = "http://cran.rstudio.com") }'
+- Rscript -e 'covr::codecov()'
