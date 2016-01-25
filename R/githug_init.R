@@ -16,15 +16,16 @@
 #' \item{GitHub username}{\code{githug_init()} uses your PAT to lookup your
 #' GitHub username. This information, and much more, is stored in custom Git
 #' variables for downstream use. The GitHub username is stored under
-#' \code{githug.user} and can be configured globally, i.e. at the user level, or
-#' locally, i.e. at the repo level (the default behavior of
-#' \code{githug_init()}). To set or modify \code{githug.user} manually, use
-#' \code{git_config_global(githug.user = <YOUR-GITHUB-USERNAME>)} or
-#' \code{git_config_local(githug.user = <YOUR-GITHUB-USERNAME>)}.} }
+#' \code{githug.username} and can be configured globally, i.e. at the user
+#' level, or locally, i.e. at the repo level (the default and automatic behavior
+#' of \code{githug_init()}). To set or modify \code{githug.username} manually,
+#' use \code{git_config_global(githug.username = <YOUR-GITHUB-USERNAME>)} or
+#' \code{git_config_local(githug.username = <YOUR-GITHUB-USERNAME>)}.} }
 #'
 #' At the moment, \code{githug_init()} is designed only to create a new GitHub
 #' repo, though that should change. Currently, the function just stops if it
-#' detects evidence of a pre-existing remote/GitHub setup. What to do:
+#' detects evidence of a pre-existing remote/GitHub setup. Temporary
+#' workarounds:
 #'
 #' \itemize{
 #' \item If the local repo is valuable and the GitHub remote is expendable,
@@ -130,16 +131,17 @@ githug_init <- function(
   path = ".",
   ...) {
 
-  protocol <- match.arg(protocol)
-  gh_user <- gh_pat_user(pat = pat)
+  gh_username <- gh_username(pat = pat)
+  message("GitHub username: ", gh_username)
 
+  protocol <- match.arg(protocol)
   path <- normalizePath(path, winslash = "/", mustWork = FALSE)
   repo <- git_init(path = path, force = FALSE)
 
-  git_config_local(githug.user = gh_user)
-  message("GitHub username: ", gh_user)
 
   name <- name %||% githug_name(path = repo)
+  git_config_local(githug.user = gh_username, repo = repo)
+
   description <- description %||% "R work of staggering genius"
   message("GitHub repo name: ", name, appendLF = FALSE)
 

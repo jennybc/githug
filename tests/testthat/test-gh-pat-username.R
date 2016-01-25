@@ -49,14 +49,14 @@ test_that("we don't retrieve github PAT when we should not", {
 
 })
 
-test_that("we can get authenticated user from valid PAT", {
+test_that("we can get authenticated username from valid PAT", {
   skip_if_no_internet()
   ## TO PONDER: for tests to work for others, this should be less specific
-  expect_true(gh_pat_user() %in% c("jennybc", "githugci"))
+  expect_true(gh_username() %in% c("jennybc", "githugci"))
 })
 
-test_that("we can't get authenticated user from bad or empty PAT", {
+test_that("we can't get authenticated username from bad or empty PAT", {
   skip_if_no_internet()
-  expect_error(gh_pat_user("nope"), "Bad credentials")
-  expect_error(gh_pat_user(gh_pat("nope")), "Requires authentication")
+  expect_error(gh_username("nope"), "Bad credentials")
+  expect_error(gh_username(gh_pat("nope")), "Requires authentication")
 })

@@ -94,10 +94,10 @@ gh_pat <- function(envvar = c("GITHUB_PAT", "GITHUB_TOKEN")) {
 ## since top-level fxns from gh just want the token, that's what we'll provide
 ## following gh convention re: sending "" (not NULL) when PAT not found
 
-#' Get authenticated user
+#' Get authenticated username
 #'
-#' Get the authenticated user associated with a GitHub personal access token.
-#' Wraps the
+#' Get the authenticated username associated with a GitHub personal access
+#' token. Wraps the
 #' \href{https://developer.github.com/v3/users/#get-the-authenticated-user}{authenticated
 #' user} endpoint of the \href{https://developer.github.com/v3/}{GitHub API}.
 #'
@@ -108,8 +108,8 @@ gh_pat <- function(envvar = c("GITHUB_PAT", "GITHUB_TOKEN")) {
 #' @export
 #'
 #' @examples
-#' gh_pat_user()
-gh_pat_user <- function(pat = gh_pat()) {
+#' gh_username()
+gh_username <- function(pat = gh_pat()) {
   f <- purrr::safely(gh::gh)
   res <- f(endpoint = "/user", .token = pat)
   if (is.null(res$error)) return(res$result$login)
