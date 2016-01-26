@@ -2,7 +2,7 @@ context("githug init")
 
 test_that("githug init works", {
   skip_if_no_internet()
-  tpath <- githug_init(path = tempfile("githug-init-test-"))
+  tpath <- githug_init(path = tmp_repo_path("githug-init"))
   expect_true(dir.exists(tpath))
   expect_true(is_a_repo(tpath))
   expect_true(wd_is_clean(tpath))

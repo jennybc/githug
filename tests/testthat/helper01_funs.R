@@ -1,5 +1,15 @@
-init_tmp_repo <-
-  function(slug = "githug-test-") git_init(tempfile(pattern = slug))
+tmp_repo_path <- function(x = "",
+                          slug = "githug-test",
+                          user = Sys.info()["user"]) {
+  if (x != "") x <- paste0(x, "-")
+  tempfile(paste(slug, user, x, sep = "-"))
+}
+
+init_tmp_repo <- function(x = "",
+                          slug = "githug-test",
+                          user = Sys.info()["user"]) {
+  git_init(tmp_repo_path(x = x, slug = slug, user = user))
+}
 
 read_git_config <- function(path) {
   alt_path <- git2r::discover_repository(path)
