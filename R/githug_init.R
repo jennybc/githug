@@ -153,7 +153,8 @@ githug_init <- function(
   ## based on devtools::use_rstudio()
   if (rstudio && !is_a_rsp(repo)) {
     message("Adding RStudio project file to ", repo)
-    template <- system.file("templates/template.Rproj", package = "githug")
+    template <- system.file("templates/template.Rproj", package = "githug",
+                            mustWork = TRUE)
     rproj <- file.path(repo, paste0(name, ".Rproj"))
     file.copy(template, rproj)
     message("Gitignoring standard R/RStudio files")
