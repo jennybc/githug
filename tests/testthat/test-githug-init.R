@@ -7,6 +7,7 @@ test_that("githug init works", {
   expect_true(is_a_repo(tpath))
   expect_true(wd_is_clean(tpath))
   cat(dir(tpath, all.files = TRUE), sep = "\n")
+  cat(system.file("templates/template.Rproj", package = "githug"), "\n")
   expect_true(is_a_rsp(tpath))
   gcfg_local <- git_config_local(repo = tpath)
   expect_identical(gcfg_local$githug.remotename, "origin")
