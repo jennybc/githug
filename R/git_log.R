@@ -71,9 +71,3 @@ print.git_log <- function(x, ...) {
                    summary = ~ ellipsize(summary, 24)) %>%
     print()
 }
-
-ellipsize <- function(x, n = 20, ellipsis = "\u2026") {
-  ifelse(nchar(x) > n,
-         paste0(substring(x, first = 1, last = n - nchar(ellipsis)), ellipsis),
-         x)
-}

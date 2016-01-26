@@ -11,16 +11,15 @@ githug_README <- function(path = ".", name = NULL, description = NULL) {
   description <- description %||% "R work of staggering genius"
 
   fls <- list.files(path = path, pattern = "^README\\.md$", full.names = TRUE)
-  cat(fls, "\n")
   if (length(fls) > 0) {
     message("Existing README.md found and preserved.")
     return(invisible(normalizePath(fls[1], winslash = "/")))
   }
 
-  rm_path <- file.path(path, "README.md")
+  readme_path <- file.path(path, "README.md")
   message("Creating README.md")
-  writeLines(sprintf("# %s\n\n%s", name, description), rm_path)
+  writeLines(sprintf("# %s\n\n%s", name, description), readme_path)
 
-  invisible(normalizePath(rm_path, winslash = "/"))
+  invisible(normalizePath(readme_path, winslash = "/"))
 }
 

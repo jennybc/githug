@@ -40,6 +40,10 @@ is_in_repo <- function(x, ...) !is.null(as.rpath(x, ..., raise = NULL))
 
 is_a_repo <- function(x) is_in_repo(x, ceiling = 0)
 
+is_a_rsp <- function(x) {
+  length(list.files(x, pattern = ".*\\.Rproj$")) > 0
+}
+
 wd_is_clean <- function(repo = ".") {
   suppressMessages(
     s <- git_status(repo = repo)
@@ -48,3 +52,23 @@ wd_is_clean <- function(repo = ".") {
 }
 
 wd_is_dirty <- function(repo = ".") !wd_is_clean(repo = repo)
+
+ellipsize <- function(x, n = 20, ellipsis = "\u2026") {
+  ifelse(nchar(x) > n,
+         paste0(substring(x, first = 1, last = n - nchar(ellipsis)), ellipsis),
+         x)
+}
+
+## *slightly* modified from devtools (infrastructure.R)
+union_write <- function(path, new_lines) {
+  if (file.exists(path)) {
+    lines <- readLines(path, warn = FALSE)
+  } else {
+    lines <- character()
+  }
+
+  all <- union(lines, new_lines)
+  writeLines(all, path)
+  new_lines
+}
+
