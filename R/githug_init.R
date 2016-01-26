@@ -1,9 +1,10 @@
-#' Connect a local Git repository to a GitHub repository
+#' Make a local directory into a Git repository that tracks a remote
 #'
-#' Take a local project, put it under version control if necessary, create a
-#' companion repository on GitHub, connect them, and, in an interactive session,
-#' visit the new repo in the browser. Inspired by \code{hub create} from the
-#' \href{https://hub.github.com}{hub} command line tool
+#' Take a local project, put it under version control if necessary, optionally
+#' make it an RStudio Project, create a companion repository on GitHub, connect
+#' them, and, if in an interactive session, visit the new repo in the browser.
+#' Inspired by \code{hub create} from the \href{https://hub.github.com}{hub}
+#' command line tool.
 #'
 #' This requires a free GitHub account, which can be registered at
 #' \url{https://github.com}. There is some additional setup that gives
@@ -34,9 +35,8 @@
 #' \code{git2r::remote_remove(as_git_repository(), "origin")} in R or \code{git
 #' remote rm origin} in the shell. And call \code{githug_init()} again.
 #' \item If the GitHub repo is valuable and the local repo is expendable, delete
-#' local. And use `git clone` or RStudio to clone the GitHub repo.
-#' \item If both are valuable, \code{githug} can't help you yet.
-#' }
+#' local. And use `git clone` or RStudio to clone the GitHub repo. \item If both
+#' are valuable, \code{githug} can't help you yet. }
 #'
 #' Credentials. Most people (?) should not need to use \code{cred} unless they
 #' want to. For "https" users, \code{githug_init} uses your PAT to push. For
@@ -68,6 +68,9 @@
 #' @param path Path to the directory where a Git repo should be initialized, if
 #'   not done already, and connected to GitHub, optional. Defaults to working
 #'   directory.
+#' @param rstudio Logical indicating whether to ensure repo directory is also an
+#'   \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio
+#'    Project}
 #' @param ... Other parameters passed to the GitHub API when creating the new
 #'   repository, optional. Read more at
 #'   \url{https://developer.github.com/v3/repos/#create}. For example, by
@@ -79,8 +82,11 @@
 #' @examples
 #' \dontrun{
 #' ## Example 1:
-#' ## create a directory and local repo and remote repo, all at once
+
+#' ## create a directory and local repo and RStudio project and remote repo, all
+#' at once
 #' ## TO DO: remove private = TRUE maybe
+#'
 #' githug_init(path = tempfile("init-test-"), private = TRUE)
 #' }
 #'
@@ -124,11 +130,12 @@
 #' setwd(owd)
 #' }
 githug_init <- function(
+  path = ".",
   name = NULL,
   description = NULL,
   remote_name = "origin",
   protocol = c("https", "ssh"), cred = NULL, pat = gh_pat(),
-  path = ".",
+  rstudio = TRUE,
   ...) {
 
   gh_username <- gh_username(pat = pat)
@@ -136,18 +143,37 @@ githug_init <- function(
 
   protocol <- match.arg(protocol)
   path <- normalizePath(path, winslash = "/", mustWork = FALSE)
-  repo <- git_init(path = path, force = FALSE)
 
+  repo <- git_init(path = path, force = FALSE)
+  if (wd_is_dirty(repo = repo)) git_COMMIT("init", repo = repo)
 
   name <- name %||% githug_name(path = repo)
+  message("Name of dir / RStudio Project / GitHub repo: ", name)
+
+  ## based on devtools::use_rstudio()
+  if (rstudio && !is_a_rsp(repo)) {
+    message("Adding RStudio project file to ", repo)
+    template <- system.file("templates/template.Rproj", package = "githug")
+    rproj <- file.path(repo, paste0(name, ".Rproj"))
+    file.copy(template, rproj)
+    message("Gitignoring standard R/RStudio files")
+    ## .Rhistory and .RData are not specific to RStudio; is this logical?
+    gitignore <- git_ignore(c(".Rproj.user", ".Rhistory", ".RData"), repo)
+    git_add(c(gitignore, rproj), repo = repo)
+    git_commit("rstudio init", repo = repo)
+  }
+
+  message("Storing GitHub username '", gh_username, "' to local git config var")
   git_config_local(githug.user = gh_username, repo = repo)
 
   description <- description %||% "R work of staggering genius"
-  message("GitHub repo name: ", name, appendLF = FALSE)
 
-  githug_README(path = repo, name = name, description = description)
-  if (wd_is_dirty(repo = repo))
-    git_COMMIT("add README.md", repo = repo)
+  readme_path <-
+    githug_README(path = repo, name = name, description = description)
+
+  if (wd_is_dirty(repo)) {
+    git_add(readme_path, repo = repo)
+    git_commit("add README.md", repo = repo)
   }
 
   ## TO DO: move into a function that creates a df about remotes
@@ -163,9 +189,7 @@ githug_init <- function(
          "remote. Read the help for advice in the meantime.", call. = FALSE)
   }
 
-  user_repos <-
-    gh::gh("/user/repos", username = gh_user, affiliation = "owner",
-           .limit = Inf)
+  user_repos <- repo_list_pat(pat = pat, affiliation = "owner")
   user_repo_names <- purrr::map_chr(user_repos, "name")
   if (name %in% user_repo_names) {
     stop("You already own a repository named '", name, "'.\n",
@@ -173,9 +197,14 @@ githug_init <- function(
   }
 
   ## this should be a separate function
-  ret <- gh::gh("POST /user/repos", name = name, description = description, ...)
+  message("Creating GitHub repo:\n",
+          "  name = ", name, "\n",
+          "  description = ", ellipsize(description), "\n")
+  ret <- gh::gh("POST /user/repos", name = name, description = description,
+                .token = pat, ...)
 
   ## extract info to stow in local githug custom git vars
+  message("Storing GitHub repo info to local git config")
   githug_config <- get("githug_config", envir = .githug)
   githug_config_vars <- stats::setNames(ret[githug_config], githug_config)
   githug_config_vars$protocol <- protocol
@@ -187,7 +216,7 @@ githug_init <- function(
     names(githug_config_vars) %>%
     gsub("_", "", .) %>%
     paste("githug", . , sep = ".")
-  git_config_local(githug_config_vars, repo = path)
+  git_config_local(githug_config_vars, repo = repo)
 
   ## NOTE: custom git var names now prefixed with 'githug.' and underscores are
   ## gone!
@@ -198,7 +227,7 @@ githug_init <- function(
                     name = githug_config_vars$githug.remotename,
                     url = push_url)
   message("Adding remote named '", githug_config_vars$githug.remotename,
-          "':\n", push_url)
+          "':\n  ", push_url)
 
   if (protocol == "https") {
     ## do people really need to know this?
@@ -223,6 +252,6 @@ githug_init <- function(
   if (interactive())
     browseURL(githug_config_vars$githug.htmlurl)
 
-  invisible(path)
+  invisible(repo)
 
 }
