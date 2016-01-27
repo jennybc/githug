@@ -1,7 +1,7 @@
 make-me-a-new-github-repo.R
 ================
 jenny
-Sat Jan 23 00:03:31 2016
+Wed Jan 27 14:54:30 2016
 
 ``` r
 library(githug)
@@ -13,24 +13,50 @@ library(githug)
 githug_init(path = tempfile("init-test-"), private = TRUE)
 ```
 
-    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpDN6nJf/init-test-177df786e8ef3
-
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpDN6nJf/init-test-177df786e8ef3
-
     ## GitHub personal access token found in env var GITHUB_PAT
 
     ## GitHub username: jennybc
 
-    ## GitHub repo name: init-test-177df786e8ef3
+    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//Rtmpe9xySH/init-test-c31d18522c58
+
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//Rtmpe9xySH/init-test-c31d18522c58
+
+    ## Name of dir / RStudio Project / GitHub repo: init-test-c31d18522c58
+
+    ## Adding RStudio project file to /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpe9xySH/init-test-c31d18522c58
+
+    ## Gitignoring standard R/RStudio files
+
+    ## Creating .gitignore
+
+    ## Adding this to .gitignore:
+
+    ##    .Rproj.user
+    ##    .Rhistory
+    ##    .RData
+
+    ## Committing ...
+
+    ## [e177e21] 2016-01-27: rstudio init
+
+    ## Storing GitHub username 'jennybc' to local git config var
 
     ## Creating README.md
 
     ## Committing ...
 
-    ## [fe7b5d9] 2016-01-23: add README.md
+    ## [8a5d887] 2016-01-27: add README.md
+
+    ## Listing repos accessible to GitHub user associated with 'pat'
+
+    ## Creating GitHub repo:
+    ##   name = init-test-c31d18522c58
+    ##   description = R work of staggerin…
+
+    ## Storing GitHub repo info to local git config
 
     ## Adding remote named 'origin':
-    ## https://github.com/jennybc/init-test-177df786e8ef3.git
+    ##   https://github.com/jennybc/init-test-c31d18522c58.git
 
     ## Pushing to GitHub and setting remote tracking branch
 
@@ -41,9 +67,9 @@ githug_init(path = tempfile("init-test-"), private = TRUE)
 repo <- git_init(tempfile("githug-init-example-"))
 ```
 
-    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpDN6nJf/githug-init-example-177df226b314a
+    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//Rtmpe9xySH/githug-init-example-c31d3add51e1
 
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpDN6nJf/githug-init-example-177df226b314a
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//Rtmpe9xySH/githug-init-example-c31d3add51e1
 
 ``` r
 ## switch working directory to the repo
@@ -65,7 +91,7 @@ git_COMMIT("thelma is awake")
 
     ## Committing ...
 
-    ## [3e168b2] 2016-01-23: thelma is awake
+    ## [5bd4e81] 2016-01-27: thelma is awake
 
 ``` r
 git_log()
@@ -75,7 +101,7 @@ git_log()
     ## 
     ##           message             when author     sha              email
     ##             (chr)            (chr)  (chr)   (chr)              (chr)
-    ## 1 thelma is awake 2016-01-23 00:03 thelma 3e168b2 thelma@example.org
+    ## 1 thelma is awake 2016-01-27 14:54 thelma 5bd4e81 thelma@example.org
     ## Variables not shown: summary (chr), commit (list).
 
 ``` r
@@ -83,25 +109,51 @@ git_log()
 githug_init(private = TRUE)
 ```
 
-    ## 'path' appears to already be a Git repo:
-    ## /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpDN6nJf/githug-init-example-177df226b314a
-
-    ## Doing `git init` in /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpDN6nJf/githug-init-example-177df226b314a
-
     ## GitHub personal access token found in env var GITHUB_PAT
 
     ## GitHub username: jennybc
 
-    ## GitHub repo name: githug-init-example-177df226b314a
+    ## 'path' appears to already be a Git repo:
+    ## /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpe9xySH/githug-init-example-c31d3add51e1
+
+    ## Doing `git init` in /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpe9xySH/githug-init-example-c31d3add51e1
+
+    ## Name of dir / RStudio Project / GitHub repo: githug-init-example-c31d3add51e1
+
+    ## Adding RStudio project file to /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpe9xySH/githug-init-example-c31d3add51e1
+
+    ## Gitignoring standard R/RStudio files
+
+    ## Creating .gitignore
+
+    ## Adding this to .gitignore:
+
+    ##    .Rproj.user
+    ##    .Rhistory
+    ##    .RData
+
+    ## Committing ...
+
+    ## [54f6c7a] 2016-01-27: rstudio init
+
+    ## Storing GitHub username 'jennybc' to local git config var
 
     ## Creating README.md
 
     ## Committing ...
 
-    ## [b1a3e16] 2016-01-23: add README.md
+    ## [a5cee70] 2016-01-27: add README.md
+
+    ## Listing repos accessible to GitHub user associated with 'pat'
+
+    ## Creating GitHub repo:
+    ##   name = githug-init-example-c31d3add51e1
+    ##   description = R work of staggerin…
+
+    ## Storing GitHub repo info to local git config
 
     ## Adding remote named 'origin':
-    ## https://github.com/jennybc/githug-init-example-177df226b314a.git
+    ##   https://github.com/jennybc/githug-init-example-c31d3add51e1.git
 
     ## Pushing to GitHub and setting remote tracking branch
 
@@ -117,14 +169,14 @@ git2r::remotes()
 git2r::remote_url(as_git_repository())
 ```
 
-    ## [1] "https://github.com/jennybc/githug-init-example-177df226b314a.git"
+    ## [1] "https://github.com/jennybc/githug-init-example-c31d3add51e1.git"
 
 ``` r
 ## see that local master is tracking remote master
 git2r::branch_get_upstream(git_HEAD()$git_branch)
 ```
 
-    ## [b1a3e1] (origin @ https://github.com/jennybc/githug-init-example-177df226b314a.git) master
+    ## [a5cee7] (origin @ https://github.com/jennybc/githug-init-example-c31d3add51e1.git) master
 
 ``` r
 setwd(owd)
@@ -137,22 +189,48 @@ owd <- setwd(repo)
 githug_init(private = TRUE)
 ```
 
-    ## Doing `git init` in /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpDN6nJf/githug-init-example-177df2b7102ed
-
     ## GitHub personal access token found in env var GITHUB_PAT
 
     ## GitHub username: jennybc
 
-    ## GitHub repo name: githug-init-example-177df2b7102ed
+    ## Doing `git init` in /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpe9xySH/githug-init-example-c31d182aa8f8
+
+    ## Name of dir / RStudio Project / GitHub repo: githug-init-example-c31d182aa8f8
+
+    ## Adding RStudio project file to /private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpe9xySH/githug-init-example-c31d182aa8f8
+
+    ## Gitignoring standard R/RStudio files
+
+    ## Creating .gitignore
+
+    ## Adding this to .gitignore:
+
+    ##    .Rproj.user
+    ##    .Rhistory
+    ##    .RData
+
+    ## Committing ...
+
+    ## [17ab4b3] 2016-01-27: rstudio init
+
+    ## Storing GitHub username 'jennybc' to local git config var
 
     ## Creating README.md
 
     ## Committing ...
 
-    ## [56c7bf8] 2016-01-23: add README.md
+    ## [564c402] 2016-01-27: add README.md
+
+    ## Listing repos accessible to GitHub user associated with 'pat'
+
+    ## Creating GitHub repo:
+    ##   name = githug-init-example-c31d182aa8f8
+    ##   description = R work of staggerin…
+
+    ## Storing GitHub repo info to local git config
 
     ## Adding remote named 'origin':
-    ## https://github.com/jennybc/githug-init-example-177df2b7102ed.git
+    ##   https://github.com/jennybc/githug-init-example-c31d182aa8f8.git
 
     ## Pushing to GitHub and setting remote tracking branch
 

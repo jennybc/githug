@@ -30,7 +30,8 @@ directory. When setting, if \code{where} is unspecified, the local
 configuration is modified.}
 }
 \value{
-A named list of Git configuration variables.
+A named list of Git configuration variables, with class
+  \code{githug_list} for pretty-printing purposes.
 }
 \description{
 \code{git_config} and convenience wrappers \code{git_config_global} and

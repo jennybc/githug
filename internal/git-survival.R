@@ -1,13 +1,11 @@
 #' ---
-#' output:
-#'   md_document:
-#'     variant: markdown_github
+#' output: github_document
 #' ---
 
 #' ### demo of functions for basic git survival
 
 library(githug)
-library(dplyr)
+suppressPackageStartupMessages(library(dplyr))
 
 #' #### git config
 

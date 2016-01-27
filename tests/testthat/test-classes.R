@@ -1,4 +1,4 @@
-context("rpath class")
+context("rpath and githug_list classes")
 
 test_that("rpath doesn't accept garbage input", {
   expect_error(rpath(letters[1:2]))
@@ -53,4 +53,22 @@ test_that("as.rpath works on a git_repository", {
   tpath <- init_tmp_repo()
   expect_identical(tpath, as.rpath(git2r::repository(tpath, discover = TRUE)))
 
+})
+
+test_that("git_config returns objects of class githug_list", {
+  ## querying
+  cfg <-  git_config()
+  expect_is(cfg, "githug_list")
+  ## setting
+  tr <- init_tmp_repo()
+  cfg_0 <- git_config_local(list(`blah.foo` = "a"), repo = tr)
+  expect_is(cfg_0, "githug_list")
+  cfg_1 <- git_config_local(list(`blah.foo` = "b"), repo = tr)
+  expect_is(cfg_1, "githug_list")
+})
+
+test_that("objects of class githug_list retain class after `[`", {
+  cfg <-  git_config()
+  expect_is(cfg[1:2], "githug_list")
+  expect_is(cfg[1], "githug_list")
 })

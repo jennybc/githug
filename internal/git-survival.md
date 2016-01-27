@@ -1,20 +1,14 @@
+git-survival.R
+================
+jenny
+Wed Jan 27 14:04:50 2016
+
 ### demo of functions for basic git survival
 
 ``` r
 library(githug)
-library(dplyr)
+suppressPackageStartupMessages(library(dplyr))
 ```
-
-    ## 
-    ## Attaching package: 'dplyr'
-    ## 
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-    ## 
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
 
 #### git config
 
@@ -24,130 +18,71 @@ see git config currently in effect, based on working directory
 git_config()         # local > global, same as git_config(where = "de_facto")
 ```
 
-    ## $core.excludesfile
-    ## [1] "/Users/jenny/.gitignore_global"
-    ## 
-    ## $credential.helper
-    ## [1] "osxkeychain"
-    ## 
-    ## $difftool.sourcetree.cmd
-    ## [1] "opendiff \"$LOCAL\" \"$REMOTE\""
-    ## 
-    ## $difftool.sourcetree.path
-    ## [1] ""
-    ## 
-    ## $mergetool.sourcetree.cmd
-    ## [1] "/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\""
-    ## 
-    ## $mergetool.sourcetree.trustexitcode
-    ## [1] "true"
-    ## 
-    ## $user.email
-    ## [1] "jenny@stat.ubc.ca"
-    ## 
-    ## $user.name
-    ## [1] "jennybc"
-    ## 
-    ## $branch.master.merge
-    ## [1] "refs/heads/master"
-    ## 
-    ## $branch.master.remote
-    ## [1] "origin"
-    ## 
-    ## $core.bare
-    ## [1] "false"
-    ## 
-    ## $core.filemode
-    ## [1] "true"
-    ## 
-    ## $core.ignorecase
-    ## [1] "true"
-    ## 
-    ## $core.logallrefupdates
-    ## [1] "true"
-    ## 
-    ## $core.precomposeunicode
-    ## [1] "true"
-    ## 
-    ## $core.repositoryformatversion
-    ## [1] "0"
-    ## 
-    ## $githug.user
-    ## [1] "jennybc"
-    ## 
-    ## $remote.origin.fetch
-    ## [1] "+refs/heads/*:refs/remotes/origin/*"
-    ## 
-    ## $remote.origin.url
-    ## [1] "https://github.com/jennybc/githug.git"
+    ## {
+    ##   "core.excludesfile": "/Users/jenny/.gitignore_global",
+    ##   "credential.helper": "osxkeychain",
+    ##   "difftool.sourcetree.cmd": "opendiff \"$LOCAL\" \"$REMOTE\"",
+    ##   "difftool.sourcetree.path": "",
+    ##   "mergetool.sourcetree.cmd": "/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"",
+    ##   "mergetool.sourcetree.trustexitcode": "true",
+    ##   "user.email": "jenny@stat.ubc.ca",
+    ##   "user.name": "jennybc",
+    ##   "branch.attempt-vignette-fix.merge": "refs/heads/attempt-vignette-fix",
+    ##   "branch.attempt-vignette-fix.remote": "origin",
+    ##   "branch.master.merge": "refs/heads/master",
+    ##   "branch.master.remote": "origin",
+    ##   "branch.rsp-travis-debug.merge": "refs/heads/rsp-travis-debug",
+    ##   "branch.rsp-travis-debug.remote": "origin",
+    ##   "core.bare": "false",
+    ##   "core.filemode": "true",
+    ##   "core.ignorecase": "true",
+    ##   "core.logallrefupdates": "true",
+    ##   "core.precomposeunicode": "true",
+    ##   "core.repositoryformatversion": "0",
+    ##   "githug.user": "jennybc",
+    ##   "remote.origin.fetch": "+refs/heads/*:refs/remotes/origin/*",
+    ##   "remote.origin.url": "https://github.com/jennybc/githug.git",
+    ##   "travis.slug": "jennybc/githug"
+    ## }
 
 ``` r
 git_config_local()   #                 same as git_config(where = "local")
 ```
 
-    ## $branch.master.merge
-    ## [1] "refs/heads/master"
-    ## 
-    ## $branch.master.remote
-    ## [1] "origin"
-    ## 
-    ## $core.bare
-    ## [1] "false"
-    ## 
-    ## $core.filemode
-    ## [1] "true"
-    ## 
-    ## $core.ignorecase
-    ## [1] "true"
-    ## 
-    ## $core.logallrefupdates
-    ## [1] "true"
-    ## 
-    ## $core.precomposeunicode
-    ## [1] "true"
-    ## 
-    ## $core.repositoryformatversion
-    ## [1] "0"
-    ## 
-    ## $githug.user
-    ## [1] "jennybc"
-    ## 
-    ## $remote.origin.fetch
-    ## [1] "+refs/heads/*:refs/remotes/origin/*"
-    ## 
-    ## $remote.origin.url
-    ## [1] "https://github.com/jennybc/githug.git"
-    ## 
-    ## $user.name
-    ## [1] "jennybc"
+    ## {
+    ##   "branch.attempt-vignette-fix.merge": "refs/heads/attempt-vignette-fix",
+    ##   "branch.attempt-vignette-fix.remote": "origin",
+    ##   "branch.master.merge": "refs/heads/master",
+    ##   "branch.master.remote": "origin",
+    ##   "branch.rsp-travis-debug.merge": "refs/heads/rsp-travis-debug",
+    ##   "branch.rsp-travis-debug.remote": "origin",
+    ##   "core.bare": "false",
+    ##   "core.filemode": "true",
+    ##   "core.ignorecase": "true",
+    ##   "core.logallrefupdates": "true",
+    ##   "core.precomposeunicode": "true",
+    ##   "core.repositoryformatversion": "0",
+    ##   "githug.user": "jennybc",
+    ##   "remote.origin.fetch": "+refs/heads/*:refs/remotes/origin/*",
+    ##   "remote.origin.url": "https://github.com/jennybc/githug.git",
+    ##   "travis.slug": "jennybc/githug",
+    ##   "user.name": "jennybc"
+    ## }
 
 ``` r
 git_config_global()  #                 same as git-config(where = "global")
 ```
 
-    ## $core.excludesfile
-    ## [1] "/Users/jenny/.gitignore_global"
-    ## 
-    ## $credential.helper
-    ## [1] "osxkeychain"
-    ## 
-    ## $difftool.sourcetree.cmd
-    ## [1] "opendiff \"$LOCAL\" \"$REMOTE\""
-    ## 
-    ## $difftool.sourcetree.path
-    ## [1] ""
-    ## 
-    ## $mergetool.sourcetree.cmd
-    ## [1] "/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\""
-    ## 
-    ## $mergetool.sourcetree.trustexitcode
-    ## [1] "true"
-    ## 
-    ## $user.email
-    ## [1] "jenny@stat.ubc.ca"
-    ## 
-    ## $user.name
-    ## [1] "jennybc"
+    ## {
+    ##   "core.excludesfile": "/Users/jenny/.gitignore_global",
+    ##   "credential.helper": "osxkeychain",
+    ##   "difftool.sourcetree.cmd": "opendiff \"$LOCAL\" \"$REMOTE\"",
+    ##   "difftool.sourcetree.path": "",
+    ##   "mergetool.sourcetree.cmd": "/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"",
+    ##   "mergetool.sourcetree.trustexitcode": "true",
+    ##   "user.email": "jenny@stat.ubc.ca",
+    ##   "user.name": "jennybc"
+    ## }
 
 set, query, restore global config
 
@@ -156,21 +91,19 @@ set, query, restore global config
    git_config_global(user.name = "thelma", user.email = "thelma@example.org"))
 ```
 
-    ## $user.name
-    ## [1] "jennybc"
-    ## 
-    ## $user.email
-    ## [1] "jenny@stat.ubc.ca"
+    ## {
+    ##   "user.name": "jennybc",
+    ##   "user.email": "jenny@stat.ubc.ca"
+    ## }
 
 ``` r
 git_config_global("user.name", "user.email")
 ```
 
-    ## $user.name
-    ## [1] "thelma"
-    ## 
-    ## $user.email
-    ## [1] "thelma@example.org"
+    ## {
+    ##   "user.name": "thelma",
+    ##   "user.email": "thelma@example.org"
+    ## }
 
 ``` r
 ## complete the round trip
@@ -178,11 +111,10 @@ git_config_global(ocfg)
 git_config_global("user.name", "user.email")
 ```
 
-    ## $user.name
-    ## [1] "jennybc"
-    ## 
-    ## $user.email
-    ## [1] "jenny@stat.ubc.ca"
+    ## {
+    ##   "user.name": "jennybc",
+    ##   "user.email": "jenny@stat.ubc.ca"
+    ## }
 
 a whole bunch of adding, commiting, ADDING, and COMMITTING
 
@@ -191,8 +123,9 @@ a whole bunch of adding, commiting, ADDING, and COMMITTING
 repo <- git_init(tempfile("githug-commits-"))
 ```
 
-    ## Creating directory  /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/githug-commits-17c3051a51c1a
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/githug-commits-17c3051a51c1a
+    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpYomHpM/githug-commits-c2a269238705
+
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpYomHpM/githug-commits-c2a269238705
 
 ``` r
 owd <- setwd(repo)
@@ -211,7 +144,8 @@ git_commit("Brains'll only get you so far and luck always runs out.")
 ```
 
     ## Committing ...
-    ## [a13de74] 2016-01-16: Brains'll only get you so far and luck always runs out.
+
+    ## [4f9ed24] 2016-01-27: Brains'll only get you so far and luck always runs out.
 
 ``` r
 git_status()
@@ -231,8 +165,9 @@ setwd(owd)
 repo <- git_init(tempfile("GITHUG-SHOUTING-"))
 ```
 
-    ## Creating directory  /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/GITHUG-SHOUTING-17c306d46a1a0
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/GITHUG-SHOUTING-17c306d46a1a0
+    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpYomHpM/GITHUG-SHOUTING-c2a2430ba665
+
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpYomHpM/GITHUG-SHOUTING-c2a2430ba665
 
 ``` r
 owd <- setwd(repo)
@@ -263,7 +198,8 @@ git_commit("initial")
 ```
 
     ## Committing ...
-    ## [be4f722] 2016-01-16: initial
+
+    ## [7db28c9] 2016-01-27: initial
 
 ``` r
 write("OK", "change-me", append = TRUE)
@@ -330,8 +266,10 @@ git_COMMIT("JUST DO IT.")
     ## change-me
     ## delete-me
     ## add-me
+
     ## Committing ...
-    ## [8b24066] 2016-01-16: JUST DO IT.
+
+    ## [aacdb22] 2016-01-27: JUST DO IT.
 
 ``` r
 git_status()
@@ -351,21 +289,22 @@ all the branch things -----------------------
 repo <- git_init(tempfile("githug-branches-"))
 ```
 
-    ## Creating directory  /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/githug-branches-17c30a3c203c
-    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpMQpVJX/githug-branches-17c30a3c203c
+    ## Creating directory /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpYomHpM/githug-branches-c2a232ea323b
+
+    ## Doing `git init` in /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpYomHpM/githug-branches-c2a232ea323b
 
 ``` r
 repo
 ```
 
-    ## [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpMQpVJX/githug-branches-17c30a3c203c"
+    ## [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpYomHpM/githug-branches-c2a232ea323b"
 
 ``` r
 owd <- setwd(repo)
 getwd()
 ```
 
-    ## [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpMQpVJX/githug-branches-17c30a3c203c"
+    ## [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpYomHpM/githug-branches-c2a232ea323b"
 
 ``` r
 ## **NOTE TO SELF:** I have no idea why this setwd() does not take effect. WTF?
@@ -390,18 +329,20 @@ git_COMMIT('1: not in the middle of nowhere', repo = repo)
 
     ## Adding files:
     ## nowhere.txt
+
     ## Committing ...
-    ## [601c6e9] 2016-01-16: 1: not in the middle of nowhere
+
+    ## [03593fb] 2016-01-27: 1: not in the middle of nowhere
 
 ``` r
 git_branch_list(repo = repo)
 ```
 
-    ## Source: local data frame [1 x 3]
+    ## Source: local data frame [1 x 4]
     ## 
-    ##     name  type      git_branch
-    ##    (chr) (chr)          (list)
-    ## 1 master local <S4:git_branch>
+    ##     name  curr  type      git_branch
+    ##    (chr) (chr) (chr)          (list)
+    ## 1 master  <--  local <S4:git_branch>
 
 ``` r
 git_branch_list(tips = TRUE, repo = repo)
@@ -409,13 +350,13 @@ git_branch_list(tips = TRUE, repo = repo)
 
     ## Joining by: "sha"
 
-    ## Source: local data frame [1 x 10]
+    ## Source: local data frame [1 x 11]
     ## 
-    ##     name  type     sha                  message             when  author
-    ##    (chr) (chr)   (chr)                    (chr)            (chr)   (chr)
-    ## 1 master local 601c6e9 1: not in the middle of… 2016-01-16 08:48 jennybc
-    ## Variables not shown: email (chr), summary (chr), commit (list), git_branch
-    ##   (list).
+    ##     name  curr  type     sha                  message             when
+    ##    (chr) (chr) (chr)   (chr)                    (chr)            (chr)
+    ## 1 master  <--  local 03593fb 1: not in the middle of… 2016-01-27 14:04
+    ## Variables not shown: author (chr), email (chr), summary (chr), commit
+    ##   (list), git_branch (list).
 
 create new branch that points at HEAD
 
@@ -424,19 +365,20 @@ git_branch_create("earlybranch", repo = repo)
 ```
 
     ## Basing new branch on:
-    ##   [601c6e] (Local) (HEAD) master
+    ##   [03593f] (Local) (HEAD) master
+
     ## Creating branch earlybranch
 
 ``` r
 git_branch_list(repo = repo)
 ```
 
-    ## Source: local data frame [2 x 3]
+    ## Source: local data frame [2 x 4]
     ## 
-    ##          name  type      git_branch
-    ##         (chr) (chr)          (list)
-    ## 1 earlybranch local <S4:git_branch>
-    ## 2      master local <S4:git_branch>
+    ##          name  curr  type      git_branch
+    ##         (chr) (chr) (chr)          (list)
+    ## 1 earlybranch       local <S4:git_branch>
+    ## 2      master  <--  local <S4:git_branch>
 
 another commit
 
@@ -448,8 +390,10 @@ git_COMMIT('2: but we can see it from here', repo = repo)
 
     ## Adding files:
     ## nowhere.txt
+
     ## Committing ...
-    ## [5a604b6] 2016-01-16: 2: but we can see it from here
+
+    ## [4a7b7ab] 2016-01-27: 2: but we can see it from here
 
 create new branch that points at *first commit*, not HEAD
 
@@ -461,8 +405,8 @@ create new branch that points at *first commit*, not HEAD
     ## 
     ##                    message             when  author     sha
     ##                      (chr)            (chr)   (chr)   (chr)
-    ## 1 2: but we can see it fr… 2016-01-16 08:48 jennybc 5a604b6
-    ## 2 1: not in the middle of… 2016-01-16 08:48 jennybc 601c6e9
+    ## 1 2: but we can see it fr… 2016-01-27 14:04 jennybc 4a7b7ab
+    ## 2 1: not in the middle of… 2016-01-27 14:04 jennybc 03593fb
     ## Variables not shown: email (chr), summary (chr), commit (list).
 
 ``` r
@@ -470,20 +414,21 @@ git_branch_create("hindsight", commit  = gl$commit[[2]], repo = repo)
 ```
 
     ## Basing new branch on:
-    ##   [601c6e9] 2016-01-16: 1: not in the middle of nowhere
+    ##   [03593fb] 2016-01-27: 1: not in the middle of nowhere
+
     ## Creating branch hindsight
 
 ``` r
 git_branch_list(repo = repo)
 ```
 
-    ## Source: local data frame [3 x 3]
+    ## Source: local data frame [3 x 4]
     ## 
-    ##          name  type      git_branch
-    ##         (chr) (chr)          (list)
-    ## 1 earlybranch local <S4:git_branch>
-    ## 2   hindsight local <S4:git_branch>
-    ## 3      master local <S4:git_branch>
+    ##          name  curr  type      git_branch
+    ##         (chr) (chr) (chr)          (list)
+    ## 1 earlybranch       local <S4:git_branch>
+    ## 2   hindsight       local <S4:git_branch>
+    ## 3      master  <--  local <S4:git_branch>
 
 ``` r
 git_branch_list(tips = TRUE, repo = repo)
@@ -491,15 +436,15 @@ git_branch_list(tips = TRUE, repo = repo)
 
     ## Joining by: "sha"
 
-    ## Source: local data frame [3 x 10]
+    ## Source: local data frame [3 x 11]
     ## 
-    ##          name  type     sha                  message             when
-    ##         (chr) (chr)   (chr)                    (chr)            (chr)
-    ## 1 earlybranch local 601c6e9 1: not in the middle of… 2016-01-16 08:48
-    ## 2   hindsight local 601c6e9 1: not in the middle of… 2016-01-16 08:48
-    ## 3      master local 5a604b6 2: but we can see it fr… 2016-01-16 08:48
-    ## Variables not shown: author (chr), email (chr), summary (chr), commit
-    ##   (list), git_branch (list).
+    ##          name  curr  type     sha                  message
+    ##         (chr) (chr) (chr)   (chr)                    (chr)
+    ## 1 earlybranch       local 03593fb 1: not in the middle of…
+    ## 2   hindsight       local 03593fb 1: not in the middle of…
+    ## 3      master  <--  local 4a7b7ab 2: but we can see it fr…
+    ## Variables not shown: when (chr), author (chr), email (chr), summary (chr),
+    ##   commit (list), git_branch (list).
 
 try to re-create an existing branch and fail
 
@@ -508,7 +453,7 @@ git_branch_create("hindsight", repo = repo)
 ```
 
     ## Basing new branch on:
-    ##   [5a604b] (Local) (HEAD) master
+    ##   [4a7b7a] (Local) (HEAD) master
 
     ## Error in (structure(function (commit, name, force = FALSE) : Error in 'git2r_branch_create': Failed to write reference 'refs/heads/hindsight': a reference with that name already exists.
 
@@ -519,7 +464,8 @@ git_branch_create("hindsight", force = TRUE, repo = repo)
 ```
 
     ## Basing new branch on:
-    ##   [5a604b] (Local) (HEAD) master
+    ##   [4a7b7a] (Local) (HEAD) master
+
     ## Creating branch hindsight
 
 ``` r
@@ -528,15 +474,15 @@ git_branch_list(tips = TRUE, repo = repo)
 
     ## Joining by: "sha"
 
-    ## Source: local data frame [3 x 10]
+    ## Source: local data frame [3 x 11]
     ## 
-    ##          name  type     sha                  message             when
-    ##         (chr) (chr)   (chr)                    (chr)            (chr)
-    ## 1 earlybranch local 601c6e9 1: not in the middle of… 2016-01-16 08:48
-    ## 2   hindsight local 5a604b6 2: but we can see it fr… 2016-01-16 08:48
-    ## 3      master local 5a604b6 2: but we can see it fr… 2016-01-16 08:48
-    ## Variables not shown: author (chr), email (chr), summary (chr), commit
-    ##   (list), git_branch (list).
+    ##          name  curr  type     sha                  message
+    ##         (chr) (chr) (chr)   (chr)                    (chr)
+    ## 1 earlybranch       local 03593fb 1: not in the middle of…
+    ## 2   hindsight       local 4a7b7ab 2: but we can see it fr…
+    ## 3      master  <--  local 4a7b7ab 2: but we can see it fr…
+    ## Variables not shown: when (chr), author (chr), email (chr), summary (chr),
+    ##   commit (list), git_branch (list).
 
 checkout an existing branch
 
@@ -558,7 +504,7 @@ git_HEAD(repo = repo)
 
     ## On branch earlybranch.
     ## Most recent commit:
-    ## [601c6e9] 2016-01-16: 1: not in the middle of nowhere
+    ## [03593fb] 2016-01-27: 1: not in the middle of nowhere
 
 checkout master
 
@@ -574,7 +520,7 @@ git_HEAD(repo = repo)
 
     ## On branch master.
     ## Most recent commit:
-    ## [5a604b6] 2016-01-16: 2: but we can see it from here
+    ## [4a7b7ab] 2016-01-27: 2: but we can see it from here
 
 checkout AND CREATE all at once
 
@@ -590,7 +536,7 @@ git_HEAD(repo = repo)
 
     ## On branch IMMEDIATE-GRATIFICATION.
     ## Most recent commit:
-    ## [5a604b6] 2016-01-16: 2: but we can see it from here
+    ## [4a7b7ab] 2016-01-27: 2: but we can see it from here
 
 delete a branch
 
@@ -604,13 +550,13 @@ git_branch_delete("earlybranch", repo = repo)
 git_branch_list(repo = repo)
 ```
 
-    ## Source: local data frame [3 x 3]
+    ## Source: local data frame [3 x 4]
     ## 
-    ##                      name  type      git_branch
-    ##                     (chr) (chr)          (list)
-    ## 1               hindsight local <S4:git_branch>
-    ## 2 IMMEDIATE-GRATIFICATION local <S4:git_branch>
-    ## 3                  master local <S4:git_branch>
+    ##                      name  curr  type      git_branch
+    ##                     (chr) (chr) (chr)          (list)
+    ## 1               hindsight       local <S4:git_branch>
+    ## 2 IMMEDIATE-GRATIFICATION  <--  local <S4:git_branch>
+    ## 3                  master       local <S4:git_branch>
 
 ``` r
 setwd(owd)

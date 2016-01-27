@@ -37,7 +37,8 @@
 #'   directory. When setting, if \code{where} is unspecified, the local
 #'   configuration is modified.
 #'
-#' @return A named list of Git configuration variables.
+#' @return A named list of Git configuration variables, with class
+#'   \code{githug_list} for pretty-printing purposes.
 #' @export
 #'
 #' @references
@@ -111,7 +112,9 @@ git_config <- function(..., repo = ".",
     ocfg <- cfg[[where]]
     cargs <- c(repo = repo, global = where == "global", ddd)
     ncfg <- do.call(git2r::config, cargs)
-    return(invisible(screen(ocfg, names(ddd))))
+    return(invisible(
+      structure(screen(ocfg, names(ddd)), class = c("githug_list", "list"))
+    ))
   }
 
   ## querying
@@ -120,7 +123,7 @@ git_config <- function(..., repo = ".",
                 local = cfg$local,
                 global = cfg$global)
   ddd <- list_to_chr(ddd)
-  screen(cfg, ddd)
+  structure(screen(cfg, ddd), class = c("githug_list", "list"))
 }
 
 #' @describeIn git_config Get or set global Git config, a la \code{git config
