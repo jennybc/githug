@@ -1,3 +1,30 @@
+`%>%` <- dplyr::`%>%`
+
+skip_if_no_GitHub_API <- function() {
+  ## read here
+  ## https://status.github.com/api
+
+  ## also intriguing ... but not what I went with
+  ## curl::curl("https://api.github.com")
+
+  jfun <- function() {
+    con <- curl::curl("https://status.github.com/api/status.json")
+    api_status <- con %>%
+      readLines(warn = FALSE) %>%
+      jsonlite::fromJSON()
+    close(con)
+    api_status$status
+  }
+  get_api_status <- purrr::safely(jfun)
+  api_status <- get_api_status()
+  ## good (green), minor (yellow), or major (red)
+  if (is.null(api_status$error) &&
+      api_status$result$status %in% c("good", "minor")) return(invisible(TRUE))
+
+  skip("GitHub API unreachable")
+
+}
+
 tmp_repo_path <- function(x = "",
                           slug = "githug-test",
                           user = Sys.info()["user"]) {

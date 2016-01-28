@@ -28,6 +28,5 @@ RoxygenNote: 5.0.1.9000
 Remotes:
     gaborcsardi/gh,
     ropensci/git2r,
-    hadley/dplyr,
-    jennybc/testthat@skip-if-no-internet
+    hadley/dplyr
 VignetteBuilder: knitr
