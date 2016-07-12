@@ -1,0 +1,20 @@
+Package: githug
+Title: Interface to local and remote Git operations
+Version: 0.0.0.9000
+Authors@R: person("Jennifer", "Bryan", role=c("aut", "cre"),
+  email = "jenny@stat.ubc.ca")
+Description: Interface to local and remote Git operations. Interface to local
+    and remote Git operations. Interface to local and remote Git operations.
+    Interface to local and remote Git operations.
+Depends:
+    R (>= 3.2.2)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/jennybc/githug0
+BugReports: https://github.com/jennybc/githug0/issues
+Imports:
+    gh,
+    git2r (>= 0.13.1),
+Remotes: gaborcsardi/gh
+RoxygenNote: 5.0.1.9000
