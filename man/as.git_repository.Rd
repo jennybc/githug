@@ -20,7 +20,7 @@ An S4 \code{\linkS4class{git_repository}} object
 \code{githug} uses the \code{\link{git2r}} package, under the hood, to
 perform local Git operations. \code{\link{git2r}} handles Git repos as
 objects of class \code{\linkS4class{git_repository}}. This function provides
-a more flexible verion of \code{\link[git2r]{repository}()}, which converts a
+a more flexible version of \code{\link[git2r]{repository}()}, which converts a
 path to a \code{\linkS4class{git_repository}}. You might need this for more
 exotic Git operations, i.e. to call \code{\link{git2r}} functions that aren't
 exposed via \code{githug}.
