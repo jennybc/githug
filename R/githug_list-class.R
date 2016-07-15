@@ -1,8 +1,3 @@
-#' Print a list JSON-style
-#'
-#' @param x The list to print.
-#' @param ... Ignored.
-#' @return The input \code{x} is passed through invisibly.
 #' @export
 print.githug_list <- function(x, ...) {
   print(jsonlite::toJSON(unclass(x), pretty = TRUE, auto_unbox = TRUE))
