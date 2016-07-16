@@ -1,6 +1,6 @@
 #' @export
 print.githug_list <- function(x, ...) {
-  print(jsonlite::toJSON(unclass(x), pretty = TRUE, auto_unbox = TRUE))
+  lapply(names(x), function(nm) cat(sprintf("%s = %s\n", nm, x[[nm]])))
   invisible(x)
 }
 

@@ -16,7 +16,6 @@ BugReports: https://github.com/jennybc/githug0/issues
 Imports:
     gh,
     git2r (>= 0.13.1),
-    jsonlite,
     stats,
     utils
 Remotes: gaborcsardi/gh
