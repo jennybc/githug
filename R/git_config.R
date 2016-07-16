@@ -97,42 +97,27 @@
 git_config <- function(..., repo = ".",
                        where = c("de_facto", "local", "global")) {
 
-  if (is_in_repo(repo)) {
-    repo <- as.git_repository(repo)
-  } else {
-    repo <- NULL
-  }
   where <- match.arg(where)
-
   ddd <- list_depth_one(list(...))
-  setting <- is_named(ddd)
-
-  cfg <- git2r::config(repo = repo)
-  if (is.null(cfg$local)) cfg$local <- list()
-  if (is.null(cfg$global)) cfg$global <- list()
-
-  if (setting) {
-    if (where == "de_facto") {
-      message("setting local config")
-      where <- "local"
-    }
-    if (where == "local" && is.null(repo))
-      stop("no local repository found", call. = FALSE)
-    ocfg <- cfg[[where]]
-    cargs <- c(repo = repo, global = where == "global", ddd)
-    ncfg <- do.call(git2r::config, cargs)
-    return(invisible(
-      structure(screen(ocfg, names(ddd)), class = c("githug_list", "list"))
-    ))
+  vnames <- if (is_named(ddd)) names(ddd) else list_to_chr(ddd)
+  ocfg <- git_config_get(vnames = vnames, where = where, repo = repo)
+  if (!is_named(ddd)) {
+    return(structure(screen(ocfg, vnames), class = c("githug_list", "list")))
   }
 
-  ## querying
-  cfg <- switch(where,
-                de_facto = utils::modifyList(cfg$global, cfg$local),
-                local = cfg$local,
-                global = cfg$global)
-  ddd <- list_to_chr(ddd)
-  structure(screen(cfg, ddd), class = c("githug_list", "list"))
+  gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
+  if (where == "de_facto") {
+    message("setting local config")
+    where <- "local"
+  }
+  if (where == "local" && is.null(gr))
+    stop("no local repository found", call. = FALSE)
+#  ocfg <- ocfg[[where]]
+  cargs <- c(repo = gr, global = where == "global", ddd)
+  ncfg <- do.call(git2r::config, cargs)
+  invisible(
+    structure(screen(ocfg, vnames), class = c("githug_list", "list"))
+  )
 }
 
 #' @describeIn git_config Get or set global Git config, a la \code{git config
@@ -146,3 +131,21 @@ git_config_global <-
 #' @export
 git_config_local <-
   function(..., repo = ".") git_config(..., repo = repo, where = "local")
+
+
+#vnames <- unlist(list(...), use.names = FALSE)
+
+git_config_get <- function(vnames = NULL,
+                           where = c("de_facto", "local", "global"),
+                           repo = ".") {
+  gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
+  where <- match.arg(where)
+  cfg <- git2r::config(repo = gr)
+  if (is.null(cfg$local)) cfg$local <- list()
+  if (is.null(cfg$global)) cfg$global <- list()
+  cfg <- switch(where,
+                de_facto = utils::modifyList(cfg$global, cfg$local),
+                local = cfg$local,
+                global = cfg$global)
+  structure(screen(cfg, vnames), class = c("githug_list", "list"))
+}
