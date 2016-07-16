@@ -27,7 +27,6 @@
 #' @param ... The Git configuration variables to get or set. If unspecified, all
 #'   are returned, i.e. the output should match the result of \code{git config
 #'   --list}.
-#' @template repo
 #' @param where Specifies which variables. The default, \code{de_facto}, applies
 #'   only to a query and requests the variables in force, i.e. where local repo
 #'   variables override global user-level variables, when both are defined.
@@ -36,6 +35,7 @@
 #'   \code{repo}, and for \code{global}, \code{~/.gitconfig} in user's home
 #'   directory. When setting, if \code{where} is unspecified, the local
 #'   configuration is modified.
+#' @template repo
 #'
 #' @return A named list of Git configuration variables, with class
 #'   \code{githug_list} for pretty-printing purposes.
@@ -90,19 +90,18 @@
 #'
 #' ## set a custom variable
 #' ocfg <- git_config_local(githug.lol = "wut")
-#' git_config_local("github.lol")
+#' git_config_local("githug.lol")
 #'
 #' setwd(owd)
 #' }
-git_config <- function(..., repo = ".",
-                       where = c("de_facto", "local", "global")) {
-
+git_config <- function(..., where = c("de_facto", "local", "global"),
+                       repo = ".") {
   where <- match.arg(where)
   ddd <- list_depth_one(list(...))
   vnames <- if (is_named(ddd)) names(ddd) else list_to_chr(ddd)
-  ocfg <- git_config_get(vnames = vnames, where = where, repo = repo)
+  cfg <- git_config_get(vnames = vnames, where = where, repo = repo)
   if (!is_named(ddd)) {
-    return(structure(screen(ocfg, vnames), class = c("githug_list", "list")))
+    return(cfg)
   }
 
   gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
@@ -110,30 +109,25 @@ git_config <- function(..., repo = ".",
     message("setting local config")
     where <- "local"
   }
-  if (where == "local" && is.null(gr))
+  if (where == "local" && is.null(gr)) {
     stop("no local repository found", call. = FALSE)
-#  ocfg <- ocfg[[where]]
+  }
   cargs <- c(repo = gr, global = where == "global", ddd)
   ncfg <- do.call(git2r::config, cargs)
-  invisible(
-    structure(screen(ocfg, vnames), class = c("githug_list", "list"))
-  )
+  invisible(cfg)
 }
 
 #' @describeIn git_config Get or set global Git config, a la \code{git config
 #'   --global}
 #' @export
 git_config_global <-
-  function(..., repo = ".") git_config(..., repo = repo, where = "global")
+  function(..., repo = ".") git_config(..., where = "global", repo = repo)
 
 #' @describeIn git_config Get or set local Git config, a la \code{git config
 #'   --local}
 #' @export
 git_config_local <-
-  function(..., repo = ".") git_config(..., repo = repo, where = "local")
-
-
-#vnames <- unlist(list(...), use.names = FALSE)
+  function(..., repo = ".") git_config(..., where = "local", repo = repo)
 
 git_config_get <- function(vnames = NULL,
                            where = c("de_facto", "local", "global"),

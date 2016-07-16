@@ -17,10 +17,10 @@ test_that("match content from unqualified git2r::config query", {
 test_that("match content from repo-specific git2r::config query", {
 
   tpath <- init_tmp_repo()
-  git_config_local(repo = tpath,
-                   user.name = "louise", user.email = "louise@example.org")
+  git_config_local(user.name = "louise", user.email = "louise@example.org",
+                   repo = tpath)
   git2r_cfg <- git2r::config(repo = as.git_repository(tpath))
-  expect_equivalent(git2r_cfg$local, git_config(repo = tpath, where = "local"))
+  expect_equivalent(git2r_cfg$local, git_config(where = "local", repo = tpath))
   expect_equivalent(git2r_cfg$local, git_config_local(repo = tpath))
 
 })
@@ -28,15 +28,15 @@ test_that("match content from repo-specific git2r::config query", {
 test_that("query returns specific bits of local config", {
 
   tpath <- init_tmp_repo()
-  git_config_local(repo = tpath,
-                   user.name = "louise", user.email = "louise@example.org")
+  git_config_local(user.name = "louise", user.email = "louise@example.org",
+                   repo = tpath)
 
   cfg <- read_git_config(file.path(tpath, ".git", "config"))
   bits <- c("user.name", "user.email", "core.bare", "nope")
   exp_out <- setNames(as.list(cfg)[bits], bits)
 
   expect_equivalent(git_config(bits, repo = tpath), exp_out)
-  expect_equivalent(git_config(bits, repo = tpath, where = "local"), exp_out)
+  expect_equivalent(git_config(bits, where = "local", repo = tpath), exp_out)
   expect_equivalent(git_config_local(bits, repo = tpath), exp_out)
 
 })

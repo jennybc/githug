@@ -6,7 +6,7 @@
 \alias{git_config_local}
 \title{Get and set Git configuration variables}
 \usage{
-git_config(..., repo = ".", where = c("de_facto", "local", "global"))
+git_config(..., where = c("de_facto", "local", "global"), repo = ".")
 
 git_config_global(..., repo = ".")
 
@@ -17,9 +17,6 @@ git_config_local(..., repo = ".")
 are returned, i.e. the output should match the result of \code{git config
 --list}.}
 
-\item{repo}{Path to a Git repo. If unspecified, current working directory is
-checked to see if it is or is inside a Git repo.}
-
 \item{where}{Specifies which variables. The default, \code{de_facto}, applies
 only to a query and requests the variables in force, i.e. where local repo
 variables override global user-level variables, when both are defined.
@@ -28,6 +25,9 @@ configuration file: for \code{local}, \code{.git/config} in the targetted
 \code{repo}, and for \code{global}, \code{~/.gitconfig} in user's home
 directory. When setting, if \code{where} is unspecified, the local
 configuration is modified.}
+
+\item{repo}{Path to a Git repo. If unspecified, current working directory is
+checked to see if it is or is inside a Git repo.}
 }
 \value{
 A named list of Git configuration variables, with class
@@ -105,7 +105,7 @@ git_config_local("user.name", "user.email")
 
 ## set a custom variable
 ocfg <- git_config_local(githug.lol = "wut")
-git_config_local("github.lol")
+git_config_local("githug.lol")
 
 setwd(owd)
 }
