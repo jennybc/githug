@@ -148,7 +148,7 @@ git_config_set <- function(vars,
     where <- "local"
   }
   if (where == "local" && is.null(gr)) {
-    stop("no local repository found", call. = FALSE)
+    stop("no git repo exists here:\n", repo, call. = FALSE)
   }
   cargs <- c(repo = gr, global = where == "global", vars)
   ncfg <- do.call(git2r::config, cargs)

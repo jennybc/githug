@@ -21,14 +21,15 @@ read_git_config <- function(path) {
   raw <- gsub("\t", "", raw)
   section <- cumsum(grepl("\\[.*\\]", raw))
   sections <- split(raw, section)
-  sections <- sections[vapply(sections, length, integer(1)) > 1L]
+  sections <- sections[lengths(sections) > 1L]
   names(sections) <- NULL
-  unlist(lapply(sections, function(x) {
-    s <- gsub("\\[|\\]", "", x[1])
+  as.list(unlist(lapply(sections, function(x) {
+    s <- gsub('\\[|\\]', "", x[1])
+    s <- gsub('"', "", s)
+    s <- gsub("\\s", ".", s)
     vars <- strsplit(x[-1], " = ")
     var_names <- vapply(vars, `[`, character(1), 1)
     var_names <- paste(s, var_names, sep = ".")
-    vars <- as.list(setNames(vapply(vars, `[`, character(1), 2), var_names))
-    vars
-  }))
+    as.list(setNames(vapply(vars, `[`, character(1), 2), var_names))
+  })))
 }
