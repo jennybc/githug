@@ -96,24 +96,13 @@
 #' }
 git_config <- function(..., where = c("de_facto", "local", "global"),
                        repo = ".") {
-  where <- match.arg(where)
-  ddd <- list_depth_one(list(...))
-  vnames <- if (is_named(ddd)) names(ddd) else list_to_chr(ddd)
+  vars <- list_depth_one(list(...))
+  vnames <- names(vars) %||% list_to_chr(vars)
   cfg <- git_config_get(vnames = vnames, where = where, repo = repo)
-  if (!is_named(ddd)) {
+  if (!is_named(vars)) {
     return(cfg)
   }
-
-  gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
-  if (where == "de_facto") {
-    message("setting local config")
-    where <- "local"
-  }
-  if (where == "local" && is.null(gr)) {
-    stop("no local repository found", call. = FALSE)
-  }
-  cargs <- c(repo = gr, global = where == "global", ddd)
-  ncfg <- do.call(git2r::config, cargs)
+  git_config_set(vars = vars, where = where, repo = repo)
   invisible(cfg)
 }
 
@@ -132,8 +121,9 @@ git_config_local <-
 git_config_get <- function(vnames = NULL,
                            where = c("de_facto", "local", "global"),
                            repo = ".") {
-  gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
+  if (!is.null(vnames)) stopifnot(inherits(vnames, "character"))
   where <- match.arg(where)
+  gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
   cfg <- git2r::config(repo = gr)
   if (is.null(cfg$local)) cfg$local <- list()
   if (is.null(cfg$global)) cfg$global <- list()
@@ -142,4 +132,22 @@ git_config_get <- function(vnames = NULL,
                 local = cfg$local,
                 global = cfg$global)
   structure(screen(cfg, vnames), class = c("githug_list", "list"))
+}
+
+git_config_set <- function(vars,
+                           where = c("de_facto", "local", "global"),
+                           repo = ".") {
+  stopifnot(inherits(vars, "list"), is_named(vars), max(lengths(vars)) <= 1L)
+  where <- match.arg(where)
+  gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
+  if (where == "de_facto") {
+    message("setting where = \"local\"")
+    where <- "local"
+  }
+  if (where == "local" && is.null(gr)) {
+    stop("no local repository found", call. = FALSE)
+  }
+  cargs <- c(repo = gr, global = where == "global", vars)
+  ncfg <- do.call(git2r::config, cargs)
+  return(invisible(NULL))
 }

@@ -27,3 +27,5 @@ is_named <- function(x) {
     all(!is.na(nms)) &&
     all(nms != "")
 }
+
+`%||%` <- function(x, y) if (is.null(x)) y else x

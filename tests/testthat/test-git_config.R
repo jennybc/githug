@@ -55,7 +55,8 @@ test_that("query returns specific bits of global config", {
 test_that("set forces and messages switch from 'where = de_facto' to 'local'", {
 
   tr <- init_tmp_repo()
-  expect_message(git_config(`foo.foo` = "bar", repo = tr), "setting local config")
+  expect_message(git_config(`foo.foo` = "bar", repo = tr),
+                 "setting where = \"local\"")
 
 })
 
