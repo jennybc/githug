@@ -1,6 +1,10 @@
 #' @export
 print.githug_list <- function(x, ...) {
-  lapply(names(x), function(nm) cat(sprintf("%s = %s\n", nm, x[[nm]])))
+  ## NULLs need to be preserved because conveys variable did not exist
+  ## necessary for roundtrips
+  ## therefore NULLs also need to be printed
+  xp <- vapply(x, `%||%`, character(1), y = "NULL")
+  lapply(names(xp), function(nm) cat(sprintf("%s = %s\n", nm, xp[[nm]])))
   invisible(x)
 }
 

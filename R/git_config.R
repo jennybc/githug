@@ -131,6 +131,9 @@ git_config_list <- function(vnames = NULL,
                 de_facto = utils::modifyList(cfg$global, cfg$local),
                 local = cfg$local,
                 global = cfg$global)
+  ## I don't think a config var can have length > 1, but I'd like to know,
+  ## because I have definitely not planned for it
+  if (length(cfg)) stopifnot(max(lengths(cfg)) <= 1L)
   structure(screen(cfg, vnames), class = c("githug_list", "list"))
 }
 
