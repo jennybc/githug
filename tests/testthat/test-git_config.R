@@ -136,9 +136,3 @@ test_that("setting to NULL removes var", {
   git_config_local(l, repo = tr)
   expect_equivalent(git_config_local("blah.foo", repo = tr), l)
 })
-
-test_that("NULLs are printed in githug_list object", {
-  tr <- init_tmp_repo()
-  cfg <- git_config("blah.foo", repo = tr)
-  expect_output(print(cfg), "blah.foo = NULL")
-})
