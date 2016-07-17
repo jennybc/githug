@@ -98,7 +98,7 @@ git_config <- function(..., where = c("de_facto", "local", "global"),
                        repo = ".") {
   vars <- list_depth_one(list(...))
   vnames <- names(vars) %||% list_to_chr(vars)
-  cfg <- git_config_get(vnames = vnames, where = where, repo = repo)
+  cfg <- git_config_list(vnames = vnames, where = where, repo = repo)
   if (!is_named(vars)) {
     return(cfg)
   }
@@ -118,9 +118,9 @@ git_config_global <-
 git_config_local <-
   function(..., repo = ".") git_config(..., where = "local", repo = repo)
 
-git_config_get <- function(vnames = NULL,
-                           where = c("de_facto", "local", "global"),
-                           repo = ".") {
+git_config_list <- function(vnames = NULL,
+                            where = c("de_facto", "local", "global"),
+                            repo = ".") {
   if (!is.null(vnames)) stopifnot(inherits(vnames, "character"))
   where <- match.arg(where)
   gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
