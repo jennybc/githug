@@ -23,7 +23,7 @@ git_config()         # local > global, same as git_config(where = "de_facto")
 git_config_local()   #                 same as git_config(where = "local")
 git_config_global()  #                 same as git_config(where = "global")
 
-## different input formats to query config
+## different input formats to list config
 git_config_global("user.name", "user.email")
 git_config_global(list("user.name", "user.email"))
 git_config_global(c("user.name", "user.email"))
