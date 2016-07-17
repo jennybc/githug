@@ -28,7 +28,7 @@ git_config_global("user.name", "user.email")
 git_config_global(list("user.name", "user.email"))
 git_config_global(c("user.name", "user.email"))
 
-## query, set, query, restore, query global config
+## list, set, list, restore, list global config
 git_config_global("user.name", "user.email")
 ocfg <- git_config_global(user.name = "thelma", user.email = "thelma@example.org")
 ## guess who's made several commits as thelma in the past :(
@@ -46,19 +46,19 @@ owd <- setwd(repo)
 ## set local variables for current repo
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 
-## query specific local variables, including a non-existent one
+## list specific local variables, including a non-existent one
 git_config_local("user.name", "color.branch", "user.email")
 
 ## make sure we haven't changed global config, should be jenny not louise
 git_config_global("user.name", "user.email")
 
-## set local variables, query, restore, query
+## set local variables, list, restore, list
 ocfg <- git_config_local(user.name = "oops", user.email = "oops@example.org")
 git_config_local("user.name", "user.email")
 git_config_local(ocfg)
 git_config_local("user.name", "user.email")
 
-## set a custom variable, query, restore
+## set a custom variable, list, restore
 ocfg <- git_config_local(githug.lol = "wut")
 git_config_local("githug.lol")
 git_config_local(ocfg)

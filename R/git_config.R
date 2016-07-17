@@ -1,10 +1,10 @@
-#' Get and set Git configuration variables
+#' List and set Git configuration variables
 #'
 #' \code{git_config} and convenience wrappers \code{git_config_global} and
-#' \code{git_config_local} can be used to query or modify Git configuration. All
+#' \code{git_config_local} can be used to list or set Git configuration. All
 #' rely on \code{\link[git2r]{config}} from \code{\link{git2r}}.
 #'
-#' Variables can be queried by specifying the names as strings or in a unnamed
+#' Variables can be listed by specifying the names as strings or in a unnamed
 #' list or vector of strings. Don't specify anything if you want to see them
 #' all. Non-existent variables will return value \code{NULL}.
 #'
@@ -24,9 +24,9 @@
 #' \code{user.email} to an email address that is associated with your GitHub
 #' account: \url{https://help.github.com/articles/setting-your-email-in-git/}.
 #'
-#' @param ... The Git configuration variables to get or set. If unspecified, all
-#'   are returned, i.e. the output should match the result of \code{git config
-#'   --list}.
+#' @param ... The Git configuration variables to list or set. If unspecified,
+#'   all are returned, i.e. the output should match the result of \code{git
+#'   config --list}.
 #' @param where Specifies which variables. The default, \code{de_facto}, applies
 #'   only to a query and requests the variables in force, i.e. where local repo
 #'   variables override global user-level variables, when both are defined.
@@ -63,7 +63,7 @@
 #'
 #' ## dontrun used to start here
 #'
-#' ## set and query global config
+#' ## set and list global config
 #' git_config_global(user.name = "thelma", user.email = "thelma@example.org")
 #' git_config_global("user.name", "user.email")
 #'
@@ -79,7 +79,7 @@
 #' ## set local variables for current repo
 #' git_config_local(user.name = "louise", user.email = "louise@example.org")
 #'
-#' ## query specific local variables, including a non-existent one
+#' ## list specific local variables, including a non-existent one
 #' git_config_local("user.name", "color.branch", "user.email")
 #'
 #' ## set local variables, then restore
@@ -106,13 +106,13 @@ git_config <- function(..., where = c("de_facto", "local", "global"),
   invisible(cfg)
 }
 
-#' @describeIn git_config Get or set global Git config, a la \code{git config
+#' @describeIn git_config List or set global Git config, a la \code{git config
 #'   --global}
 #' @export
 git_config_global <-
   function(..., repo = ".") git_config(..., where = "global", repo = repo)
 
-#' @describeIn git_config Get or set local Git config, a la \code{git config
+#' @describeIn git_config List or set local Git config, a la \code{git config
 #'   --local}
 #' @export
 git_config_local <-

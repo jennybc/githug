@@ -1,7 +1,7 @@
 git\_config.R
 ================
 jenny
-Sun Jul 17 12:40:32 2016
+Sun Jul 17 13:07:42 2016
 
 ``` r
 knitr::opts_chunk$set(
@@ -84,7 +84,7 @@ git_config_global(c("user.name", "user.email"))
 #> user.name = jennybc
 #> user.email = jenny@stat.ubc.ca
 
-## query, set, query, restore, query global config
+## list, set, list, restore, list global config
 git_config_global("user.name", "user.email")
 #> user.name = jennybc
 #> user.email = jenny@stat.ubc.ca
@@ -100,7 +100,7 @@ git_config_global("user.name", "user.email")
 
 ## specify a Git repo
 (repo <- init_tmp_repo(slug = "git-config-demo"))
-#> [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpbIsBca/git-config-demo-jenny-43bb701520af"
+#> [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpb1BuB5/git-config-demo-jenny-49aa4c0e2eb4"
 git_config_local(repo = repo)
 #> core.bare = false
 #> core.filemode = true
@@ -115,7 +115,7 @@ owd <- setwd(repo)
 ## set local variables for current repo
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 
-## query specific local variables, including a non-existent one
+## list specific local variables, including a non-existent one
 git_config_local("user.name", "color.branch", "user.email")
 #> user.name = louise
 #> color.branch = NULL
@@ -126,7 +126,7 @@ git_config_global("user.name", "user.email")
 #> user.name = jennybc
 #> user.email = jenny@stat.ubc.ca
 
-## set local variables, query, restore, query
+## set local variables, list, restore, list
 ocfg <- git_config_local(user.name = "oops", user.email = "oops@example.org")
 git_config_local("user.name", "user.email")
 #> user.name = oops
@@ -136,7 +136,7 @@ git_config_local("user.name", "user.email")
 #> user.name = louise
 #> user.email = louise@example.org
 
-## set a custom variable, query, restore
+## set a custom variable, list, restore
 ocfg <- git_config_local(githug.lol = "wut")
 git_config_local("githug.lol")
 #> githug.lol = wut
