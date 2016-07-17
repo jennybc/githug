@@ -118,15 +118,19 @@ git_config_global <-
 git_config_local <-
   function(..., repo = ".") git_config(..., where = "local", repo = repo)
 
-git_config_list <- function(vnames = NULL,
+#' List Git config variables named in a character vector
+#'
+#' @export
+#' @keywords internal
+git_config_list <- function(vnames = character(),
                             where = c("de_facto", "local", "global"),
                             repo = ".") {
-  if (!is.null(vnames)) stopifnot(inherits(vnames, "character"))
+  stopifnot(is.character(vnames))
   where <- match.arg(where)
   gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
   cfg <- git2r::config(repo = gr)
-  if (is.null(cfg$local)) cfg$local <- list()
-  if (is.null(cfg$global)) cfg$global <- list()
+  cfg$local <- cfg$local %||% list()
+  cfg$global <- cfg$global %||% list()
   cfg <- switch(where,
                 de_facto = utils::modifyList(cfg$global, cfg$local),
                 local = cfg$local,
@@ -137,10 +141,14 @@ git_config_list <- function(vnames = NULL,
   structure(screen(cfg, vnames), class = c("githug_list", "list"))
 }
 
+#' Set Git config variables as given by a named list
+#'
+#' @export
+#' @keywords internal
 git_config_set <- function(vars,
                            where = c("de_facto", "local", "global"),
                            repo = ".") {
-  stopifnot(inherits(vars, "list"), is_named(vars), max(lengths(vars)) <= 1L)
+  stopifnot(is.list(vars), is_named(vars), max(lengths(vars)) <= 1L)
   where <- match.arg(where)
   gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL
   if (where == "de_facto") {
