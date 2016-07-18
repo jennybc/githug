@@ -49,7 +49,7 @@ find_repo_path <- function(x = ".", ...) {
   ## why not use repository(..., discover = TRUE) on x?
   ## because it errors if can't discover repo
   ## whereas discover_repository() returns NULL
-  ## also repository() silently ignore ceiling, which might be in ...
+  ## also repository() silently ignores ceiling, which might be in ...
   xrepo <- git2r::discover_repository(x, ...)
 
   if (is.null(xrepo)) {

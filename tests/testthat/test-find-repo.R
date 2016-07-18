@@ -2,7 +2,7 @@ context("detect and find repo")
 
 test_that("find_repo_path detects invalid input", {
   expect_error(find_repo_path(letters[1:2]), "length\\(x\\) == 1L is not TRUE")
-  expect_error(find_repo_path(1), "inherits\\(x, \"character\"\\) is not TRUE")
+  expect_error(find_repo_path(1), "is.character\\(x\\) is not TRUE")
 })
 
 test_that("nonexistent directory", {
