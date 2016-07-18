@@ -4,7 +4,7 @@
 \alias{git_config}
 \alias{git_config_global}
 \alias{git_config_local}
-\title{List and set Git configuration variables}
+\title{Get and set Git configuration variables}
 \usage{
 git_config(..., where = c("de_facto", "local", "global"), repo = ".")
 
@@ -13,7 +13,7 @@ git_config_global(..., repo = ".")
 git_config_local(..., repo = ".")
 }
 \arguments{
-\item{...}{The Git configuration variables to list or set. If unspecified,
+\item{...}{The Git configuration variables to get or set. If unspecified,
 all are returned, i.e. the output should match the result of \code{git
 config --list}.}
 
@@ -35,7 +35,7 @@ A named list of Git configuration variables, with class
 }
 \description{
 \code{git_config} and convenience wrappers \code{git_config_global} and
-\code{git_config_local} can be used to list or set Git configuration. All
+\code{git_config_local} can be used to get or set Git configuration. All
 rely on \code{\link[git2r]{config}} from \code{\link{git2r}}.
 }
 \details{
@@ -61,10 +61,10 @@ account: \url{https://help.github.com/articles/setting-your-email-in-git/}.
 }
 \section{Functions}{
 \itemize{
-\item \code{git_config_global}: List or set global Git config, a la \code{git config
+\item \code{git_config_global}: Get or set global Git config, a la \code{git config
 --global}
 
-\item \code{git_config_local}: List or set local Git config, a la \code{git config
+\item \code{git_config_local}: Get or set local Git config, a la \code{git config
 --local}
 }}
 \examples{
@@ -78,7 +78,7 @@ git_config_global()  #                 same as git_config(where = "global")
 
 ## dontrun used to start here
 
-## set and list global config
+## set and get global config
 git_config_global(user.name = "thelma", user.email = "thelma@example.org")
 git_config_global("user.name", "user.email")
 
@@ -94,7 +94,7 @@ owd <- setwd(repo)
 ## set local variables for current repo
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 
-## list specific local variables, including a non-existent one
+## get specific local variables, including a non-existent one
 git_config_local("user.name", "color.branch", "user.email")
 
 ## set local variables, then restore

@@ -1,7 +1,7 @@
 git\_config.R
 ================
 jenny
-Sun Jul 17 13:07:42 2016
+Mon Jul 18 15:05:19 2016
 
 ``` r
 knitr::opts_chunk$set(
@@ -14,6 +14,9 @@ devtools::load_all(here())
 ```
 
     ## Loading githug
+
+    ## Warning in setup_ns_exports(pkg, export_all): Objects listed as exports,
+    ## but not present in namespace: git_config_list
 
 ``` r
 library(git2r)
@@ -73,7 +76,7 @@ git_config_global()  #                 same as git_config(where = "global")
 #> user.email = jenny@stat.ubc.ca
 #> user.name = jennybc
 
-## different input formats to list config
+## different input formats to get config
 git_config_global("user.name", "user.email")
 #> user.name = jennybc
 #> user.email = jenny@stat.ubc.ca
@@ -84,7 +87,7 @@ git_config_global(c("user.name", "user.email"))
 #> user.name = jennybc
 #> user.email = jenny@stat.ubc.ca
 
-## list, set, list, restore, list global config
+## get, set, get, restore, get global config
 git_config_global("user.name", "user.email")
 #> user.name = jennybc
 #> user.email = jenny@stat.ubc.ca
@@ -100,7 +103,7 @@ git_config_global("user.name", "user.email")
 
 ## specify a Git repo
 (repo <- init_tmp_repo(slug = "git-config-demo"))
-#> [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/Rtmpb1BuB5/git-config-demo-jenny-49aa4c0e2eb4"
+#> [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpkWlego/git-config-demo-jenny-b46b35816eaf"
 git_config_local(repo = repo)
 #> core.bare = false
 #> core.filemode = true
@@ -115,7 +118,7 @@ owd <- setwd(repo)
 ## set local variables for current repo
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 
-## list specific local variables, including a non-existent one
+## get specific local variables, including a non-existent one
 git_config_local("user.name", "color.branch", "user.email")
 #> user.name = louise
 #> color.branch = NULL
@@ -126,7 +129,7 @@ git_config_global("user.name", "user.email")
 #> user.name = jennybc
 #> user.email = jenny@stat.ubc.ca
 
-## set local variables, list, restore, list
+## set local variables, get, restore, get
 ocfg <- git_config_local(user.name = "oops", user.email = "oops@example.org")
 git_config_local("user.name", "user.email")
 #> user.name = oops
@@ -136,7 +139,7 @@ git_config_local("user.name", "user.email")
 #> user.name = louise
 #> user.email = louise@example.org
 
-## set a custom variable, list, restore
+## set a custom variable, get, restore
 ocfg <- git_config_local(githug.lol = "wut")
 git_config_local("githug.lol")
 #> githug.lol = wut

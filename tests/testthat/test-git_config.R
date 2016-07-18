@@ -55,7 +55,7 @@ test_that("set global config vars", {
   expect_equivalent(o_cfg, new_user)
 })
 
-test_that("list specific bits of local config", {
+test_that("get specific bits of local config", {
   tpath <- init_tmp_repo()
   git_config_local(user.name = "louise", user.email = "louise@example.org",
                    repo = tpath)
@@ -67,7 +67,7 @@ test_that("list specific bits of local config", {
   expect_equivalent(git_config_local(bits, repo = tpath), exp_out)
 })
 
-test_that("list specific bits of global config", {
+test_that("get specific bits of global config", {
   cfg <- read_git_config(file.path("~", ".gitconfig"))
   bits <- c("user.name", "user.email", "core.bare", "nope")
   exp_out <- setNames(cfg[bits], bits)
@@ -96,7 +96,7 @@ test_that("calls from outside a repo give sane results", {
   dir.create(path)
   owd <- setwd(path)
 
-  ## can list, but only return global config
+  ## can get, but only return global config
   expect_equivalent(git_config(), git_config_global())
   expect_equivalent(git_config(), git_config(where = "global"))
   expect_equivalent(git_config_local(), list())
@@ -111,7 +111,7 @@ test_that("calls from outside a repo give sane results", {
 })
 
 test_that("git_config returns objects of class githug_list", {
-  ## listing
+  ## getting
   expect_is(git_config(), "githug_list")
   ## setting
   tr <- init_tmp_repo()

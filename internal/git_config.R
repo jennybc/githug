@@ -23,12 +23,12 @@ git_config()         # local > global, same as git_config(where = "de_facto")
 git_config_local()   #                 same as git_config(where = "local")
 git_config_global()  #                 same as git_config(where = "global")
 
-## different input formats to list config
+## different input formats to get config
 git_config_global("user.name", "user.email")
 git_config_global(list("user.name", "user.email"))
 git_config_global(c("user.name", "user.email"))
 
-## list, set, list, restore, list global config
+## get, set, get, restore, get global config
 git_config_global("user.name", "user.email")
 ocfg <- git_config_global(user.name = "thelma", user.email = "thelma@example.org")
 ## guess who's made several commits as thelma in the past :(
@@ -46,19 +46,19 @@ owd <- setwd(repo)
 ## set local variables for current repo
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 
-## list specific local variables, including a non-existent one
+## get specific local variables, including a non-existent one
 git_config_local("user.name", "color.branch", "user.email")
 
 ## make sure we haven't changed global config, should be jenny not louise
 git_config_global("user.name", "user.email")
 
-## set local variables, list, restore, list
+## set local variables, get, restore, get
 ocfg <- git_config_local(user.name = "oops", user.email = "oops@example.org")
 git_config_local("user.name", "user.email")
 git_config_local(ocfg)
 git_config_local("user.name", "user.email")
 
-## set a custom variable, list, restore
+## set a custom variable, get, restore
 ocfg <- git_config_local(githug.lol = "wut")
 git_config_local("githug.lol")
 git_config_local(ocfg)
