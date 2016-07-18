@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^internal$
 ^man-roxygen$
+^README\.Rmd$
+^README-.*\.png$
