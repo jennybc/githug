@@ -27,8 +27,9 @@ library(git2r)
 #'
 #' ````
 #' user provides info about which repo (consciously or not)
-#'   --> githug:::find_repo_path(...) normalizes it to a path to a repo
-#'      --> githug::as.git_repository(repo) turns it into a git_repository
+#'   --> githug:::find_repo_path() normalizes it to a path to a repo
+#'      --> git2r::repository() turns it into a git_repository
+#' that is pre-packaged as githug::as.git_repository()
 #' ````
 #'
 #' The point will be more clear once I bring other functions back.
@@ -93,13 +94,13 @@ as.git_repository()
 repository()
 
 find_repo_path("./.git")
-as.git_repository(find_repo_path("./.git"))
+as.git_repository("./.git")
 repository("./.git")
 
 find_repo_path("./R")
 find_repo_path("./R", ceiling = 0)
 find_repo_path("./R", ceiling = 1)
-as.git_repository(find_repo_path("./R"))
+as.git_repository("./R")
 repository("./R")
 repository("./R", discover = TRUE)
 

@@ -42,7 +42,7 @@ as.git_repository.NULL <- function(x, ...) as.git_repository(x = ".", ...)
 
 find_repo_path <- function(x = ".", ...) {
 
-  if (!path_exists(x)) {
+  if (!dir_exists(x)) {
     stop("path does not exist:\n", x, call. = FALSE)
   }
 
@@ -56,13 +56,17 @@ find_repo_path <- function(x = ".", ...) {
     stop("no git repo exists here:\n", x, call. = FALSE)
   }
 
-  normalizePath(git2r::workdir(git2r::repository(xrepo, discover = TRUE)),
-                winslash = "/")
+  gr_path(git2r::repository(xrepo, discover = TRUE))
 
 }
 
-is_in_repo <- function(x, ...) {
-  path_exists(x) && !is.null(git2r::discover_repository(x, ...))
+is_in_repo <- function(x = ".", ...) {
+  dir_exists(x) && !is.null(git2r::discover_repository(x, ...))
 }
 
-is_a_repo <- function(x) is_in_repo(x, ceiling = 0)
+is_a_repo <- function(x = ".") is_in_repo(x, ceiling = 0)
+
+gr_path <- function(gr) {
+  stopifnot(inherits(gr, "git_repository"))
+  normalize_path_strict(git2r::workdir(gr))
+}

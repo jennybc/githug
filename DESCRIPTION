@@ -16,7 +16,10 @@ BugReports: https://github.com/jennybc/githug0/issues
 Imports:
     gh,
     git2r (>= 0.13.1),
+    methods,
+    purrr,
     stats,
+    tibble,
     utils
 Remotes: gaborcsardi/gh
 RoxygenNote: 5.0.1.9000

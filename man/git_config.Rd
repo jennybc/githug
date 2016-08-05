@@ -36,7 +36,7 @@ A named list of Git configuration variables, with class
 \description{
 \code{git_config} and convenience wrappers \code{git_config_global} and
 \code{git_config_local} can be used to get or set Git configuration. All
-rely on \code{\link[git2r]{config}} from \code{\link{git2r}}.
+rely on \code{\link[git2r:config]{git2r::config}()}.
 }
 \details{
 Variables can be listed by specifying the names as strings or in a unnamed
@@ -68,21 +68,17 @@ account: \url{https://help.github.com/articles/setting-your-email-in-git/}.
 --local}
 }}
 \examples{
-\dontrun{
-## scale back dontrun once these other functions exist again
-
 ## see git config currently in effect, based on working directory
 git_config()         # local > global, same as git_config(where = "de_facto")
 git_config_local()   #                 same as git_config(where = "local")
 git_config_global()  #                 same as git_config(where = "global")
 
-## dontrun used to start here
-
 ## set and get global config
+\dontrun{
+## set and list global config
 git_config_global(user.name = "thelma", user.email = "thelma@example.org")
 git_config_global("user.name", "user.email")
-
-## dontrun used to end here
+}
 
 ## specify a Git repo
 repo <- git_init(tempfile("githug-config-example-"))
@@ -108,7 +104,6 @@ ocfg <- git_config_local(githug.lol = "wut")
 git_config_local("githug.lol")
 
 setwd(owd)
-}
 }
 \references{
 \href{https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup}{Getting

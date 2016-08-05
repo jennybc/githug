@@ -2,7 +2,7 @@
 #'
 #' \code{git_config} and convenience wrappers \code{git_config_global} and
 #' \code{git_config_local} can be used to get or set Git configuration. All
-#' rely on \code{\link[git2r]{config}} from \code{\link{git2r}}.
+#' rely on \code{\link[git2r:config]{git2r::config}()}.
 #'
 #' Variables can be listed by specifying the names as strings or in a unnamed
 #' list or vector of strings. Don't specify anything if you want to see them
@@ -53,21 +53,17 @@
 #' \href{https://git-scm.com/docs/git-config}{git-config man page}
 #'
 #' @examples
-#' \dontrun{
-#' ## scale back dontrun once these other functions exist again
-#'
 #' ## see git config currently in effect, based on working directory
 #' git_config()         # local > global, same as git_config(where = "de_facto")
 #' git_config_local()   #                 same as git_config(where = "local")
 #' git_config_global()  #                 same as git_config(where = "global")
 #'
-#' ## dontrun used to start here
-#'
 #' ## set and get global config
+#' \dontrun{
+#' ## set and list global config
 #' git_config_global(user.name = "thelma", user.email = "thelma@example.org")
 #' git_config_global("user.name", "user.email")
-#'
-#' ## dontrun used to end here
+#' }
 #'
 #' ## specify a Git repo
 #' repo <- git_init(tempfile("githug-config-example-"))
@@ -93,7 +89,6 @@
 #' git_config_local("githug.lol")
 #'
 #' setwd(owd)
-#' }
 git_config <- function(..., where = c("de_facto", "local", "global"),
                        repo = ".") {
   vars <- list_depth_one(list(...))
@@ -123,8 +118,8 @@ git_config_local <-
 #' @export
 #' @keywords internal
 git_config_get <- function(vnames = character(),
-                            where = c("de_facto", "local", "global"),
-                            repo = ".") {
+                           where = c("de_facto", "local", "global"),
+                           repo = ".") {
   stopifnot(is.character(vnames))
   where <- match.arg(where)
   gr <- if (is_in_repo(repo)) as.git_repository(repo) else NULL

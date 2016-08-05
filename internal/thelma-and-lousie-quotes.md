@@ -1,0 +1,78 @@
+Thelma and Louise Quotes
+================
+
+It's so hard to come up with all the fake file names, committers, and messages! I need a inspiration. Hello, Thelma and Louise!
+
+<http://www.imdb.com/title/tt0103074/quotes>
+
+> Louise Sawyer: You get what you settle for.
+
+> Thelma Dickinson: You said you and me was gonna get outta town and, for once, just really let our hair down. Well, darlin', look out, 'cause my hair is comin' down!
+
+> Thelma Dickinson: Louise, no matter what happens, I'm glad I came with you.
+
+> Louise Sawyer: You've always been crazy, this is just the first chance you've had to express yourself.
+
+> Thelma Dickinson: Something's, like, crossed over in me and I can't go back. I mean I just couldn't live.
+> Louise Sawyer: I know what you mean. Anyway, don't wanna end up on the damned Geraldo show.
+
+> Thelma Dickinson: I feel really awake. I don't recall ever feeling this awake. You know? Everything looks different now. You feel like that? You feel like you got something to live for now?
+
+> J.D.: Now, I’ve always believed if done properly armed robbery doesn't have to be a totally unpleasant experience.
+> Thelma Dickinson: You’re a real live outlaw aren’t you?
+> J.D.: Well, I may be the outlaw, darling, but you're the one stealin' my heart.
+
+> Thelma Dickinson: You’re not gonna give up on me, are ya?
+
+> Louise Sawyer: Is he your husband or your father?
+
+> Max: You know, the one thing I can't figure out are these girls real smart or real real lucky?
+> Hal Slocumb: Don't matter. Brains'll only get you so far and luck always runs out.
+
+> Louise: Jimmy, what color are my eyes?
+> Jimmy: They're brown.
+
+> Thelma: I don't ever remember feeling this awake.
+
+> Louise Sawyer: ... believe me, Texas ain't the place you want to get caught.
+
+> Louise: Well, we're not in the middle of nowhere, but we can see it from here.
+
+> Thelma: Hey Louise, better slow down, I'll just die if we get caught over a speeding ticket. Are you sure we should be driving like this, I mean in broad daylight and everything?
+> Louise Sawyer: No we shouldn't, but I want to put some distance between us and the SCENE OF OUR LAST GOD DAMNED CRIME!
+> Thelma: Oh man! You wouldn'ta believed it, it was like I was doing it all my life, nobody woulda believed it.
+> Louise Sawyer: Think you found your calling?
+> Thelma: May-be... may-be.
+> Thelma: The call of the wild!
+
+> Louise: \[Thelma's tossing a bottle of Wild Turkey out of the car\] Thelma, don't you litter.
+
+> Thelma Dickerson: Wait. What? You want to go to Mexico from Oklahoma and you don't want to go through Texas?
+> Louise: You know how I feel about Texas... We're not going that way.
+> Thelma Dickerson: I know, Louise, but we're running for our lives! Don't you think you could make an exception just this once? I mean, look at the map. The only thing between Oklahoma and Mexico is Texas!
+
+> Thelma: What is this?
+> Louise: I don't know, I think... I think it's the vast Grand Canyon!
+> Thelma: Isn't it beautiful?
+> Louise: Yeah, it's something.
+
+> Thelma: Let's see who wins a prize for keeping their cool. Now you sir, lay back down, thank you. Hey, throw in a couple bottles of Wild Turkey while you're at it.
+
+> Thelma: I've had it up to my ass with sedate.
+
+> Jimmy: It's a place called the Vagabond Motel. It's at 1921 North East 23rd. It's under "Peaches".
+> Louise: What?
+> Jimmy: That's the code word. I miss you, Peaches.
+
+> Jimmy: Did I hear somebody say "Peaches"?
+> Louise: Oh my God. Jimmy.
+> Jimmy: That's the secret word. Show the lady what she's won, Don.
+
+> Thelma: I had a plan, I said we should go to the police, but you didn't like that.
+> Louise: Well what's the rush, Thelma? If we wait long enough, they'll come to us.
+
+> Thelma Dickinson: OK, then listen: let's not get caught.
+> Louise Sawyer: What're you talkin' about?
+> Thelma Dickinson: Let's keep goin'!
+> Louise Sawyer: What d'you mean?
+> Thelma Dickinson: ... Go.

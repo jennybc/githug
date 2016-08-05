@@ -1,7 +1,7 @@
 repo-path.R
 ================
 jenny
-Thu Jul 14 06:00:00 2016
+Thu Aug 4 01:05:32 2016
 
 -   [Find repo path](#find-repo-path)
 -   [Review: git2r functions for identifying a repo](#review-git2r-functions-for-identifying-a-repo)
@@ -31,8 +31,9 @@ One motivation of `githug` is to provide an interface to Git operations provided
 This first commit adds internal functions to find and detect repo path:
 
     user provides info about which repo (consciously or not)
-      --> githug:::find_repo_path(...) normalizes it to a path to a repo
-         --> githug::as.git_repository(repo) turns it into a git_repository
+      --> githug:::find_repo_path() normalizes it to a path to a repo
+         --> git2r::repository() turns it into a git_repository
+    that is pre-packaged as githug::as.git_repository()
 
 The point will be more clear once I bring other functions back.
 
@@ -78,8 +79,9 @@ discover_repository("./tests", ceiling = 0)
 ``` r
 setwd(here())
 repository()                       ## HEY this one does default to repo in wd!
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 class(repository())
 #> [1] "git_repository"
 #> attr(,"package")
@@ -87,11 +89,13 @@ class(repository())
 repository("./R")                  ## but it does not walk up, by default
 #> Error in validObject(.Object): invalid class "git_repository" object: Unable to open repository at 'path'
 repository("./R", discover = TRUE) ## now we walk
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 repository("./R", discover = TRUE, ceiling = 0) ## ceiling silently ignored
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 ```
 
 `workdir(repo)` gets "workdir of repository"
@@ -120,20 +124,24 @@ setwd(here())
 find_repo_path()
 #> [1] "/Users/jenny/rrr/githug0"
 as.git_repository()
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 repository()
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 
 find_repo_path("./.git")
 #> [1] "/Users/jenny/rrr/githug0"
-as.git_repository(find_repo_path("./.git"))
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+as.git_repository("./.git")
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 repository("./.git")
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 
 find_repo_path("./R")
 #> [1] "/Users/jenny/rrr/githug0"
@@ -142,14 +150,16 @@ find_repo_path("./R", ceiling = 0)
 #> ./R
 find_repo_path("./R", ceiling = 1)
 #> [1] "/Users/jenny/rrr/githug0"
-as.git_repository(find_repo_path("./R"))
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+as.git_repository("./R")
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 repository("./R")
 #> Error in validObject(.Object): invalid class "git_repository" object: Unable to open repository at 'path'
 repository("./R", discover = TRUE)
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 
 find_repo_path("./tests/testthat")
 #> [1] "/Users/jenny/rrr/githug0"
@@ -162,8 +172,9 @@ find_repo_path("./tests/testthat/", ceiling = 1)
 repository("./tests/testthat/")
 #> Error in validObject(.Object): invalid class "git_repository" object: Unable to open repository at 'path'
 repository("./tests/testthat/", discover = TRUE)
-#> Local:    git-config /Users/jenny/rrr/githug0/
-#> Head:     [df40a41] 2016-07-14: find repo path
+#> Local:    git-init-status-commit-add /Users/jenny/rrr/githug0/
+#> Remote:   git-init-status-commit-add @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [fa168c1] 2016-08-03: streamline usage of repo-finding functions
 
 find_repo_path("~")
 #> Error: no git repo exists here:
