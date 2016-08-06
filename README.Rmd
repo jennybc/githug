@@ -12,9 +12,23 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r}
-Sys.time()
-git2r::repository(".")
-covr::package_coverage(".")
+# githug
+
+The goal of githug is to ...
+
+## Installation
+
+You can install githug from github with:
+
+```{r gh-installation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("githug0/jennybc")
 ```
 
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+## basic example code
+```
