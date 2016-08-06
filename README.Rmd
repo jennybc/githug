@@ -12,9 +12,17 @@ knitr::opts_chunk$set(
 )
 ```
 
+*imagine a test coverage badge here* 
+
+```{r}
+Sys.time()
+git2r::repository(".")
+covr::package_coverage(".")
+```
+
 # githug
 
-The goal of githug is to ...
+The goal of githug is to wrap you in the warm embrace of Git 🤗, from the comfort of R.
 
 ## Installation
 
@@ -27,8 +35,51 @@ devtools::install_github("githug0/jennybc")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Create a new Git repository and set local config variables for user and email.
 
-```{r example}
-## basic example code
+```{r}
+#library(githug)
+devtools::load_all(".")
+
+repo <- git_init(tempfile("githug-example-"))
+setwd(repo)
+git_config_local(user.name = "louise", user.email = "louise@example.org")
+```
+
+Add two files and inspect Git status.
+
+```{r}
+setwd(repo) ## necessary because knitr resets wd in every chunk :(
+
+write("Are these girls real smart or real real lucky?", "max.txt")
+write("You get what you settle for.", "louise.txt")
+git_status()
+```
+
+Commit with `all = TRUE` to automatically accept all current changes.
+
+```{r}
+setwd(repo) ## necessary because knitr resets wd in every chunk :(
+
+git_commit(all = TRUE,
+           message = "Brains'll only get you so far and luck always runs out.")
+```
+
+## Overview of functions
+
+```{r include = FALSE}
+fxn_table <-
+"fxn,description
+git_config(), Get and set Git configuration variables
+git_init(), Create a new repository
+git_status(), See status of all files w/r/t Git
+git_stage(), Stage (changes to) a path for next commit
+git_add(), Synonym for git_add()
+git_commit(), Make a commit
+as.git_repository(), Open a Git repo in the style of the `git2r` package
+"
+```
+
+```{r as.is = TRUE, echo = FALSE}
+knitr::kable(read.csv(text = fxn_table))
 ```
