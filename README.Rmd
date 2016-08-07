@@ -74,7 +74,7 @@ git_config(), Get and set Git configuration variables
 git_init(), Create a new repository
 git_status(), See status of all files w/r/t Git
 git_stage(), Stage (changes to) a path for next commit
-git_add(), Synonym for git_add()
+git_add(), Synonym for git_stage()
 git_commit(), Make a commit
 as.git_repository(), Open a Git repo in the style of the `git2r` package
 "

@@ -4,11 +4,11 @@
 
 ``` r
 Sys.time()
-#> [1] "2016-08-06 22:26:43 PDT"
+#> [1] "2016-08-06 23:47:51 PDT"
 git2r::repository(".")
 #> Local:    master /Users/jenny/rrr/githug0/
 #> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [c179a13] 2016-08-06: give the README some love
+#> Head:     [0f60903] 2016-08-06: make long paths fit on one line
 covr::package_coverage(".")
 #> githug Coverage: 92.91%
 #> R/git_add-stage.R: 83.33%
@@ -48,9 +48,9 @@ devtools::load_all(".")
 
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … 6Uhjnw/githug-example-134695c1faac8
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … FuJroi/githug-example-156ff6b423b4f
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … 6Uhjnw/githug-example-134695c1faac8
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … FuJroi/githug-example-156ff6b423b4f
 setwd(repo)
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 ```
@@ -81,7 +81,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Committing ...
-#> [51e761c] 2016-08-06: Brains'll only get you so far and luck always runs out.
+#> [0eee445] 2016-08-06: Brains'll only get you so far and luck always runs out.
 ```
 
 Overview of functions
@@ -93,6 +93,6 @@ Overview of functions
 | git\_init()          | Create a new repository                             |
 | git\_status()        | See status of all files w/r/t Git                   |
 | git\_stage()         | Stage (changes to) a path for next commit           |
-| git\_add()           | Synonym for git\_add()                              |
+| git\_add()           | Synonym for git\_stage()                            |
 | git\_commit()        | Make a commit                                       |
 | as.git\_repository() | Open a Git repo in the style of the `git2r` package |
