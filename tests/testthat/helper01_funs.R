@@ -34,7 +34,7 @@ read_git_config <- function(path) {
 ## writes, e.g., "a" and "b" as the contents of files "a" and "b"
 write_file <- function(x, dir = NULL) {
   paths <- if (is.null(dir)) x else file.path(dir, x)
-  purrr::map2(x, paths, write)
+  invisible(purrr::map2(x, paths, write))
 }
 
 ## limits comparison to columns you bothered to include in reference

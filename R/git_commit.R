@@ -66,13 +66,13 @@ git_commit <- function(..., all = FALSE, force = FALSE,
                               "Enter it now (ESC to abort)")
   }
 
-  message("Committing ...")
+  message("Commit:")
   ## command line git would say something like this:
   ##  1 file changed, 5 insertions(+), 5 deletions(-)
   ## should I also indicate something about the nature of the changes?
   ## if I'm going to say that, maybe do it before prompting for message?
   gco <- git2r::commit(repo = gr, message = message)
-  message(sprintf("[%s] %s: %s",
+  message(sprintf("  * [%s] %s: %s",
                   substring(gco@sha, 1, 7),
                   substring(methods::as(gco@author@when, "character"), 1, 10),
                   ellipsize(gco@message, 55)))
