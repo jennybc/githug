@@ -1,7 +1,7 @@
 git\_init\_status\_stage\_commit.R
 ================
 jenny
-Fri Aug 5 11:25:01 2016
+Sat Aug 6 22:28:14 2016
 
 -   [Examples from `git_init()`](#examples-from-git_init)
 -   [Examples from `git_status()`](#examples-from-git_status)
@@ -27,9 +27,9 @@ Examples from `git_init()`
 ``` r
 repo <- git_init(tempfile("git-init-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpZnXsGP/git-init-example-1f446d441707
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … 7phs/git-init-example-134da42720447
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpZnXsGP/git-init-example-1f446d441707
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … 7phs/git-init-example-134da42720447
 ## switch working directory to the repo
 owd <- setwd(repo)
 ## Config local user and make a commit
@@ -40,7 +40,7 @@ git_commit(all = TRUE, message = "thelma is awake")
 #> Staged these paths:
 #>   * thelma.txt
 #> Committing ...
-#> [e2781c1] 2016-08-05: thelma is awake
+#> [037ad70] 2016-08-06: thelma is awake
 setwd(owd)
 ```
 
@@ -50,9 +50,9 @@ Examples from `git_status()`
 ``` r
 repo <- git_init(tempfile("githug-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpZnXsGP/githug-1f4488aa69f
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … /T//Rtmpaj7phs/githug-134da6e659297
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpZnXsGP/githug-1f4488aa69f
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … /T//Rtmpaj7phs/githug-134da6e659297
 owd <- setwd(repo)
 write("Change me", "change-me")
 write("Delete me", "delete-me")
@@ -67,7 +67,7 @@ git_commit(all = TRUE, message = "first commit")
 #>   * change-me
 #>   * delete-me
 #> Committing ...
-#> [c5ada11] 2016-08-05: first commit
+#> [d4c8f4b] 2016-08-06: first commit
 git_status()
 #> # A tibble: 0 x 4
 #> # ... with 4 variables: status <chr>, path <chr>, change <chr>, i <int>
@@ -88,7 +88,7 @@ git_commit(all = TRUE, message = "second commit")
 #>   * delete-me
 #>   * add-me
 #> Committing ...
-#> [abf23c4] 2016-08-05: second commit
+#> [b1ccd41] 2016-08-06: second commit
 git_status()
 #> # A tibble: 0 x 4
 #> # ... with 4 variables: status <chr>, path <chr>, change <chr>, i <int>
@@ -101,9 +101,9 @@ Examples from `git_stage()` (practically same as for `git_commit()`)
 ``` r
 repo <- git_init(tempfile("githug-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpZnXsGP/githug-1f442e508240
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … /T//Rtmpaj7phs/githug-134da7994ad20
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpZnXsGP/githug-1f442e508240
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … /T//Rtmpaj7phs/githug-134da7994ad20
 owd <- setwd(repo)
 write("Are these girls real smart or real real lucky?", "max.txt")
 write("You get what you settle for.", "louise.txt")
@@ -149,7 +149,7 @@ git_status()
 #> 3 staged    max.txt    new    NA
 git_commit(message = "Brains'll only get you so far and luck always runs out.")
 #> Committing ...
-#> [691cb5f] 2016-08-05: Brains'll only get you so far and luck always runs out.
+#> [674fdc9] 2016-08-06: Brains'll only get you so far and luck always runs out.
 git_status()
 #> # A tibble: 0 x 4
 #> # ... with 4 variables: status <chr>, path <chr>, change <chr>, i <int>

@@ -4,15 +4,15 @@
 
 ``` r
 Sys.time()
-#> [1] "2016-08-06 09:22:04 PDT"
+#> [1] "2016-08-06 22:26:43 PDT"
 git2r::repository(".")
 #> Local:    master /Users/jenny/rrr/githug0/
 #> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [ac1b644] 2016-08-06: devtools::use_readme_rmd() from my PR
+#> Head:     [c179a13] 2016-08-06: give the README some love
 covr::package_coverage(".")
-#> githug Coverage: 91.35%
-#> R/utils.R: 73.81%
+#> githug Coverage: 92.91%
 #> R/git_add-stage.R: 83.33%
+#> R/utils.R: 83.33%
 #> R/git_commit.R: 94.44%
 #> R/git_config.R: 100.00%
 #> R/git_init.R: 100.00%
@@ -48,9 +48,9 @@ devtools::load_all(".")
 
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpshRSAu/githug-example-cf8b1be24cad
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … 6Uhjnw/githug-example-134695c1faac8
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T//RtmpshRSAu/githug-example-cf8b1be24cad
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … 6Uhjnw/githug-example-134695c1faac8
 setwd(repo)
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 ```
@@ -81,7 +81,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Committing ...
-#> [c91f494] 2016-08-06: Brains'll only get you so far and luck always runs out.
+#> [51e761c] 2016-08-06: Brains'll only get you so far and luck always runs out.
 ```
 
 Overview of functions

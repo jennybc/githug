@@ -40,28 +40,30 @@
 #' setwd(owd)
 git_init <- function(path = ".") {
 
-  path     <- normalize_path(path)
+  path <- normalize_path(path)
   led_path <- least_existing_dir(path)
+  printable_path <-
+    midlipsize(path, getOption("width") - 2, ellipsis = " \u2026 ")
 
   if (is_a_repo(path)) {
-    message("'path' is already a Git repo:\n", path)
+    message("'path' is already a Git repo:\n  ", printable_path)
   } else if (is_in_repo(led_path)) {
     stop("Aborting git_init().\n",
-         "'path' is or will be nested within an existing Git repo:\n",
-         path, call. = FALSE)
+         "'path' is or will be nested within an existing Git repo:\n  ",
+         printable_path, call. = FALSE)
   }
 
   if (!dir_exists(path)) {
     if (file_exists(path)) {
       stop("Aborting git_init().\n",
-           "Can't create directory. File already exists at 'path':\n",
-           path, call. = FALSE)
+           "Can't create directory. File already exists at 'path':\n  ",
+           printable_path, call. = FALSE)
     }
-    message("* Creating directory:\n  ", path)
+    message("* Creating directory:\n  ", printable_path)
     dir.create(path, recursive = TRUE)
   }
 
-  message("* Initialising git repository in:\n  ", path)
+  message("* Initialising git repository in:\n  ", printable_path)
   gr <- git2r::init(path)
   return(invisible(gr_path(gr)))
 

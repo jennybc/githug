@@ -1,7 +1,7 @@
 git\_config.R
 ================
 jenny
-Mon Jul 18 15:05:19 2016
+Sat Aug 6 22:27:20 2016
 
 ``` r
 knitr::opts_chunk$set(
@@ -14,9 +14,6 @@ devtools::load_all(here())
 ```
 
     ## Loading githug
-
-    ## Warning in setup_ns_exports(pkg, export_all): Objects listed as exports,
-    ## but not present in namespace: git_config_list
 
 ``` r
 library(git2r)
@@ -39,8 +36,8 @@ git_config()         # local > global, same as git_config(where = "de_facto")
 #> push.default = current
 #> user.email = jenny@stat.ubc.ca
 #> user.name = jennybc
-#> branch.git-config.merge = refs/heads/git-config
-#> branch.git-config.remote = origin
+#> branch.git-init-status-commit-add.merge = refs/heads/git-init-status-commit-add
+#> branch.git-init-status-commit-add.remote = origin
 #> branch.master.merge = refs/heads/master
 #> branch.master.remote = origin
 #> core.bare = false
@@ -52,8 +49,8 @@ git_config()         # local > global, same as git_config(where = "de_facto")
 #> remote.origin.fetch = +refs/heads/*:refs/remotes/origin/*
 #> remote.origin.url = https://github.com/jennybc/githug0.git
 git_config_local()   #                 same as git_config(where = "local")
-#> branch.git-config.merge = refs/heads/git-config
-#> branch.git-config.remote = origin
+#> branch.git-init-status-commit-add.merge = refs/heads/git-init-status-commit-add
+#> branch.git-init-status-commit-add.remote = origin
 #> branch.master.merge = refs/heads/master
 #> branch.master.remote = origin
 #> core.bare = false
@@ -103,7 +100,11 @@ git_config_global("user.name", "user.email")
 
 ## specify a Git repo
 (repo <- init_tmp_repo(slug = "git-config-demo"))
-#> [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmpkWlego/git-config-demo-jenny-b46b35816eaf"
+#> * Creating directory:
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … git-config-demo-jenny-134a83888a844
+#> * Initialising git repository in:
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … git-config-demo-jenny-134a83888a844
+#> [1] "/private/var/folders/vt/4sdxy0rd1b3b65nqssx4sx_h0000gn/T/RtmplgxOX3/git-config-demo-jenny-134a83888a844"
 git_config_local(repo = repo)
 #> core.bare = false
 #> core.filemode = true
