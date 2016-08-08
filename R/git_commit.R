@@ -3,7 +3,7 @@
 #' Write file changes to the repository. Convenience wrapper around
 #' \code{\link[git2r:commit]{git2r::commit}()} and, possibly,
 #' \code{\link{git_stage}()}. To stage and commit all current file additions,
-#' deletions, and modifications, use \code{git_commit(add = TRUE)}, which
+#' deletions, and modifications, use \code{git_commit(all = TRUE)}, which
 #' emulates \code{git add -A && git commit}.
 #'
 #' If there are staged changes, the simple call \code{git_commit(message = "my
@@ -12,7 +12,8 @@
 #' \code{all} and \code{force} also being passed through.
 #'
 #' @inheritParams git_stage
-#' @param message The commit message. Required.
+#' @param message The commit message. Required. If not supplied, user will get a
+#'   chance to provide the message in an interactive session.
 #' @template repo
 #' @template return-repo-path
 #' @examples

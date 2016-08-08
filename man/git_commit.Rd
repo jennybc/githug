@@ -19,7 +19,8 @@ add .; git add -u}.}
 \item{force}{Logical, defaults to \code{FALSE}. Value \code{TRUE} is required
 if any of the to-be-staged paths are currently ignored.}
 
-\item{message}{The commit message. Required.}
+\item{message}{The commit message. Required. If not supplied, user will get a
+chance to provide the message in an interactive session.}
 
 \item{repo}{Path to a Git repo. If unspecified, current working directory is
 checked to see if it is or is inside a Git repo.}
@@ -31,7 +32,7 @@ Path to the associated Git repo.
 Write file changes to the repository. Convenience wrapper around
 \code{\link[git2r:commit]{git2r::commit}()} and, possibly,
 \code{\link{git_stage}()}. To stage and commit all current file additions,
-deletions, and modifications, use \code{git_commit(add = TRUE)}, which
+deletions, and modifications, use \code{git_commit(all = TRUE)}, which
 emulates \code{git add -A && git commit}.
 }
 \details{
