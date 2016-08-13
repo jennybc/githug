@@ -1,33 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-*imagine a test coverage badge here*
-
-``` r
-Sys.time()
-#> [1] "2016-08-10 10:57:43 PDT"
-git2r::repository(".")
-#> Local:    unstage-HEAD-log-uncommit /Users/jenny/rrr/githug0/
-#> Remote:   unstage-HEAD-log-uncommit @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [52c78db] 2016-08-10: respond to @hadley feedback
-covr::package_coverage(".")
-#> githug Coverage: 88.45%
-#> R/git_log.R: 66.67%
-#> R/git_unstage.R: 75.00%
-#> R/git_stage-add.R: 83.08%
-#> R/utils.R: 86.79%
-#> R/git_commit.R: 93.75%
-#> R/git_config.R: 100.00%
-#> R/git_init.R: 100.00%
-#> R/git_repository.R: 100.00%
-#> R/git_status.R: 100.00%
-#> R/git_uncommit.R: 100.00%
-#> R/githug_list-class.R: 100.00%
-```
-
 githug
 ======
 
 The goal of githug is to wrap you in the warm embrace of Git 🤗, from the comfort of R.
+
+*This a reboot of an earlier effort, which lives on in [branch `first-draft`](https://github.com/jennybc/githug/tree/first-draft). That branch includes a function `githug_init()` to connect a new or existing R project (usually a RStudio Project) to a newly created GitHub remote. Currently plodding my way back to that level of functionality.*
 
 Installation
 ------------
@@ -36,7 +14,7 @@ You can install githug from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jennybc/githug0")
+devtools::install_github("jennybc/githug")
 ```
 
 Example
@@ -51,9 +29,9 @@ devtools::load_all(".")
 
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … vQ1BSc/githug-example-13a7470fa76ee
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pfjgZDK/githug-example-45953d089b1f
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … vQ1BSc/githug-example-13a7470fa76ee
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pfjgZDK/githug-example-45953d089b1f
 setwd(repo)
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 ```
@@ -84,7 +62,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Commit:
-#>   * [f1afa85] 2016-08-10: Brains'll only get you so far and luck always runs out.
+#>   * [7e0401f] 2016-08-13: Brains'll only get you so far and luck always runs out.
 ```
 
 Add new file and commit it. Inspect commit history.
@@ -97,13 +75,13 @@ git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
 #> Staged these paths:
 #>   * jimmy.txt
 #> Commit:
-#>   * [7a1b1d2] 2016-08-10: That's the code word. I miss you, Peaches.
+#>   * [1fe1510] 2016-08-13: That's the code word. I miss you, Peaches.
 git_log()
 #> # A tibble: 2 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 7a1b1d2 That's the code word. I… 2016-08-10 10:57 louise
-#> 2 f1afa85 Brains'll only get you … 2016-08-10 10:57 louise
+#> 1 1fe1510 That's the code word. I… 2016-08-13 14:42 louise
+#> 2 7e0401f Brains'll only get you … 2016-08-13 14:42 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -114,14 +92,14 @@ setwd(repo) ## necessary because knitr resets wd in every chunk :(
 
 git_uncommit()
 #> Uncommit:
-#>   * [7a1b1d2] 2016-08-10: That's the code word. I miss you, Peaches.
+#>   * [1fe1510] 2016-08-13: That's the code word. I miss you, Peaches.
 #> HEAD now points to (but no files were changed!):
-#>   * [f1afa85] 2016-08-10: Brains'll only get you so far and luck always runs out.
+#>   * [7e0401f] 2016-08-13: Brains'll only get you so far and luck always runs out.
 git_log()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 f1afa85 Brains'll only get you … 2016-08-10 10:57 louise
+#> 1 7e0401f Brains'll only get you … 2016-08-13 14:42 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -162,3 +140,27 @@ Overview of functions
 | git\_commit()        | Make a commit                                       |
 | git\_uncommit()      | Undo a Git commit but leave files alone             |
 | as.git\_repository() | Open a Git repo in the style of the `git2r` package |
+
+*to be replaced by a proper test coverage badge*
+
+``` r
+Sys.time()
+#> [1] "2016-08-13 14:42:48 PDT"
+git2r::repository(".")
+#> Local:    unstage-HEAD-log-uncommit /Users/jenny/rrr/githug0/
+#> Remote:   unstage-HEAD-log-uncommit @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [0124956] 2016-08-10: better error message
+covr::package_coverage(".")
+#> githug Coverage: 88.45%
+#> R/git_log.R: 66.67%
+#> R/git_unstage.R: 75.00%
+#> R/git_stage-add.R: 83.08%
+#> R/utils.R: 86.79%
+#> R/git_commit.R: 93.75%
+#> R/git_config.R: 100.00%
+#> R/git_init.R: 100.00%
+#> R/git_repository.R: 100.00%
+#> R/git_status.R: 100.00%
+#> R/git_uncommit.R: 100.00%
+#> R/githug_list-class.R: 100.00%
+```

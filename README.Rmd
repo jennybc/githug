@@ -12,17 +12,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-*imagine a test coverage badge here* 
-
-```{r}
-Sys.time()
-git2r::repository(".")
-covr::package_coverage(".")
-```
-
 # githug
 
 The goal of githug is to wrap you in the warm embrace of Git 🤗, from the comfort of R.
+
+*This a reboot of an earlier effort, which lives on in [branch `first-draft` ](https://github.com/jennybc/githug/tree/first-draft). That branch includes a function `githug_init()` to connect a new or existing R project (usually a RStudio Project) to a newly created GitHub remote. Currently plodding my way back to that level of functionality.*
 
 ## Installation
 
@@ -30,7 +24,7 @@ You can install githug from github with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("jennybc/githug0")
+devtools::install_github("jennybc/githug")
 ```
 
 ## Example
@@ -115,4 +109,12 @@ as.git_repository(), Open a Git repo in the style of the `git2r` package
 
 ```{r as.is = TRUE, echo = FALSE}
 knitr::kable(read.csv(text = fxn_table))
+```
+
+*to be replaced by a proper test coverage badge* 
+
+```{r}
+Sys.time()
+git2r::repository(".")
+covr::package_coverage(".")
 ```
