@@ -1,54 +1,18 @@
-context("git log")
+context("git uncommit")
 
-test_that("git_log works, with repo elsewhere and in wd", {
-
+test_that("git_log messages when no commits yet", {
   tpath <- init_tmp_repo()
-  expect_message(gl <- git_log(repo = tpath), "no commits yet")
-  expect_null(gl)
-
-  writeLines("a", file.path(tpath, "a"))
-  git_COMMIT("01", repo = tpath)
-  gl <- git_log(repo = tpath)
-  expect_identical(dim(gl), c(1L, 7L))
-  expect_identical(names(gl),
-                   c("message", "when", "author", "sha", "email", "summary",
-                     "commit"))
-
-  setwd(tpath)
-  writeLines("b", "b")
-  git_COMMIT("02")
-  gl <- git_log()
-  expect_identical(dim(gl), c(2L, 7L))
-  expect_identical(gl$message, c("02", "01"))
-
+  expect_message(git_log(repo = tpath), "No commits yet")
 })
 
-test_that("git_log returns sthg of class git_log, tbl_df", {
-
+test_that("git_log n argument works", {
   tpath <- init_tmp_repo()
-  writeLines("a", file.path(tpath, "a"))
-  git_COMMIT("a", repo = tpath)
-  gl <- git_log(repo = tpath)
-  expect_is(gl, c("git_log", "tbl_df"))
-
-})
-
-test_that("git_log warns if no git repo", {
-
-  tpath <- tempfile("githug-test-")
-  dir.create(tpath)
-  expect_true(dir.exists(tpath))
-  expect_warning(res <- git_log(repo = tpath), "no git repo exists")
-  expect_null(res)
-
-})
-
-test_that("git_log printing", {
-
-  tpath <- init_tmp_repo()
-  writeLines("a", file.path(tpath, "a"))
-  git_COMMIT("Goddamn it! I've never been lucky! Not one time!", repo = tpath)
-  glo <- capture.output(git_log(repo = tpath))
-  expect_equal_to_reference(glo, "git_log_print_output.rds")
-
+  write_file("a", dir = tpath)
+  git_commit(all = TRUE, message = "a", repo = tpath)
+  write_file("b", dir = tpath)
+  git_commit(all = TRUE, message = "b", repo = tpath)
+  write_file("c", dir = tpath)
+  git_commit(all = TRUE, message = "c", repo = tpath)
+  expect_identical(nrow(git_log(repo = tpath, n = 2)), 2L)
+  expect_identical(nrow(git_log(repo = tpath, n = 10)), 3L)
 })

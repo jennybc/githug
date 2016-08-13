@@ -1,9 +1,4 @@
 .Rproj.user
 .Rhistory
 .RData
-README.html
-*scratch*
-inst/doc
-internal/*.html
-internal/tracking-experiment*
-tests/testthat/githugci-PAT.txt
+scratch.*

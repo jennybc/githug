@@ -4,22 +4,32 @@
 \alias{git_init}
 \title{Create a new Git repository}
 \usage{
-git_init(path = ".", force = FALSE)
+git_init(path = ".")
 }
 \arguments{
 \item{path}{Where to create the new Git repo. Defaults to current working
 directory. If the \code{path} doesn't exist, it will be created via
 \code{dir.create(path, recursive = TRUE)}.}
-
-\item{force}{Whether to create a Git repo, even if it will be inside another
-repo. This is generally a bad idea, so use \code{force = TRUE} at your own
-risk and consider using Git submodules instead.}
 }
 \value{
 Path to the associated Git repo.
 }
 \description{
-Create a new Git repository
+Create a new Git repository or re-initialize an existing one, similar to
+\code{git init}.
+}
+\details{
+Will bad things happen if you \code{git_init()} in a directory that is
+already a Git repo? No, it's fine! To quote the
+\href{https://git-scm.com/docs/git-init}{git-init man page}, "running
+\code{git init} in an existing repository is safe. It will not overwrite
+things that are already there". A legitimate reason to do this is to pick up
+a new Git template, a topic which newcomers can safely ignore.
+
+\code{git_init()} will not create a Git repo in a subdirectory of an existing
+Git repo. The proper way to do this is via
+\href{https://git-scm.com/book/en/v2/Git-Tools-Submodules}{Git submodules},
+which is beyond the current scope of the package.
 }
 \examples{
 repo <- git_init(tempfile("git-init-example-"))
@@ -27,11 +37,14 @@ repo <- git_init(tempfile("git-init-example-"))
 ## switch working directory to the repo
 owd <- setwd(repo)
 
-## Config user and make a commit
+## Config local user and make a commit
 git_config(user.name = "thelma", user.email = "thelma@example.org")
-writeLines("I don't ever remember feeling this awake.", "thelma.txt")
-git_COMMIT("thelma is awake")
+write("I don't ever remember feeling this awake.", "thelma.txt")
+git_commit("thelma.txt", message = "thelma is awake")
+\dontrun{
+## remove dontrun when git_log() exists again
 git_log()
+}
 
 setwd(owd)
 }

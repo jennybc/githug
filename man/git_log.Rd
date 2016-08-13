@@ -4,38 +4,39 @@
 \alias{git_log}
 \title{Get a commit log}
 \usage{
-git_log(repo = ".")
+git_log(repo = ".", n = NULL)
 }
 \arguments{
 \item{repo}{Path to a Git repo. If unspecified, current working directory is
 checked to see if it is or is inside a Git repo.}
+
+\item{n}{Optional upper limit on the number of commits to output.}
 }
 \value{
-A data frame (or tbl_df) with S3 class \code{git_log}, solely for
-  printing purposes. Variables: the commit \code{message}, \code{when} the
-  commit happened, \code{author}, \code{SHA}, \code{email}, \code{summary},
-  and a list-column of objects of class \code{\linkS4class{git_commit}}.
+A data frame with S3 class \code{git_log}, solely for printing
+  purposes. Variables: the \code{SHA}, commit \code{message}, \code{when} the
+  commit happened, \code{author}, \code{email}, and a list-column of objects
+  of class \code{\linkS4class{git_commit}}.
 }
 \description{
-Get a commit log. Convenience wrapper around the \code{\link{git2r}}
-functions \code{\link[git2r]{coerce-git_repository-method}}, which coerces
-the commit log of the repository to a data frame, and
-\code{\link[git2r]{commits}}, which returns individual
-\code{\linkS4class{git_commit}} objects. The print method shows truncated
+Get an overview of the last \code{n} commits. Convenience wrapper around
+\code{\link[git2r:commits]{git2r::commits}()}, which returns
+\code{\linkS4class{git_commit}} objects, and the
+\code{\link[git2r]{coerce-git_repository-method}}, which coerces the commit
+log of the repository to a data frame. The print method shows truncated
 versions of selected variables, e.g., the commit message, time, and SHA, but
 rest assured the full information is present in the returned object.
 }
 \examples{
-require(dplyr, quietly = TRUE)
-repo <- git_init(tempfile("githug-"))
+repo <- git_init(tempfile("git-log-"))
 owd <- setwd(repo)
 line1 <- "Thelma: You're a real live outlaw, aren't ya?"
 line2 <- paste("J.D.: Well I may be an outlaw, darlin', but you're the one",
                "stealing my heart.")
-writeLines(line1, "tl.txt")
-git_COMMIT(line1)
+write(line1, "tl.txt")
+git_commit("tl.txt", message = "first commit")
 write(line2, "tl.txt", append = TRUE)
-git_COMMIT(line2)
+git_commit("tl.txt", message = "second commit")
 git_log()
 setwd(owd)
 }

@@ -2,38 +2,49 @@
 % Please edit documentation in R/git_status.R
 \name{git_status}
 \alias{git_status}
-\title{Display status of a Git repo}
+\title{Get status of a Git repo}
 \usage{
-git_status(repo = ".", ...)
+git_status(repo = ".", ls = FALSE)
 }
 \arguments{
 \item{repo}{Path to a Git repo. If unspecified, current working directory is
 checked to see if it is or is inside a Git repo.}
 
-\item{...}{Additional arguments to \code{\link[git2r]{status}} from
-\code{\link{git2r}}}
+\item{ls}{Logical, indicating whether to include unchanged, tracked files
+and gitignored files. Default is \code{FALSE}.}
 }
 \value{
-A list with named components "Untracked files", "Staged changes",
-  "Unstaged changes", with S3 class \code{git_status}.
+a data frame where each row describes changes to a path, invisibly
 }
 \description{
-Display differences between current state of files in a repo and their state
-at the last commit.
+The status of a Git repo is a set of paths, typically broken down like so:
+\describe{
+\item{Staged changes}{Paths with modifications that are staged for inclusion
+in the next commit.}
+\item{Unstaged changes}{Paths that are tracked by Git but that have unstaged
+modifications.}
+\item{Untracked files}{Paths that are not yet tracked by Git but that are
+also not gitignored.}
+}
+What does that leave? Two kinds of paths
+\itemize{
+\item Unchanged, tracked files.
+\item Ignored files.
+}
+Use \code{ls = TRUE} to request a status that includes these paths as well,
+i.e. a complete census of all the files in the repo.
 }
 \examples{
 repo <- git_init(tempfile("githug-"))
 owd <- setwd(repo)
-writeLines("Change me", "change-me")
-writeLines("Delete me", "delete-me")
+write("Add me", "add-me")
+write("Don't add me", "dont-add-me")
 git_status()
-git_COMMIT("first commit")
+git_add("add-me")
 git_status()
-write("OK", "change-me", append = TRUE)
-file.remove("delete-me")
-writeLines("Add me", "add-me")
-git_COMMIT("second commit")
+git_commit(message = "first commit")
 git_status()
+git_status(ls = TRUE)
 setwd(owd)
 }
 
