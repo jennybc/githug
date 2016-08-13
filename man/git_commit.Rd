@@ -26,7 +26,8 @@ chance to provide the message in an interactive session.}
 checked to see if it is or is inside a Git repo.}
 }
 \value{
-Path to the associated Git repo.
+SHA of the commit, with a hint about commit time and message stored
+  in the \code{hint} attribute
 }
 \description{
 Write file changes to the repository. Convenience wrapper around

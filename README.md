@@ -4,20 +4,23 @@
 
 ``` r
 Sys.time()
-#> [1] "2016-08-06 23:47:51 PDT"
+#> [1] "2016-08-10 10:57:43 PDT"
 git2r::repository(".")
-#> Local:    master /Users/jenny/rrr/githug0/
-#> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [0f60903] 2016-08-06: make long paths fit on one line
+#> Local:    unstage-HEAD-log-uncommit /Users/jenny/rrr/githug0/
+#> Remote:   unstage-HEAD-log-uncommit @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [52c78db] 2016-08-10: respond to @hadley feedback
 covr::package_coverage(".")
-#> githug Coverage: 92.91%
-#> R/git_add-stage.R: 83.33%
-#> R/utils.R: 83.33%
-#> R/git_commit.R: 94.44%
+#> githug Coverage: 88.45%
+#> R/git_log.R: 66.67%
+#> R/git_unstage.R: 75.00%
+#> R/git_stage-add.R: 83.08%
+#> R/utils.R: 86.79%
+#> R/git_commit.R: 93.75%
 #> R/git_config.R: 100.00%
 #> R/git_init.R: 100.00%
 #> R/git_repository.R: 100.00%
 #> R/git_status.R: 100.00%
+#> R/git_uncommit.R: 100.00%
 #> R/githug_list-class.R: 100.00%
 ```
 
@@ -33,7 +36,7 @@ You can install githug from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("githug0/jennybc")
+devtools::install_github("jennybc/githug0")
 ```
 
 Example
@@ -48,14 +51,14 @@ devtools::load_all(".")
 
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … FuJroi/githug-example-156ff6b423b4f
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … vQ1BSc/githug-example-13a7470fa76ee
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … FuJroi/githug-example-156ff6b423b4f
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … vQ1BSc/githug-example-13a7470fa76ee
 setwd(repo)
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 ```
 
-Add two files and inspect Git status.
+Create two files and inspect Git status.
 
 ``` r
 setwd(repo) ## necessary because knitr resets wd in every chunk :(
@@ -80,8 +83,68 @@ git_commit(all = TRUE,
 #> Staged these paths:
 #>   * louise.txt
 #>   * max.txt
-#> Committing ...
-#> [0eee445] 2016-08-06: Brains'll only get you so far and luck always runs out.
+#> Commit:
+#>   * [f1afa85] 2016-08-10: Brains'll only get you so far and luck always runs out.
+```
+
+Add new file and commit it. Inspect commit history.
+
+``` r
+setwd(repo) ## necessary because knitr resets wd in every chunk :(
+
+write("Did I hear somebody say \"Peaches\"?", "jimmy.txt")
+git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
+#> Staged these paths:
+#>   * jimmy.txt
+#> Commit:
+#>   * [7a1b1d2] 2016-08-10: That's the code word. I miss you, Peaches.
+git_log()
+#> # A tibble: 2 x 6
+#>       sha                  message             when author
+#>     <chr>                    <chr>            <chr>  <chr>
+#> 1 7a1b1d2 That's the code word. I… 2016-08-10 10:57 louise
+#> 2 f1afa85 Brains'll only get you … 2016-08-10 10:57 louise
+#> # ... with 2 more variables: email <chr>, commit <list>
+```
+
+Uncommit, i.e. leave files as they are, but go back to parent of current commit.
+
+``` r
+setwd(repo) ## necessary because knitr resets wd in every chunk :(
+
+git_uncommit()
+#> Uncommit:
+#>   * [7a1b1d2] 2016-08-10: That's the code word. I miss you, Peaches.
+#> HEAD now points to (but no files were changed!):
+#>   * [f1afa85] 2016-08-10: Brains'll only get you so far and luck always runs out.
+git_log()
+#> # A tibble: 1 x 6
+#>       sha                  message             when author
+#>     <chr>                    <chr>            <chr>  <chr>
+#> 1 f1afa85 Brains'll only get you … 2016-08-10 10:57 louise
+#> # ... with 2 more variables: email <chr>, commit <list>
+```
+
+Verify files and staging are OK. Unstage a file.
+
+``` r
+setwd(repo) ## necessary because knitr resets wd in every chunk :(
+
+git_status()
+#> # A tibble: 1 x 4
+#>   status      path change     i
+#>    <chr>     <chr>  <chr> <int>
+#> 1 staged jimmy.txt    new    NA
+list.files()
+#> [1] "jimmy.txt"  "louise.txt" "max.txt"
+git_unstage("jimmy.txt")
+#> Unstaged these paths:
+#>   * jimmy.txt
+git_status()
+#> # A tibble: 1 x 4
+#>      status      path change     i
+#>       <chr>     <chr>  <chr> <int>
+#> 1 untracked jimmy.txt    new    NA
 ```
 
 Overview of functions
@@ -91,8 +154,11 @@ Overview of functions
 |:---------------------|:----------------------------------------------------|
 | git\_config()        | Get and set Git configuration variables             |
 | git\_init()          | Create a new repository                             |
-| git\_status()        | See status of all files w/r/t Git                   |
+| git\_status()        | Get status of all files w/r/t Git                   |
+| git\_log()           | Get commit history                                  |
 | git\_stage()         | Stage (changes to) a path for next commit           |
 | git\_add()           | Synonym for git\_stage()                            |
+| git\_unstage()       | Unstage (changes to) a path                         |
 | git\_commit()        | Make a commit                                       |
+| git\_uncommit()      | Undo a Git commit but leave files alone             |
 | as.git\_repository() | Open a Git repo in the style of the `git2r` package |

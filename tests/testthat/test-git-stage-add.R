@@ -1,4 +1,4 @@
-context("git add or stage")
+context("git stage or add")
 
 test_that("git_stage works, with repo elsewhere and in wd", {
 

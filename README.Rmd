@@ -30,7 +30,7 @@ You can install githug from github with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("githug0/jennybc")
+devtools::install_github("jennybc/githug0")
 ```
 
 ## Example
@@ -46,7 +46,7 @@ setwd(repo)
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 ```
 
-Add two files and inspect Git status.
+Create two files and inspect Git status.
 
 ```{r}
 setwd(repo) ## necessary because knitr resets wd in every chunk :(
@@ -65,6 +65,36 @@ git_commit(all = TRUE,
            message = "Brains'll only get you so far and luck always runs out.")
 ```
 
+Add new file and commit it. Inspect commit history. 
+
+```{r}
+setwd(repo) ## necessary because knitr resets wd in every chunk :(
+
+write("Did I hear somebody say \"Peaches\"?", "jimmy.txt")
+git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
+git_log()
+```
+
+Uncommit, i.e. leave files as they are, but go back to parent of current commit.
+
+```{r}
+setwd(repo) ## necessary because knitr resets wd in every chunk :(
+
+git_uncommit()
+git_log()
+```
+
+Verify files and staging are OK. Unstage a file.
+
+```{r}
+setwd(repo) ## necessary because knitr resets wd in every chunk :(
+
+git_status()
+list.files()
+git_unstage("jimmy.txt")
+git_status()
+```
+
 ## Overview of functions
 
 ```{r include = FALSE}
@@ -72,10 +102,13 @@ fxn_table <-
 "fxn,description
 git_config(), Get and set Git configuration variables
 git_init(), Create a new repository
-git_status(), See status of all files w/r/t Git
+git_status(), Get status of all files w/r/t Git
+git_log(), Get commit history
 git_stage(), Stage (changes to) a path for next commit
 git_add(), Synonym for git_stage()
+git_unstage(), Unstage (changes to) a path
 git_commit(), Make a commit
+git_uncommit(), Undo a Git commit but leave files alone
 as.git_repository(), Open a Git repo in the style of the `git2r` package
 "
 ```

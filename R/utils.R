@@ -82,3 +82,20 @@ midlipsize <- function(x, n = 20, ellipsis = "\u2026") {
          ellipsis,
          substring(x, first = nchar(x) - floor(half) + 1, last = nchar(x)))
 }
+
+bulletize_git_commit <- function(gco) {
+  stopifnot(git2r::is_commit(gco))
+  posix_when <- methods::as(gco@author@when, "POSIXct")
+  sprintf("  * [%s] %s: %s",
+          substring(gco@sha, 1, 7),
+          format(posix_when, format = "%Y-%m-%d"),
+          ellipsize(gco@message, 55))
+}
+
+sha_with_hint <- function(gco) {
+  stopifnot(git2r::is_commit(gco))
+  posix_when <- methods::as(gco@author@when, "POSIXct")
+  structure(gco@sha,
+            hint = paste(format(posix_when, format = "%Y-%m-%d %H:%M"),
+                         ellipsize(gco@message, 45)))
+}

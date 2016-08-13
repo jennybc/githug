@@ -15,7 +15,7 @@
 #' @param force Logical, defaults to \code{FALSE}. Value \code{TRUE} is required
 #'   if any of the to-be-staged paths are currently ignored.
 #' @template repo
-#' @template return-repo-path
+#' @return nothing
 #' @examples
 #' repo <- git_init(tempfile("githug-"))
 #' owd <- setwd(repo)
@@ -42,9 +42,9 @@ git_stage <- function(..., all = FALSE, force = FALSE, repo = ".") {
   stopifnot(is_lol(force))
   gr <- as.git_repository(repo)
 
-  st_before <- git_status(repo = repo, ls = force)
+  status_before <- git_status(repo = repo, ls = force)
   stageable <- c("unstaged", "untracked", if (force) "ignored")
-  stageable_before <- st_before$status %in% stageable
+  stageable_before <- status_before$status %in% stageable
 
   n_path <- length(path)
   n_stageable <- sum(stageable_before)
@@ -62,21 +62,21 @@ git_stage <- function(..., all = FALSE, force = FALSE, repo = ".") {
               "`all = TRUE`.\nNothing staged.")
       return(invisible())
     }
-    staged <- st_before$status == "staged"
+    staged <- status_before$status == "staged"
     if (sum(staged) > 0) {
       message("Already staged for next commit:")
-      print(st_before[staged, ])
+      print(status_before[staged, ])
       message("")
     }
     message("Unstaged additions, deletions, and modifications:")
-    print(st_before[stageable_before, ])
+    print(status_before[stageable_before, ])
     printed <- TRUE
-    all <- yesno("Stage all of this?")
+    all <- yesno("\nStage all of this?")
   }
 
   if (n_path == 0L) {
     if (all) {
-      path <- st_before$path[stageable_before]
+      path <- status_before$path[stageable_before]
     } else {
       message("No changes staged.")
       return(invisible())
@@ -85,25 +85,30 @@ git_stage <- function(..., all = FALSE, force = FALSE, repo = ".") {
 
   git2r::add(repo = gr, path = path, force = force)
 
-  st_after <- git_status(repo = repo, ls = force)
-  stageable_after <- st_after$status %in% stageable
-  staged_actual <- setdiff(st_before$path[stageable_before],
-                           st_after$path[stageable_after])
+  status_after <- git_status(repo = repo, ls = force)
+  stageable_after <- status_after$status %in% stageable
+  staged_actual <- setdiff(status_before$path[stageable_before],
+                           status_after$path[stageable_after])
   uhoh <- setdiff(path, staged_actual)
   if (length(uhoh) > 0) {
     message(
       "These requested paths may not have been staged:\n",
       paste("  *", uhoh, collapse = "\n"),
       "\nMaybe there were no stageable changes?",
+      "\nOr these paths don't exist in this repo?",
       "\nIf trying to stage ignored files, use 'force = TRUE'.",
       "\nFinal caveat: Expect false positives if 'path' contained shell globs."
     )
   }
 
-  if (!printed && length(staged_actual) > 0) {
-    message("Staged these paths:\n",
-            paste("  *", staged_actual, collapse = "\n"))
-    printed <- TRUE
+  n_staged <- length(staged_actual)
+  if (n_staged > 0) {
+    if (printed) {
+      message("Staged ", n_staged, " path(s).")
+    } else {
+      message("Staged these paths:\n",
+              paste("  *", staged_actual, collapse = "\n"))
+    }
   }
 
   return(invisible())

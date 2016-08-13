@@ -78,10 +78,12 @@ git_status <- function(repo = ".", ls = FALSE) {
     ## rowbind the status-specific tibbles + prepend status variable as .id
     st <- purrr::map_df(stl, jfun, .id = "status")
   } else {
-    st <- tibble::tibble(status = character(),
-                         path = character(),
-                         change = character(),
-                         i = integer())
+    st <- tibble::tibble(
+      status = character(),
+      path = character(),
+      change = character(),
+      i = integer()
+    )
   }
 
   renamed <- st$change == "renamed"
@@ -93,11 +95,14 @@ git_status <- function(repo = ".", ls = FALSE) {
     nt <- length(tracked)
     if (nt > 0) {
       ## use tibble::add_row() if gets fixed
+      ## https://github.com/hadley/tibble/pull/142
       ## this seems crazy but what else to do w/o rbind for tibbles?
-      st <- tibble::tibble(status = c(st$status, rep.int("tracked", nt)),
-                           path =   c(st$path,   tracked),
-                           change = c(st$change, rep.int("none", nt)),
-                           i = c(st$i, rep.int(NA_integer_, nt)))
+      st <- tibble::tibble(
+        status = c(st$status, rep.int("tracked", nt)),
+        path =   c(st$path,   tracked),
+        change = c(st$change, rep.int("none", nt)),
+        i = c(st$i, rep.int(NA_integer_, nt))
+      )
     }
   }
   ## TO WORRY: this just seems misleading / weird

@@ -43,7 +43,7 @@ as.git_repository.NULL <- function(x, ...) as.git_repository(x = ".", ...)
 find_repo_path <- function(x = ".", ...) {
 
   if (!dir_exists(x)) {
-    stop("path does not exist:\n", x, call. = FALSE)
+    stop("directory does not exist:\n", x, call. = FALSE)
   }
 
   ## why not use repository(..., discover = TRUE) on x?

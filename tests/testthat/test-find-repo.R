@@ -7,7 +7,7 @@ test_that("find_repo_path detects invalid input", {
 
 test_that("nonexistent directory", {
   tpath <- tmp_repo_path()
-  expect_error(find_repo_path(tpath), "path does not exist")
+  expect_error(find_repo_path(tpath), "directory does not exist")
   expect_false(is_in_repo(tpath))
   expect_false(is_a_repo(tpath))
 })
