@@ -29,9 +29,9 @@ devtools::load_all(".")
 
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pfjgZDK/githug-example-45953d089b1f
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … prenENw/githug-example-f0fa6d5455ea
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pfjgZDK/githug-example-45953d089b1f
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … prenENw/githug-example-f0fa6d5455ea
 setwd(repo)
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 ```
@@ -62,7 +62,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Commit:
-#>   * [7e0401f] 2016-08-13: Brains'll only get you so far and luck always runs out.
+#>   * [749ef7d] 2016-08-15: Brains'll only get you so far and luck always runs out.
 ```
 
 Add new file and commit it. Inspect commit history.
@@ -75,13 +75,13 @@ git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
 #> Staged these paths:
 #>   * jimmy.txt
 #> Commit:
-#>   * [1fe1510] 2016-08-13: That's the code word. I miss you, Peaches.
+#>   * [9e61003] 2016-08-15: That's the code word. I miss you, Peaches.
 git_log()
 #> # A tibble: 2 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 1fe1510 That's the code word. I… 2016-08-13 14:42 louise
-#> 2 7e0401f Brains'll only get you … 2016-08-13 14:42 louise
+#> 1 9e61003 That's the code word. I… 2016-08-15 10:27 louise
+#> 2 749ef7d Brains'll only get you … 2016-08-15 10:27 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -90,16 +90,16 @@ Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 ``` r
 setwd(repo) ## necessary because knitr resets wd in every chunk :(
 
-git_uncommit()
+git_uncommit(ask = FALSE)
 #> Uncommit:
-#>   * [1fe1510] 2016-08-13: That's the code word. I miss you, Peaches.
-#> HEAD now points to (but no files were changed!):
-#>   * [7e0401f] 2016-08-13: Brains'll only get you so far and luck always runs out.
+#>   * [9e61003] 2016-08-15: That's the code word. I miss you, Peaches.
+#> HEAD now points to:
+#>   * [749ef7d] 2016-08-15: Brains'll only get you so far and luck always runs out.
 git_log()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 7e0401f Brains'll only get you … 2016-08-13 14:42 louise
+#> 1 749ef7d Brains'll only get you … 2016-08-15 10:27 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -145,22 +145,22 @@ Overview of functions
 
 ``` r
 Sys.time()
-#> [1] "2016-08-13 14:42:48 PDT"
+#> [1] "2016-08-15 10:27:28 PDT"
 git2r::repository(".")
-#> Local:    unstage-HEAD-log-uncommit /Users/jenny/rrr/githug0/
-#> Remote:   unstage-HEAD-log-uncommit @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [0124956] 2016-08-10: better error message
+#> Local:    master /Users/jenny/rrr/githug0/
+#> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [5a2f493] 2016-08-15: describe "stage it all" options
 covr::package_coverage(".")
-#> githug Coverage: 88.45%
+#> githug Coverage: 88.75%
 #> R/git_log.R: 66.67%
 #> R/git_unstage.R: 75.00%
 #> R/git_stage-add.R: 83.08%
 #> R/utils.R: 86.79%
 #> R/git_commit.R: 93.75%
+#> R/git_uncommit.R: 96.55%
 #> R/git_config.R: 100.00%
 #> R/git_init.R: 100.00%
 #> R/git_repository.R: 100.00%
 #> R/git_status.R: 100.00%
-#> R/git_uncommit.R: 100.00%
 #> R/githug_list-class.R: 100.00%
 ```

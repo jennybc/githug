@@ -74,7 +74,7 @@ Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 ```{r}
 setwd(repo) ## necessary because knitr resets wd in every chunk :(
 
-git_uncommit()
+git_uncommit(ask = FALSE)
 git_log()
 ```
 
