@@ -107,10 +107,12 @@ git_branch_list <- function(where = c("local", "all", "remote"), repo = ".") {
   ## implement like so:
   ## purrr::map_chr(gb, git2r::branch_target) --> SHAs
   ## add them to gbl
-  ## probably skip this step given current design: left_join to git_log() by SHA
+  ## probably skip this step given current design: left_join to git_history()
+  ## by SHA
   ## I think the point of that was to pick up the git_commit objects?
   ## select (reorder) variables
-  ## maybe: apply git_log class for printing purposes (would require work there)
+  ## maybe: apply git_history class for printing purposes
+  ## (would require work there)
   ##
   ## after some usage, I now think it would be nice to display some info about
   ## the tip commit for each branch

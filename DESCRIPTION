@@ -1,8 +1,10 @@
 Package: githug
 Title: Interface to local and remote Git operations
 Version: 0.0.0.9000
-Authors@R: person("Jennifer", "Bryan", role=c("aut", "cre"),
-  email = "jenny@stat.ubc.ca")
+Authors@R: c(
+    person("Jennifer", "Bryan", , "jenny@stat.ubc.ca", c("cre", "aut")),
+    person("Hadley", "Wickham", , "hadley@rstudio.com", "ctb")
+  )
 Description: Interface to local and remote Git operations. Interface to local
     and remote Git operations. Interface to local and remote Git operations.
     Interface to local and remote Git operations.

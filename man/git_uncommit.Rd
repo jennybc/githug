@@ -47,14 +47,15 @@ git_commit("max.txt",
            message = "Brains'll only get you so far and luck always runs out.")
 write("Did I hear somebody say \\"Peaches\\"?", "jimmy.txt")
 git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
-git_log()       ## see? 2 commits
+git_history()   ## see? 2 commits
 git_status()    ## see? nothing to stage
 git_uncommit()  ## roll back most recent commit
-git_log()       ## see? only 1st commit is in history
+git_history()   ## see? only 1st commit is in history
 git_status()    ## see? jimmy.txt is a new, staged file
 ## re-do that 2nd commit but with message in ALL CAPS
 git_commit(message = "THAT'S THE CODE WORD. I MISS YOU, PEACHES.")
-git_log()       ## see? back to 2 commits
+git_history()   ## see? back to 2 commits
+git_history()   ## see? back to 2 commits
 setwd(owd)
 }
 
