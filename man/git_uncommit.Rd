@@ -4,9 +4,11 @@
 \alias{git_uncommit}
 \title{Undo a Git commit but leave files alone}
 \usage{
-git_uncommit(repo = ".")
+git_uncommit(ask = TRUE, repo = ".")
 }
 \arguments{
+\item{ask}{Whether to confirm that user wants to change history}
+
 \item{repo}{Path to a Git repo. If unspecified, current working directory is
 checked to see if it is or is inside a Git repo.}
 }

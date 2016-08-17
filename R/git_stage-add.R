@@ -1,9 +1,15 @@
 #' Stage changes for the next commit.
 #'
-#' Stage changes to files in preparation for a commit. \code{git_add()} and
-#' \code{git_stage()} are aliases for each other, so you can use what feels most
-#' natural, i.e. "add" a file to the repo and "stage" modifications. These are
-#' convenience wrappers around \code{\link[git2r:add]{git2r::add}()}.
+#' Stage changes to files in preparation for a commit. In an interactive
+#' session, you'll get the chance to "just stage everything: Y/N?", if you
+#' haven't pre-staged or specified any paths. To pre-authorize the staging of
+#' all current file additions, deletions, and modifications, use
+#' \code{git_commit(all = TRUE)}.
+#'
+#' \code{git_add()} and \code{git_stage()} are aliases for each other, so use
+#' what feels most natural, i.e. "add" a file to the repo and "stage"
+#' modifications. These are convenience wrappers around
+#' \code{\link[git2r:add]{git2r::add}()}.
 #'
 #' @param ... One or more paths or shell glob patterns that will be matched
 #'   against files in the repo's working directory. Paths that match will be
@@ -23,7 +29,7 @@
 #' write("You get what you settle for.", "louise.txt")
 #' git_status()
 #' ## try this interactively and accept the proposed auto-staging
-#' #git_add()
+#' # git_add()
 #' git_add("max.txt", "louise.txt")
 #' git_status()
 #' write("If done properly armed robbery doesn't have to be a totally unpleasant experience.",
