@@ -30,7 +30,7 @@
 #' git_branch_list()
 #'
 #' ## create new branch that points at *first commit*, via its SHA
-#' (gl <- git_log())
+#' (gl <- git_history())
 #' git_branch_create("hindsight", sha = gl$sha[[2]])
 #' git_branch_list()
 #'
@@ -56,7 +56,7 @@ git_branch_create <- function(name, repo = ".", sha = character()) {
     gco <- git2r::revparse_single(gr, "HEAD")
     stop_msg <-
       paste0("Can't find a commit to use as base of new branch.\n",
-             "Use git_log() to see previous commits.\n",
+             "Use git_history() to see previous commits.\n",
              "Maybe there aren't any?")
   }
 

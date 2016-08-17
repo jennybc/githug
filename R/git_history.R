@@ -1,4 +1,4 @@
-#' Get a commit log
+#' Get the commit history
 #'
 #' Get an overview of the last \code{n} commits. Convenience wrapper around
 #' \code{\link[git2r:commits]{git2r::commits}()}, which returns
@@ -10,13 +10,13 @@
 #'
 #' @param n Optional upper limit on the number of commits to output.
 #' @template repo
-#' @return A data frame with S3 class \code{git_log}, solely for printing
+#' @return A data frame with S3 class \code{git_history}, solely for printing
 #'   purposes. Variables: the \code{SHA}, commit \code{message}, \code{when} the
 #'   commit happened, \code{author}, \code{email}, and a list-column of objects
 #'   of class \code{\linkS4class{git_commit}}.
 #' @export
 #' @examples
-#' repo <- git_init(tempfile("git-log-"))
+#' repo <- git_init(tempfile("git-history-"))
 #' owd <- setwd(repo)
 #' line1 <- "Thelma: You're a real live outlaw, aren't ya?"
 #' line2 <- paste("J.D.: Well I may be an outlaw, darlin', but you're the one",
@@ -25,18 +25,18 @@
 #' git_commit("tl.txt", message = "first commit")
 #' write(line2, "tl.txt", append = TRUE)
 #' git_commit("tl.txt", message = "second commit")
-#' git_log()
+#' git_history()
 #' setwd(owd)
-git_log <- function(repo = ".", n = NULL) {
+git_history <- function(repo = ".", n = NULL) {
   gr <- as.git_repository(repo)
-  glog <- tibble::as_tibble(methods::as(gr, "data.frame"))
-  if (nrow(glog) == 0L) {
+  ghistory <- tibble::as_tibble(methods::as(gr, "data.frame"))
+  if (nrow(ghistory) == 0L) {
     message("No commits yet.")
     return(invisible())
   }
   vars <- c("sha", "summary", "when", "author", "email")
-  glog <- glog[vars]
-  names(glog)[names(glog) == "summary"] <- "message"
+  ghistory <- ghistory[vars]
+  names(ghistory)[names(ghistory) == "summary"] <- "message"
   commits <- git2r::commits(gr, n = n)
   commits <-
     tibble::tibble(
@@ -44,14 +44,14 @@ git_log <- function(repo = ".", n = NULL) {
       commit = commits
       )
   if (!is.null(n)) {
-    glog <- glog[glog$sha %in% commits$sha, ]
+    ghistory <- ghistory[ghistory$sha %in% commits$sha, ]
   }
-  glog$commit <- commits$commit[match(glog$sha, commits$sha)]
-  structure(glog, class = c("git_log", class(glog)))
+  ghistory$commit <- commits$commit[match(ghistory$sha, commits$sha)]
+  structure(ghistory, class = c("git_history", class(ghistory)))
 }
 
 #' @export
-print.git_log <- function(x, ...) {
+print.git_history <- function(x, ...) {
   x_pretty <- tibble::tibble(
     sha = substr(x$sha, 1, 7),
     message = sprintf("%-24s", ellipsize(x$message, 24)),

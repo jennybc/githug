@@ -67,14 +67,14 @@ Add new file and commit it. Inspect commit history.
 ```{r}
 write("Did I hear somebody say \"Peaches\"?", "jimmy.txt")
 git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
-git_log()
+git_history()
 ```
 
 Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 
 ```{r}
 git_uncommit(ask = FALSE)
-git_log()
+git_history()
 ```
 
 Verify files and staging are OK. Unstage a file.
@@ -90,7 +90,7 @@ See history.
 Create and checkout a branch. *In an interactive session, you'd get the chance to approve new branch creation.* Go back to master.
 
 ```{r}
-git_log()
+git_history()
 git_branch()
 git_switch("new_branch", create = TRUE)
 git_branch()
@@ -106,7 +106,7 @@ fxn_table <-
 git_config(), Get and set Git configuration variables
 git_init(), Create a new repository
 git_status(), Get status of all files w/r/t Git
-git_log(), Get commit history
+git_history(), Get commit history (a.k.a. the log)
 git_stage(), Stage (changes to) a path for next commit
 git_add(), Synonym for git_stage()
 git_unstage(), Unstage (changes to) a path

@@ -42,7 +42,7 @@ git_branch_create("carpe_diem")
 git_branch_list()
 
 ## create new branch that points at *first commit*, via its SHA
-(gl <- git_log())
+(gl <- git_history())
 git_branch_create("hindsight", sha = gl$sha[[2]])
 git_branch_list()
 

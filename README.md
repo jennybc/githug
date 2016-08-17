@@ -33,9 +33,9 @@ Create a new Git repository and set that as working directory for the duration o
 ``` r
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … mp4sPcvr/githug-example-aab151a75a3
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pwoWNc9/githug-example-148d11fac3d3
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … mp4sPcvr/githug-example-aab151a75a3
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pwoWNc9/githug-example-148d11fac3d3
 knitr::opts_knit$set(root.dir = repo)
 ```
 
@@ -64,7 +64,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Commit:
-#>   * [c24968a] 2016-08-17: Brains'll only get you so far and luck always runs out.
+#>   * [a088655] 2016-08-17: Brains'll only get you so far and luck always runs out.
 ```
 
 Add new file and commit it. Inspect commit history.
@@ -75,13 +75,13 @@ git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
 #> Staged these paths:
 #>   * jimmy.txt
 #> Commit:
-#>   * [96fadae] 2016-08-17: That's the code word. I miss you, Peaches.
-git_log()
+#>   * [db59a91] 2016-08-17: That's the code word. I miss you, Peaches.
+git_history()
 #> # A tibble: 2 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 96fadae That's the code word. I… 2016-08-17 00:00 louise
-#> 2 c24968a Brains'll only get you … 2016-08-17 00:00 louise
+#> 1 db59a91 That's the code word. I… 2016-08-17 00:17 louise
+#> 2 a088655 Brains'll only get you … 2016-08-17 00:17 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -90,14 +90,14 @@ Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 ``` r
 git_uncommit(ask = FALSE)
 #> Uncommit:
-#>   * [96fadae] 2016-08-17: That's the code word. I miss you, Peaches.
+#>   * [db59a91] 2016-08-17: That's the code word. I miss you, Peaches.
 #> HEAD now points to:
-#>   * [c24968a] 2016-08-17: Brains'll only get you so far and luck always runs out.
-git_log()
+#>   * [a088655] 2016-08-17: Brains'll only get you so far and luck always runs out.
+git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 c24968a Brains'll only get you … 2016-08-17 00:00 louise
+#> 1 a088655 Brains'll only get you … 2016-08-17 00:17 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -125,11 +125,11 @@ See history.
 Create and checkout a branch. *In an interactive session, you'd get the chance to approve new branch creation.* Go back to master.
 
 ``` r
-git_log()
+git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 c24968a Brains'll only get you … 2016-08-17 00:00 louise
+#> 1 a088655 Brains'll only get you … 2016-08-17 00:17 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 git_branch()
 #> [1] "master"
@@ -157,7 +157,7 @@ Overview of functions
 | git\_config()        | Get and set Git configuration variables                                      |
 | git\_init()          | Create a new repository                                                      |
 | git\_status()        | Get status of all files w/r/t Git                                            |
-| git\_log()           | Get commit history                                                           |
+| git\_history()       | Get commit history (a.k.a. the log)                                          |
 | git\_stage()         | Stage (changes to) a path for next commit                                    |
 | git\_add()           | Synonym for git\_stage()                                                     |
 | git\_unstage()       | Unstage (changes to) a path                                                  |
@@ -172,14 +172,14 @@ Overview of functions
 
 ``` r
 Sys.time()
-#> [1] "2016-08-17 00:00:12 PDT"
+#> [1] "2016-08-17 00:17:34 PDT"
 git2r::repository("~/rrr/githug0")
-#> Local:    branching /Users/jenny/rrr/githug0/
-#> Remote:   branching @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [3956db0] 2016-08-16: user-focused git_switch()
+#> Local:    master /Users/jenny/rrr/githug0/
+#> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [790dd1a] 2016-08-17: Branching (#29)
 covr::package_coverage("~/rrr/githug0/")
 #> githug Coverage: 90.46%
-#> R/git_log.R: 66.67%
+#> R/git_history.R: 66.67%
 #> R/git_unstage.R: 75.00%
 #> R/git_stage-add.R: 83.08%
 #> R/utils.R: 86.79%
