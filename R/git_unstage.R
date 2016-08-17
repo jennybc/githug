@@ -33,7 +33,7 @@ git_unstage <- function(..., all = FALSE, repo = ".") {
   stopifnot(is_lol(all))
   gr <- as.git_repository(repo)
 
-  status_before <- git_status(repo = repo)
+  status_before <- git_status_check(repo = repo)
   staged_before <- status_before$status == "staged"
   n_staged_before <- sum(staged_before)
 
@@ -70,7 +70,7 @@ git_unstage <- function(..., all = FALSE, repo = ".") {
 
   git2r::reset(gr, path)
 
-  status_after <- git_status(repo = repo)
+  status_after <- git_status_check(repo = repo)
   staged_after <- status_after$status == "staged"
   unstaged_actual <- setdiff(staged, status_after$path[staged_after])
   uhoh <- setdiff(path, unstaged_actual)

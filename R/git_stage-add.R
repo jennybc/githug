@@ -48,7 +48,7 @@ git_stage <- function(..., all = FALSE, force = FALSE, repo = ".") {
   stopifnot(is_lol(force))
   gr <- as.git_repository(repo)
 
-  status_before <- git_status(repo = repo, ls = force)
+  status_before <- git_status_check(repo = repo, ls = force)
   stageable <- c("unstaged", "untracked", if (force) "ignored")
   stageable_before <- status_before$status %in% stageable
 
@@ -91,7 +91,7 @@ git_stage <- function(..., all = FALSE, force = FALSE, repo = ".") {
 
   git2r::add(repo = gr, path = path, force = force)
 
-  status_after <- git_status(repo = repo, ls = force)
+  status_after <- git_status_check(repo = repo, ls = force)
   stageable_after <- status_after$status %in% stageable
   staged_actual <- setdiff(status_before$path[stageable_before],
                            status_after$path[stageable_after])

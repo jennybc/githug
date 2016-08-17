@@ -8,9 +8,9 @@ test_that("git_unstage all = TRUE", {
   write("more a", file.path(tpath, "a"), append = TRUE)
   file.remove(file.path(tpath, "b"))
   write_file("c", dir = tpath)
-  status_before <- git_status(repo = tpath)
+  status_before <- git_status_check(repo = tpath)
   git_add(all = TRUE, repo = tpath)
-  expect_status(git_status(repo = tpath),
+  expect_status(git_status_check(repo = tpath),
                 tibble::frame_data(
                   ~status,  ~path, ~change,
                   "staged", "c",   "new",
@@ -18,7 +18,7 @@ test_that("git_unstage all = TRUE", {
                   "staged", "b",   "deleted"
                 ))
   git_unstage(all = TRUE, repo = tpath)
-  expect_status(git_status(repo = tpath), status_before)
+  expect_status(git_status_check(repo = tpath), status_before)
 })
 
 test_that("git_unstage() admits when it can't do anything", {

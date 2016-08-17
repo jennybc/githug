@@ -40,9 +40,9 @@ Create a new Git repository and set that as working directory for the duration o
 ``` r
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pbOATy1/githug-example-9923713e552e
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pBzVhmN/githug-example-ae204524265f
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pbOATy1/githug-example-9923713e552e
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pBzVhmN/githug-example-ae204524265f
 knitr::opts_knit$set(root.dir = repo)
 ```
 
@@ -55,6 +55,7 @@ git_config_local(user.name = "louise", user.email = "louise@example.org")
 write("Are these girls real smart or real real lucky?", "max.txt")
 write("You get what you settle for.", "louise.txt")
 git_status()
+#> Not on a branch.
 #> # A tibble: 2 x 4
 #>      status       path change     i
 #>       <chr>      <chr>  <chr> <int>
@@ -71,7 +72,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Commit:
-#>   * [7251161] 2016-08-17: Brains'll only get you so far and luck always runs out.
+#>   * [9fc7140] 2016-08-17: Brains'll only get you so far and luck always runs out.
 ```
 
 Add new file and commit it. Inspect commit history.
@@ -82,13 +83,13 @@ git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
 #> Staged these paths:
 #>   * jimmy.txt
 #> Commit:
-#>   * [d86c108] 2016-08-17: That's the code word. I miss you, Peaches.
+#>   * [83fcc3d] 2016-08-17: That's the code word. I miss you, Peaches.
 git_history()
 #> # A tibble: 2 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 d86c108 That's the code word. I… 2016-08-17 15:04 louise
-#> 2 7251161 Brains'll only get you … 2016-08-17 15:04 louise
+#> 1 83fcc3d That's the code word. I… 2016-08-17 16:19 louise
+#> 2 9fc7140 Brains'll only get you … 2016-08-17 16:19 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -97,14 +98,14 @@ Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 ``` r
 git_uncommit(ask = FALSE)
 #> Uncommit:
-#>   * [d86c108] 2016-08-17: That's the code word. I miss you, Peaches.
+#>   * [83fcc3d] 2016-08-17: That's the code word. I miss you, Peaches.
 #> HEAD now points to:
-#>   * [7251161] 2016-08-17: Brains'll only get you so far and luck always runs out.
+#>   * [9fc7140] 2016-08-17: Brains'll only get you so far and luck always runs out.
 git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 7251161 Brains'll only get you … 2016-08-17 15:04 louise
+#> 1 9fc7140 Brains'll only get you … 2016-08-17 16:19 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -112,6 +113,8 @@ Verify files and staging are OK. Unstage a file.
 
 ``` r
 git_status()
+#> On branch:
+#>   * master
 #> # A tibble: 1 x 4
 #>   status      path change     i
 #>    <chr>     <chr>  <chr> <int>
@@ -122,6 +125,8 @@ git_unstage("jimmy.txt")
 #> Unstaged these paths:
 #>   * jimmy.txt
 git_status()
+#> On branch:
+#>   * master
 #> # A tibble: 1 x 4
 #>      status      path change     i
 #>       <chr>     <chr>  <chr> <int>
@@ -136,7 +141,7 @@ git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 7251161 Brains'll only get you … 2016-08-17 15:04 louise
+#> 1 9fc7140 Brains'll only get you … 2016-08-17 16:19 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 git_branch()
 #> [1] "master"
@@ -179,13 +184,13 @@ Overview of functions
 
 ``` r
 Sys.time()
-#> [1] "2016-08-17 15:04:44 PDT"
+#> [1] "2016-08-17 16:19:43 PDT"
 git2r::repository("~/rrr/githug0")
 #> Local:    master /Users/jenny/rrr/githug0/
 #> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [6086bb3] 2016-08-17: make github links sensible for the public repo
+#> Head:     [7b35ad0] 2016-08-17: git_status: user-facing vs programming treatment
 covr::package_coverage("~/rrr/githug0/")
-#> githug Coverage: 90.46%
+#> githug Coverage: 90.57%
 #> R/git_history.R: 66.67%
 #> R/git_unstage.R: 75.00%
 #> R/git_stage-add.R: 83.08%

@@ -5,12 +5,12 @@ test_that("git_commit works, with repo elsewhere and in wd", {
   tpath <- init_tmp_repo()
   write_file(c("a", "b"), dir = tpath)
   gc <- git_commit(all = TRUE, message = "first commit", repo = tpath)
-  expect_identical(nrow(git_status(repo = tpath)), 0L)
+  expect_identical(nrow(git_status_check(repo = tpath)), 0L)
   owd <- setwd(tpath)
   write_file(c("c", "d"))
   expect_message(git_commit(all = TRUE, message = "second commit", repo = tpath),
                  "Staged these paths:\n  \\* c\n  \\* d")
-  expect_identical(nrow(git_status()), 0L)
+  expect_identical(nrow(git_status_check()), 0L)
   setwd(owd)
 })
 

@@ -6,3 +6,4 @@
 ^README-.*\.png$
 ^scratch\.R$
 ^scratch\.txt$
+^img$

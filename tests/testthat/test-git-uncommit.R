@@ -21,7 +21,7 @@ test_that("git_uncommit moves HEAD back to parent and leaves things staged", {
   gco <- git_uncommit(ask = FALSE, repo = tpath)
   expect_identical(nrow(git_history(repo = tpath)), 1L)
   expect_equivalent(gl$sha[[2]], gco)
-  expect_status(git_status(ls = TRUE, repo = tpath),
+  expect_status(git_status_check(ls = TRUE, repo = tpath),
                 tibble::frame_data(
                   ~status,   ~path, ~change,
                   "staged",  "b",   "new",

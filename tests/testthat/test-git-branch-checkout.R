@@ -57,7 +57,7 @@ test_that("at risk files protected when 'force = FALSE' and not when 'force = TR
 
   git_branch_checkout(repo = tpath)
   write("master a", file = file.path(tpath, "a"), append = TRUE)
-  expect_status(git_status(repo = tpath),
+  expect_status(git_status_check(repo = tpath),
                 tibble::frame_data(
                      ~status, ~path,   ~change,
                   "unstaged",   "a", "modified"

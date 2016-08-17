@@ -4,7 +4,7 @@ test_that("git_stage works, with repo elsewhere and in wd", {
 
   tpath <- init_tmp_repo()
   write_file(letters[1:4], dir = tpath)
-  expect_status(git_status(repo = tpath),
+  expect_status(git_status_check(repo = tpath),
                 tibble::frame_data(
                   ~status,     ~path, ~change,
                   "untracked", "a",   "new",
@@ -14,7 +14,7 @@ test_that("git_stage works, with repo elsewhere and in wd", {
                 ))
   git_stage("a", "c", repo = tpath)
   owd <- setwd(tpath)
-  expect_status(git_status(),
+  expect_status(git_status_check(),
                 tibble::frame_data(
                   ~status,     ~path,
                   "staged",    "a",
@@ -23,7 +23,7 @@ test_that("git_stage works, with repo elsewhere and in wd", {
                   "untracked", "d"
                 ))
   git_stage(all = TRUE)
-  expect_status(git_status(),
+  expect_status(git_status_check(),
                 tibble::frame_data(
                   ~status,  ~path,
                   "staged", "a",
@@ -58,7 +58,7 @@ test_that("git_stage() of an ignored file", {
   expect_message(git_stage("ignore-me", repo = tpath), "not have been staged")
   expect_message(git_stage("ignore-me", force = TRUE, repo = tpath),
                  "Staged these paths:\n  \\* ignore-me")
-  expect_status(git_status(repo = tpath),
+  expect_status(git_status_check(repo = tpath),
                 tibble::frame_data(
                   ~status,  ~path,       ~change, ~i,
                   "staged", "ignore-me", "new",   NA_integer_

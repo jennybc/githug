@@ -41,7 +41,7 @@ git_commit <- function(..., all = FALSE, force = FALSE,
 
   n_path <- length(path)
   if (n_path == 0L) {
-    st <- git_status(repo = repo)
+    st <- git_status_check(repo = repo)
     n_staged <- sum(st$status == "staged")
   }
 
@@ -54,7 +54,7 @@ git_commit <- function(..., all = FALSE, force = FALSE,
     do.call(git_stage, sargs)
   }
 
-  st <- git_status(repo = repo)
+  st <- git_status_check(repo = repo)
   n_staged <- sum(st$status == "staged")
 
   if (n_staged == 0L) {

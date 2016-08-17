@@ -37,13 +37,18 @@
 #' git_status(ls = TRUE)
 #' setwd(owd)
 git_status <- function(repo = ".", ls = FALSE) {
+  gbn <- git_branch(repo = repo)
+  if (!is.null(gbn)) {
+    message("On branch:\n  * ", gbn)
+    ## TODO: maybe add sthg about last commit?
+  }
+  git_status_check(repo = repo, ls = ls)
+}
+
+git_status_check <- function(repo = ".", ls = FALSE) {
 
   stopifnot(is_lol(ls))
   gr <- as.git_repository(repo)
-
-  ## To emulate command line git, do this (once git_branch() exists again)
-  # message("On branch ", git_branch(repo = repo))
-  ## maybe put branch and sthg about last commit in attributes?
 
   ## convert from git2r's git_status object (a list)
   ## to a tibble (maybe a githug_status object + print method? shelving for now)
