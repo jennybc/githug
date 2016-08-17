@@ -53,7 +53,7 @@ git_log <- function(repo = ".", n = NULL) {
 #' @export
 print.git_log <- function(x, ...) {
   x_pretty <- tibble::tibble(
-    sha = substring(x$sha, 1, 7),
+    sha = substr(x$sha, 1, 7),
     message = sprintf("%-24s", ellipsize(x$message, 24)),
     when = format(x$when, format = "%Y-%m-%d %H:%M"),
     author = x$author,

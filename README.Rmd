@@ -8,7 +8,8 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "README-",
+  error = TRUE
 )
 ```
 
@@ -29,32 +30,34 @@ devtools::install_github("jennybc/githug")
 
 ## Example
 
-Create a new Git repository and set local config variables for user and email.
+Load dev version of the package. *This will become `library(githug)`.*
 
 ```{r}
 #library(githug)
 devtools::load_all(".")
-
-repo <- git_init(tempfile("githug-example-"))
-setwd(repo)
-git_config_local(user.name = "louise", user.email = "louise@example.org")
 ```
 
+Create a new Git repository and set that as working directory for the duration of this example.
+
+```{r}
+repo <- git_init(tempfile("githug-example-"))
+knitr::opts_knit$set(root.dir = repo)
+```
+
+Set (local) config variables for user and email.  
 Create two files and inspect Git status.
 
 ```{r}
-setwd(repo) ## necessary because knitr resets wd in every chunk :(
+git_config_local(user.name = "louise", user.email = "louise@example.org")
 
 write("Are these girls real smart or real real lucky?", "max.txt")
 write("You get what you settle for.", "louise.txt")
 git_status()
 ```
 
-Commit with `all = TRUE` to automatically accept all current changes.
+Commit with `all = TRUE` to automatically accept all current changes. *In interactive use, you get a chance to authorize accept this.*
 
 ```{r}
-setwd(repo) ## necessary because knitr resets wd in every chunk :(
-
 git_commit(all = TRUE,
            message = "Brains'll only get you so far and luck always runs out.")
 ```
@@ -62,8 +65,6 @@ git_commit(all = TRUE,
 Add new file and commit it. Inspect commit history. 
 
 ```{r}
-setwd(repo) ## necessary because knitr resets wd in every chunk :(
-
 write("Did I hear somebody say \"Peaches\"?", "jimmy.txt")
 git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
 git_log()
@@ -72,8 +73,6 @@ git_log()
 Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 
 ```{r}
-setwd(repo) ## necessary because knitr resets wd in every chunk :(
-
 git_uncommit(ask = FALSE)
 git_log()
 ```
@@ -81,12 +80,22 @@ git_log()
 Verify files and staging are OK. Unstage a file.
 
 ```{r}
-setwd(repo) ## necessary because knitr resets wd in every chunk :(
-
 git_status()
 list.files()
 git_unstage("jimmy.txt")
 git_status()
+```
+
+See history.  
+Create and checkout a branch. *In an interactive session, you'd get the chance to approve new branch creation.* Go back to master.
+
+```{r}
+git_log()
+git_branch()
+git_switch("new_branch", create = TRUE)
+git_branch()
+git_switch()
+git_branch_list()
 ```
 
 ## Overview of functions
@@ -103,6 +112,9 @@ git_add(), Synonym for git_stage()
 git_unstage(), Unstage (changes to) a path
 git_commit(), Make a commit
 git_uncommit(), Undo a Git commit but leave files alone
+git_branch(), Report current branch or list all branches
+git_switch(), Switch to another branch
+git_branch_*(), \"Lower level functions to list, create, rename, delete, and checkout branches\"
 as.git_repository(), Open a Git repo in the style of the `git2r` package
 "
 ```
@@ -115,6 +127,6 @@ knitr::kable(read.csv(text = fxn_table))
 
 ```{r}
 Sys.time()
-git2r::repository(".")
-covr::package_coverage(".")
+git2r::repository("~/rrr/githug0")
+covr::package_coverage("~/rrr/githug0/")
 ```
