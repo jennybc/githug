@@ -13,8 +13,8 @@ Depends:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/jennybc/githug0
-BugReports: https://github.com/jennybc/githug0/issues
+URL: https://github.com/jennybc/githug
+BugReports: https://github.com/jennybc/githug/issues
 Imports:
     gh,
     git2r (>= 0.13.1),
