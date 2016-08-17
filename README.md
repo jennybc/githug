@@ -1,7 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+[![Project Status: Wip - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/0.1.0/wip.svg)](http://www.repostatus.org/#wip)
+
 githug
 ======
+
+### Welcome to Version Control!
+
+<!--[Demo](https://analovesdotcom.files.wordpress.com/2015/10/voldyhug-1440161473.gif)-->
+![Demo](img/voldyhug-1440161473.gif)
 
 The goal of githug is to wrap you in the warm embrace of Git 🤗, from the comfort of R.
 
@@ -33,9 +40,9 @@ Create a new Git repository and set that as working directory for the duration o
 ``` r
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pwoWNc9/githug-example-148d11fac3d3
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pbOATy1/githug-example-9923713e552e
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pwoWNc9/githug-example-148d11fac3d3
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pbOATy1/githug-example-9923713e552e
 knitr::opts_knit$set(root.dir = repo)
 ```
 
@@ -64,7 +71,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Commit:
-#>   * [a088655] 2016-08-17: Brains'll only get you so far and luck always runs out.
+#>   * [7251161] 2016-08-17: Brains'll only get you so far and luck always runs out.
 ```
 
 Add new file and commit it. Inspect commit history.
@@ -75,13 +82,13 @@ git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
 #> Staged these paths:
 #>   * jimmy.txt
 #> Commit:
-#>   * [db59a91] 2016-08-17: That's the code word. I miss you, Peaches.
+#>   * [d86c108] 2016-08-17: That's the code word. I miss you, Peaches.
 git_history()
 #> # A tibble: 2 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 db59a91 That's the code word. I… 2016-08-17 00:17 louise
-#> 2 a088655 Brains'll only get you … 2016-08-17 00:17 louise
+#> 1 d86c108 That's the code word. I… 2016-08-17 15:04 louise
+#> 2 7251161 Brains'll only get you … 2016-08-17 15:04 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -90,14 +97,14 @@ Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 ``` r
 git_uncommit(ask = FALSE)
 #> Uncommit:
-#>   * [db59a91] 2016-08-17: That's the code word. I miss you, Peaches.
+#>   * [d86c108] 2016-08-17: That's the code word. I miss you, Peaches.
 #> HEAD now points to:
-#>   * [a088655] 2016-08-17: Brains'll only get you so far and luck always runs out.
+#>   * [7251161] 2016-08-17: Brains'll only get you so far and luck always runs out.
 git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 a088655 Brains'll only get you … 2016-08-17 00:17 louise
+#> 1 7251161 Brains'll only get you … 2016-08-17 15:04 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -129,7 +136,7 @@ git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 a088655 Brains'll only get you … 2016-08-17 00:17 louise
+#> 1 7251161 Brains'll only get you … 2016-08-17 15:04 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 git_branch()
 #> [1] "master"
@@ -172,11 +179,11 @@ Overview of functions
 
 ``` r
 Sys.time()
-#> [1] "2016-08-17 00:17:34 PDT"
+#> [1] "2016-08-17 15:04:44 PDT"
 git2r::repository("~/rrr/githug0")
 #> Local:    master /Users/jenny/rrr/githug0/
 #> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [790dd1a] 2016-08-17: Branching (#29)
+#> Head:     [6086bb3] 2016-08-17: make github links sensible for the public repo
 covr::package_coverage("~/rrr/githug0/")
 #> githug Coverage: 90.46%
 #> R/git_history.R: 66.67%
