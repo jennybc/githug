@@ -41,10 +41,8 @@ owd <- setwd(repo)
 git_config(user.name = "thelma", user.email = "thelma@example.org")
 write("I don't ever remember feeling this awake.", "thelma.txt")
 git_commit("thelma.txt", message = "thelma is awake")
-\dontrun{
-## remove dontrun when git_log() exists again
-git_log()
-}
+
+git_history()
 
 setwd(owd)
 }
