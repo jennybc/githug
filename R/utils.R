@@ -71,23 +71,23 @@ get_user_input <- function(...) {
 
 ellipsize <- function(x, n = 20, ellipsis = "\u2026") {
   ifelse(nchar(x) > n,
-         paste0(substring(x, first = 1, last = n - nchar(ellipsis)), ellipsis),
+         paste0(substr(x, start = 1, stop = n - nchar(ellipsis)), ellipsis),
          x)
 }
 
 midlipsize <- function(x, n = 20, ellipsis = "\u2026") {
   if (length(x) == 0L || nchar(x) <= n) return(x)
   half <- (n - nchar(ellipsis))/2
-  paste0(substring(x, first = 1, last = ceiling(half)),
+  paste0(substr(x, start = 1, stop = ceiling(half)),
          ellipsis,
-         substring(x, first = nchar(x) - floor(half) + 1, last = nchar(x)))
+         substr(x, start = nchar(x) - floor(half) + 1, stop = nchar(x)))
 }
 
 bulletize_git_commit <- function(gco) {
   stopifnot(git2r::is_commit(gco))
   posix_when <- methods::as(gco@author@when, "POSIXct")
   sprintf("  * [%s] %s: %s",
-          substring(gco@sha, 1, 7),
+          substr(gco@sha, 1, 7),
           format(posix_when, format = "%Y-%m-%d"),
           ellipsize(gco@message, 55))
 }

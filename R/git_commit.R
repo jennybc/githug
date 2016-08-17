@@ -1,15 +1,15 @@
 #' Make a commit
 #'
-#' Write file changes to the repository. Convenience wrapper around
-#' \code{\link[git2r:commit]{git2r::commit}()} and, possibly,
-#' \code{\link{git_stage}()}. To stage and commit all current file additions,
-#' deletions, and modifications, use \code{git_commit(all = TRUE)}, which
-#' emulates \code{git add -A && git commit}.
+#' Write file changes to the repository. If there are staged changes, the simple
+#' call \code{git_commit(message = "my message")} makes a commit. If nothing's
+#' staged and it's an interactive session, you'll get an offer to "just stage &
+#' commit everything: Y/N?". To explicitly authorize "stage and commit" for all
+#' current file additions, deletions, and modifications, use
+#' \code{git_commit(all = TRUE)}, which emulates \code{git add -A && git
+#' commit}.
 #'
-#' If there are staged changes, the simple call \code{git_commit(message = "my
-#' message")} makes a commit. In the absence of staged changes or when paths are
-#' given via \code{...}, \code{\link{git_stage}()} is called, with arguments
-#' \code{all} and \code{force} also being passed through.
+#' Convenience wrapper around \code{\link[git2r:commit]{git2r::commit}()} and,
+#' possibly, \code{\link{git_stage}()}.
 #'
 #' @inheritParams git_stage
 #' @param message The commit message. Required. If not supplied, user will get a

@@ -21,6 +21,7 @@
 #' equivalent to \code{git reset --soft HEAD^}, i.e. a soft reset to the commit
 #' that is parent to the commit pointed to by current HEAD.
 #'
+#' @param ask Whether to confirm that user wants to change history
 #' @template repo
 #' @template return-SHA-with-hint
 #' @examples
@@ -31,20 +32,42 @@
 #'            message = "Brains'll only get you so far and luck always runs out.")
 #' write("Did I hear somebody say \"Peaches\"?", "jimmy.txt")
 #' git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
-#' git_log()       ## see? 2 commits
+#' git_history()   ## see? 2 commits
 #' git_status()    ## see? nothing to stage
 #' git_uncommit()  ## roll back most recent commit
-#' git_log()       ## see? only 1st commit is in history
+#' git_history()   ## see? only 1st commit is in history
 #' git_status()    ## see? jimmy.txt is a new, staged file
 #' ## re-do that 2nd commit but with message in ALL CAPS
 #' git_commit(message = "THAT'S THE CODE WORD. I MISS YOU, PEACHES.")
-#' git_log()       ## see? back to 2 commits
+#' git_history()   ## see? back to 2 commits
+#' git_history()   ## see? back to 2 commits
 #' setwd(owd)
 #' @export
-git_uncommit <- function(repo = ".") {
+git_uncommit <- function(ask = TRUE, repo = ".") {
+  stopifnot(is_lol(ask))
+  just_do_it <- !ask
   gr <- as.git_repository(repo)
 
   ## TO WORRY: what if HEAD is detached?
+
+  ## TO DO: once I can check status of remote tracking branch, refine this.
+  if (ask) {
+    message("Warning: changing history!\n\n",
+            "git_uncommit() leaves your files intact,\n",
+            "  but removes a commit from the history.\n",
+            "If you've already pushed to a remote,\n",
+            "  especially if others have already pulled,\n",
+            "    this will cause problems.")
+    if (interactive()) {
+      just_do_it <- yesno("\nDo you still want to uncommit?")
+    } else {
+      message("\nYou must explicitly authorize this with 'ask = FALSE'.")
+    }
+  }
+  if (!just_do_it) {
+    message("Aborting.")
+    return(invisible())
+  }
 
   current_head <- git2r::revparse_single(gr, "HEAD")
   stopifnot(git2r::is_commit(current_head))
@@ -54,7 +77,7 @@ git_uncommit <- function(repo = ".") {
   stopifnot(git2r::is_commit(new_head))
   git2r::reset(new_head, reset_type = "soft")
 
-  message("HEAD now points to (but no files were changed!):\n",
+  message("HEAD now points to:\n",
           bulletize_git_commit(new_head))
   invisible(sha_with_hint(new_head))
 }

@@ -39,5 +39,5 @@ write_file <- function(x, dir = NULL) {
 
 ## limits comparison to columns you bothered to include in reference
 expect_status <- function(status, reference) {
-  expect_identical(status[names(reference)], reference)
+  testthat::expect_identical(status[names(reference)], reference)
 }
