@@ -1,88 +1,210 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Project Status: Wip - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/0.1.0/wip.svg)](http://www.repostatus.org/#wip) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/githug)](http://www.r-pkg.org/pkg/githug) [![Travis-CI Build Status](https://travis-ci.org/jennybc/githug.svg?branch=master)](https://travis-ci.org/jennybc/githug) [![codecov.io](https://codecov.io/github/jennybc/githug/coverage.svg?branch=master)](https://codecov.io/github/jennybc/githug?branch=master)
+[![Project Status: Wip - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/0.1.0/wip.svg)](http://www.repostatus.org/#wip)
 
-<!-- [![Build Status](https://travis-ci.org/jennybc/githug?branch=master)](https://travis-ci.org/jennybc/githug) -->
 githug
-------
+======
 
 ### Welcome to Version Control!
 
 <!--[Demo](https://analovesdotcom.files.wordpress.com/2015/10/voldyhug-1440161473.gif)-->
 ![Demo](img/voldyhug-1440161473.gif)
 
-Wrap yourself in the warm embrace of Git from the comfort of R.
+The goal of githug is to wrap you in the warm embrace of Git 🤗, from the comfort of R.
 
-### githug
+*This a reboot of an earlier effort, which lives on in [branch `first-draft`](https://github.com/jennybc/githug/tree/first-draft). That branch includes a function `githug_init()` to connect a new or existing R project (usually a RStudio Project) to a newly created GitHub remote. Currently plodding my way back to that level of functionality.*
 
-This package facilitates common Git tasks by gluing together features from [git2r](https://github.com/ropensci/git2r) and [gh](https://github.com/gaborcsardi/gh), with special attention to things you can't do with RStudio's Git client.
+Installation
+------------
 
-What's the point?
-
--   **Use in teaching:** I teach "data analysis with R". Alot, under time constraints, with students running Mac OS, Windows, and Linux. I like to touch on Git and GitHub, but hate to get bogged down in Git-related [command-line bullshittery](http://www.pgbovine.net/command-line-bullshittery.htm). An immediate goal for `githug` is to do basic, mission critical Git/GitHub operations from within R, with minimal fuss. I'd like to write lessons more easily, i.e. stay in R and avoid writing "Mac OS: do this, Windows: do that, ...".
--   **Selfishness:** There are a few things I do often that I wish were even easier. Karthik and Scott told me about the [`hub`](https://hub.github.com) command line tool, which has a few commands worth imitating, e.g., `hub create` and `hub browse`.
-
-### Installation
-
-*this is really really a work in progress, so just know that*
-
-*current quality level = "it works for me"*
+You can install githug from github with:
 
 ``` r
+# install.packages("devtools")
 devtools::install_github("jennybc/githug")
 ```
 
-#### What can you do with it?
+Example
+-------
 
-Basic Git survival. *See lots of compiled examples here: [`git-survival`](https://github.com/jennybc/githug/blob/master/internal/git-survival.md)*
-
--   config
--   init
--   status, log, HEAD
--   add, commit, ADD, COMMIT
--   branch list, create, delete, checkout, CHECKOUT
--   *to do: remotes, initiate branch tracking after-the-fact*
-
-Connect a new or existing R project (usually a RStudio Project) to a newly created GitHub remote.
+Load dev version of the package. *This will become `library(githug)`.*
 
 ``` r
-library(githug)
-## remove `private = TRUE` if you wish / must
-githug_init(path = tempfile("githug-loves-me-"), private = TRUE)`
+#library(githug)
+devtools::load_all(".")
+#> Loading githug
 ```
 
--   See 3 worked examples here: [`make-me-a-new-github-repo`](https://github.com/jennybc/githug/blob/master/internal/make-me-a-new-github-repo.md)
--   Motivation recorded in a draft vignette [From R/RStudio to GitHub](vignettes/rstudio-to-github.Rmd) for notes.
+Create a new Git repository and set that as working directory for the duration of this example.
 
-Forks. *to do*
+``` r
+repo <- git_init(tempfile("githug-example-"))
+#> * Creating directory:
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pBzVhmN/githug-example-ae204524265f
+#> * Initialising git repository in:
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pBzVhmN/githug-example-ae204524265f
+knitr::opts_knit$set(root.dir = repo)
+```
 
--   fork, pull
--   record the fork relationship in local git config so we can make it easier for novices to ...
--   **update fork based on fork origin!!!**
+Set (local) config variables for user and email.
+Create two files and inspect Git status.
 
-GitHub API operations. *to do*
+``` r
+git_config_local(user.name = "louise", user.email = "louise@example.org")
 
--   wrap and vectorize the `gh` calls for of the most common tasks
-    -   (create | edit | delete | list) \* (repos, teams, issues)
+write("Are these girls real smart or real real lucky?", "max.txt")
+write("You get what you settle for.", "louise.txt")
+git_status()
+#> Not on a branch.
+#> # A tibble: 2 x 4
+#>      status       path change     i
+#>       <chr>      <chr>  <chr> <int>
+#> 1 untracked louise.txt    new    NA
+#> 2 untracked    max.txt    new    NA
+```
 
-*Git diagnostic support for teaching?*
+Commit with `all = TRUE` to automatically accept all current changes. *In interactive use, you get a chance to authorize accept this.*
 
--   Is Git installed? Where is it? What version? Is it on the `PATH`?
+``` r
+git_commit(all = TRUE,
+           message = "Brains'll only get you so far and luck always runs out.")
+#> Staged these paths:
+#>   * louise.txt
+#>   * max.txt
+#> Commit:
+#>   * [9fc7140] 2016-08-17: Brains'll only get you so far and luck always runs out.
+```
 
-*Authentication help?*
+Add new file and commit it. Inspect commit history.
 
--   store PAT for GitHub API into `.Renviron`?
--   help setting up ssh keys? configure ssh-agent?
+``` r
+write("Did I hear somebody say \"Peaches\"?", "jimmy.txt")
+git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
+#> Staged these paths:
+#>   * jimmy.txt
+#> Commit:
+#>   * [83fcc3d] 2016-08-17: That's the code word. I miss you, Peaches.
+git_history()
+#> # A tibble: 2 x 6
+#>       sha                  message             when author
+#>     <chr>                    <chr>            <chr>  <chr>
+#> 1 83fcc3d That's the code word. I… 2016-08-17 16:19 louise
+#> 2 9fc7140 Brains'll only get you … 2016-08-17 16:19 louise
+#> # ... with 2 more variables: email <chr>, commit <list>
+```
 
-### The existing landscape
+Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 
--   [`git2r`](https://github.com/ropensci/git2r/) from Stefan Widgren / rOpenSci wraps libgit2 and is what makes this package possible. In theory, exposes almost anything you can do from Git via command line. Great for programming but rough for use by novice useRs:
-    -   there's room to make things easier w/r/t defaults
-    -   heavy use of S4 objects as input/output
--   RStudio's Git client is very handy but has a few gaps that hurt: can't create a branch, add a remote, or connect local to remote in general. Once you've got everything setup, it's great for diff, add, commit, push, pull.
--   [`gh`](https://github.com/gaborcsardi/gh) package from Gabor Csardi is a very thin wrapper around the GitHub API. Not suitable for novice use because you must read [API docs](https://developer.github.com/v3/) to figure out what's possible and then deduce syntax for a `gh` call. Also no native vectorization *(but `purrr` works beautifully for this!)*.
--   [`rgithub`](https://github.com/cscheid/rgithub/) is another GitHub API wrapper, but is less low-level than `gh` and therefore less suitable to wrap.
--   [`hub`](https://hub.github.com) command line wrapper for GitHub is inspirational. *Note that the [`gh`](https://github.com/jingweno/gh) command line client has been merged into `hub`.*
--   [`gitlabr`](http://gitlab.points-of-interest.cc/points-of-interest/gitlabr/issues/): nice wrapper around the gitlab API from Jirka Lewandowski. Dual = high level and low level.
-    -   <http://blog.points-of-interest.cc/post/gitlabr-released>
-    -   <https://cran.r-project.org/web/packages/gitlabr/>
+``` r
+git_uncommit(ask = FALSE)
+#> Uncommit:
+#>   * [83fcc3d] 2016-08-17: That's the code word. I miss you, Peaches.
+#> HEAD now points to:
+#>   * [9fc7140] 2016-08-17: Brains'll only get you so far and luck always runs out.
+git_history()
+#> # A tibble: 1 x 6
+#>       sha                  message             when author
+#>     <chr>                    <chr>            <chr>  <chr>
+#> 1 9fc7140 Brains'll only get you … 2016-08-17 16:19 louise
+#> # ... with 2 more variables: email <chr>, commit <list>
+```
+
+Verify files and staging are OK. Unstage a file.
+
+``` r
+git_status()
+#> On branch:
+#>   * master
+#> # A tibble: 1 x 4
+#>   status      path change     i
+#>    <chr>     <chr>  <chr> <int>
+#> 1 staged jimmy.txt    new    NA
+list.files()
+#> [1] "jimmy.txt"  "louise.txt" "max.txt"
+git_unstage("jimmy.txt")
+#> Unstaged these paths:
+#>   * jimmy.txt
+git_status()
+#> On branch:
+#>   * master
+#> # A tibble: 1 x 4
+#>      status      path change     i
+#>       <chr>     <chr>  <chr> <int>
+#> 1 untracked jimmy.txt    new    NA
+```
+
+See history.
+Create and checkout a branch. *In an interactive session, you'd get the chance to approve new branch creation.* Go back to master.
+
+``` r
+git_history()
+#> # A tibble: 1 x 6
+#>       sha                  message             when author
+#>     <chr>                    <chr>            <chr>  <chr>
+#> 1 9fc7140 Brains'll only get you … 2016-08-17 16:19 louise
+#> # ... with 2 more variables: email <chr>, commit <list>
+git_branch()
+#> [1] "master"
+git_switch("new_branch", create = TRUE)
+#> Switched to branch:
+#>   * new_branch
+git_branch()
+#> [1] "new_branch"
+git_switch()
+#> Switched to branch:
+#>   * master
+git_branch_list()
+#> # A tibble: 2 x 6
+#>    HEAD  full_name  type     branch remote               gb
+#>   <lgl>      <chr> <chr>      <chr>  <chr>           <list>
+#> 1  TRUE     master local     master   <NA> <S4: git_branch>
+#> 2 FALSE new_branch local new_branch   <NA> <S4: git_branch>
+```
+
+Overview of functions
+---------------------
+
+| fxn                  | description                                                                  |
+|:---------------------|:-----------------------------------------------------------------------------|
+| git\_config()        | Get and set Git configuration variables                                      |
+| git\_init()          | Create a new repository                                                      |
+| git\_status()        | Get status of all files w/r/t Git                                            |
+| git\_history()       | Get commit history (a.k.a. the log)                                          |
+| git\_stage()         | Stage (changes to) a path for next commit                                    |
+| git\_add()           | Synonym for git\_stage()                                                     |
+| git\_unstage()       | Unstage (changes to) a path                                                  |
+| git\_commit()        | Make a commit                                                                |
+| git\_uncommit()      | Undo a Git commit but leave files alone                                      |
+| git\_branch()        | Report current branch or list all branches                                   |
+| git\_switch()        | Switch to another branch                                                     |
+| git\_branch\_\*()    | Lower level functions to list, create, rename, delete, and checkout branches |
+| as.git\_repository() | Open a Git repo in the style of the `git2r` package                          |
+
+*to be replaced by a proper test coverage badge*
+
+``` r
+Sys.time()
+#> [1] "2016-08-17 16:19:43 PDT"
+git2r::repository("~/rrr/githug0")
+#> Local:    master /Users/jenny/rrr/githug0/
+#> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
+#> Head:     [7b35ad0] 2016-08-17: git_status: user-facing vs programming treatment
+covr::package_coverage("~/rrr/githug0/")
+#> githug Coverage: 90.57%
+#> R/git_history.R: 66.67%
+#> R/git_unstage.R: 75.00%
+#> R/git_stage-add.R: 83.08%
+#> R/utils.R: 86.79%
+#> R/git_branch_create.R: 88.46%
+#> R/git_branch_rename.R: 92.86%
+#> R/git_commit.R: 93.75%
+#> R/git_branch_checkout.R: 96.30%
+#> R/git_uncommit.R: 96.55%
+#> R/git_branch_delete.R: 100.00%
+#> R/git_branch.R: 100.00%
+#> R/git_config.R: 100.00%
+#> R/git_init.R: 100.00%
+#> R/git_repository.R: 100.00%
+#> R/git_status.R: 100.00%
+#> R/githug_list-class.R: 100.00%
+```

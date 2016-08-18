@@ -1,11 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^README\.Rmd$
-^README\.html$
-^README-.*\.png$
-^scratch[0-9]*\.R$
-^img$
-^man-roxygen$
 ^internal$
-^\.travis\.yml$
-^tests/testthat/githugci-PAT.txt$
+^man-roxygen$
+^README\.Rmd$
+^README-.*\.png$
+^scratch\.R$
+^scratch\.txt$
+^img$

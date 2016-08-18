@@ -1,32 +1,29 @@
 Package: githug
 Title: Interface to local and remote Git operations
 Version: 0.0.0.9000
-Authors@R: person("Jennifer", "Bryan", role=c("aut", "cre"),
-  email = "jenny@stat.ubc.ca")
+Authors@R: c(
+    person("Jennifer", "Bryan", , "jenny@stat.ubc.ca", c("cre", "aut")),
+    person("Hadley", "Wickham", , "hadley@rstudio.com", "ctb")
+  )
 Description: Interface to local and remote Git operations. Interface to local
-  and remote Git operations. Interface to local and remote Git operations.
-  Interface to local and remote Git operations.
+    and remote Git operations. Interface to local and remote Git operations.
+    Interface to local and remote Git operations.
 Depends:
     R (>= 3.2.2)
 License: MIT + file LICENSE
+Encoding: UTF-8
 LazyData: true
 URL: https://github.com/jennybc/githug
 BugReports: https://github.com/jennybc/githug/issues
 Imports:
-    dplyr,
     gh,
     git2r (>= 0.13.1),
-    jsonlite,
-    purrr (>= 0.2.0)
-Suggests:
-    testthat,
-    knitr,
-    rmarkdown,
-    withr,
-    curl
+    methods,
+    purrr,
+    stats,
+    tibble,
+    utils
+Remotes: gaborcsardi/gh
 RoxygenNote: 5.0.1.9000
-Remotes:
-    gaborcsardi/gh,
-    ropensci/git2r,
-    hadley/dplyr
-VignetteBuilder: knitr
+Suggests: rprojroot,
+    testthat

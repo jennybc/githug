@@ -1,11 +1,23 @@
 #' Create a new Git repository
 #'
+#' Create a new Git repository or re-initialize an existing one, similar to
+#' \code{git init}.
+#'
+#' Will bad things happen if you \code{git_init()} in a directory that is
+#' already a Git repo? No, it's fine! To quote the
+#' \href{https://git-scm.com/docs/git-init}{git-init man page}, "running
+#' \code{git init} in an existing repository is safe. It will not overwrite
+#' things that are already there". A legitimate reason to do this is to pick up
+#' a new Git template, a topic which newcomers can safely ignore.
+#'
+#' \code{git_init()} will not create a Git repo in a subdirectory of an existing
+#' Git repo. The proper way to do this is via
+#' \href{https://git-scm.com/book/en/v2/Git-Tools-Submodules}{Git submodules},
+#' which is beyond the current scope of the package.
+#'
 #' @param path Where to create the new Git repo. Defaults to current working
 #'   directory. If the \code{path} doesn't exist, it will be created via
 #'   \code{dir.create(path, recursive = TRUE)}.
-#' @param force Whether to create a Git repo, even if it will be inside another
-#'   repo. This is generally a bad idea, so use \code{force = TRUE} at your own
-#'   risk and consider using Git submodules instead.
 #'
 #' @template return-repo-path
 #' @export
@@ -16,44 +28,48 @@
 #' ## switch working directory to the repo
 #' owd <- setwd(repo)
 #'
-#' ## Config user and make a commit
+#' ## Config local user and make a commit
 #' git_config(user.name = "thelma", user.email = "thelma@example.org")
-#' writeLines("I don't ever remember feeling this awake.", "thelma.txt")
-#' git_COMMIT("thelma is awake")
-#' git_log()
+#' write("I don't ever remember feeling this awake.", "thelma.txt")
+#' git_commit("thelma.txt", message = "thelma is awake")
+#'
+#' git_history()
 #'
 #' setwd(owd)
-git_init <- function(path = ".", force = FALSE) {
+git_init <- function(path = ".") {
 
-  path <- normalizePath(path, winslash = "/", mustWork = FALSE)
-  path_preexists <- dir.exists(path)
-  path_is_repo   <- is_a_repo(path)
+  path <- normalize_path(path)
+  led_path <- least_existing_dir(path)
+  printable_path <-
+    midlipsize(path, getOption("width") - 2, ellipsis = " \u2026 ")
 
-  led_path       <- least_existing_dir(path)
-  led_is_in_repo <- is_in_repo(led_path)
-
-  if (path_preexists && path_is_repo) {
-    message("'path' appears to already be a Git repo:\n", path)
+  if (is_a_repo(path)) {
+    message("'path' is already a Git repo:\n  ", printable_path)
+  } else if (is_in_repo(led_path)) {
+    stop("Aborting git_init().\n",
+         "'path' is or will be nested within an existing Git repo:\n  ",
+         printable_path, call. = FALSE)
   }
 
-  ## could be just 'if (led_is_in_repo)' but want to avoid double message
-  if (  (path_preexists && !path_is_repo && led_is_in_repo) ||
-       (!path_preexists && led_is_in_repo) ) {
-    message("'path' is or will be nested within an existing Git repo:\n", path)
-    if (!force) {
-      message("If you really want to init a new repo inside an existing ",
-              "repo, use 'git_init(path, force = TRUE)'.")
-      return(invisible(NULL))
+  if (!dir_exists(path)) {
+    if (file_exists(path)) {
+      stop("Aborting git_init().\n",
+           "Can't create directory. File already exists at 'path':\n  ",
+           printable_path, call. = FALSE)
     }
-  }
-
-  if (!path_preexists) {
-    message("Creating directory ", path)
+    message("* Creating directory:\n  ", printable_path)
     dir.create(path, recursive = TRUE)
   }
 
-  message("Doing `git init` in ", path)
-  repo <- git2r::init(path)
-  return(invisible(as.rpath(repo)))
+  message("* Initialising git repository in:\n  ", printable_path)
+  gr <- git2r::init(path)
+  return(invisible(gr_path(gr)))
+
+  ## TO CONSIDER:
+  ## set any custom githug config vars here? note that githug did git_init()?
+  ## add hooks?
+  ## https://github.com/jennybc/githug0/issues/11
+  ## set standard config vars to superior non-default values now?
+  ## https://github.com/jennybc/githug0/issues/7
 
 }

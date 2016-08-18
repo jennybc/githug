@@ -6,19 +6,16 @@
 \alias{git_config_local}
 \title{Get and set Git configuration variables}
 \usage{
-git_config(..., repo = ".", where = c("de_facto", "local", "global"))
+git_config(..., where = c("de_facto", "local", "global"), repo = ".")
 
-git_config_global(...)
+git_config_global(..., repo = ".")
 
 git_config_local(..., repo = ".")
 }
 \arguments{
-\item{...}{The Git configuration variables to get or set. If unspecified, all
-are returned, i.e. the output should match the result of \code{git config
---list}.}
-
-\item{repo}{Path to a Git repo. If unspecified, current working directory is
-checked to see if it is or is inside a Git repo.}
+\item{...}{The Git configuration variables to get or set. If unspecified,
+all are returned, i.e. the output should match the result of \code{git
+config --list}.}
 
 \item{where}{Specifies which variables. The default, \code{de_facto}, applies
 only to a query and requests the variables in force, i.e. where local repo
@@ -28,6 +25,9 @@ configuration file: for \code{local}, \code{.git/config} in the targetted
 \code{repo}, and for \code{global}, \code{~/.gitconfig} in user's home
 directory. When setting, if \code{where} is unspecified, the local
 configuration is modified.}
+
+\item{repo}{Path to a Git repo. If unspecified, current working directory is
+checked to see if it is or is inside a Git repo.}
 }
 \value{
 A named list of Git configuration variables, with class
@@ -35,11 +35,11 @@ A named list of Git configuration variables, with class
 }
 \description{
 \code{git_config} and convenience wrappers \code{git_config_global} and
-\code{git_config_local} can be used to query or modify Git configuration. All
-rely on \code{\link[git2r]{config}} from \code{\link{git2r}}.
+\code{git_config_local} can be used to get or set Git configuration. All
+rely on \code{\link[git2r:config]{git2r::config}()}.
 }
 \details{
-Variables can be queried by specifying the names as strings or in a unnamed
+Variables can be listed by specifying the names as strings or in a unnamed
 list or vector of strings. Don't specify anything if you want to see them
 all. Non-existent variables will return value \code{NULL}.
 
@@ -56,7 +56,7 @@ Consult the \href{https://git-scm.com/docs/git-config}{git-config man page}
 for a long yet non-comprehensive list of variables.
 
 For future GitHub happiness, it is highly recommended that you set
-\code{user.name} to an email address that is associated with your GitHub
+\code{user.email} to an email address that is associated with your GitHub
 account: \url{https://help.github.com/articles/setting-your-email-in-git/}.
 }
 \section{Functions}{
@@ -71,10 +71,11 @@ account: \url{https://help.github.com/articles/setting-your-email-in-git/}.
 ## see git config currently in effect, based on working directory
 git_config()         # local > global, same as git_config(where = "de_facto")
 git_config_local()   #                 same as git_config(where = "local")
-git_config_global()  #                 same as git-config(where = "global")
+git_config_global()  #                 same as git_config(where = "global")
 
+## set and get global config
 \dontrun{
-## set and query global config
+## set and list global config
 git_config_global(user.name = "thelma", user.email = "thelma@example.org")
 git_config_global("user.name", "user.email")
 }
@@ -89,7 +90,7 @@ owd <- setwd(repo)
 ## set local variables for current repo
 git_config_local(user.name = "louise", user.email = "louise@example.org")
 
-## query specific local variables, including a non-existent one
+## get specific local variables, including a non-existent one
 git_config_local("user.name", "color.branch", "user.email")
 
 ## set local variables, then restore
@@ -100,7 +101,7 @@ git_config_local("user.name", "user.email")
 
 ## set a custom variable
 ocfg <- git_config_local(githug.lol = "wut")
-git_config_local("github.lol")
+git_config_local("githug.lol")
 
 setwd(owd)
 }
