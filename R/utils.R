@@ -35,8 +35,6 @@ is_named <- function(x) {
     all(nzchar(nms))
 }
 
-`%||%` <- function(x, y) if (is.null(x)) y else x
-
 ## walk up parent dirs until you find one that exists
 least_existing_dir <- function(path) {
   stopifnot(length(path) == 1L, is.character(path), path != "")
