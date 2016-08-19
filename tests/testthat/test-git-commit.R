@@ -15,10 +15,12 @@ test_that("git_commit works, with repo elsewhere and in wd", {
 })
 
 test_that("commit demands a commit message", {
+  prohibit_interaction()
   tpath <- init_tmp_repo()
   write_file("foo", dir = tpath)
   expect_error(git_commit(all = TRUE, repo = tpath),
                "You must provide a commit message")
+  allow_interaction()
 })
 
 test_that("explicit paths work in git_commit", {

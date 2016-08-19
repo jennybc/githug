@@ -22,6 +22,7 @@ test_that("git_unstage all = TRUE", {
 })
 
 test_that("git_unstage() admits when it can't do anything", {
+  prohibit_interaction()
   tpath <- init_tmp_repo()
   expect_message(git_unstage(repo = tpath), "Nothing to unstage")
   write_file("a", dir = tpath)
@@ -30,4 +31,5 @@ test_that("git_unstage() admits when it can't do anything", {
   expect_message(git_unstage(repo = tpath), "Either provide")
   git_commit(all = TRUE, message = "message", repo = tpath)
   expect_message(git_unstage(repo = tpath), "Nothing to unstage")
+  allow_interaction()
 })

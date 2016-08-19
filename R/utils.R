@@ -78,3 +78,15 @@ midlipsize <- function(x, n = 20, ellipsis = "\u2026") {
          ellipsis,
          substr(x, start = nchar(x) - floor(half) + 1, stop = nchar(x)))
 }
+
+## helpful for seeing non-interactive behavior in an interactive session,
+## i.e. for development and test writing
+interactive <- function() {
+  if (getOption("allow_interaction", default = TRUE)) {
+    base::interactive()
+  } else {
+    FALSE
+  }
+}
+prohibit_interaction <- function() options(allow_interaction = FALSE)
+allow_interaction <- function() options(allow_interaction = TRUE)
