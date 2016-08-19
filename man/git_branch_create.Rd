@@ -4,7 +4,7 @@
 \alias{git_branch_create}
 \title{Create a new branch}
 \usage{
-git_branch_create(name, repo = ".", sha = character())
+git_branch_create(name, repo = ".", rev = "HEAD")
 }
 \arguments{
 \item{name}{Name for the new branch}
@@ -12,13 +12,18 @@ git_branch_create(name, repo = ".", sha = character())
 \item{repo}{Path to a Git repo. If unspecified, current working directory is
 checked to see if it is or is inside a Git repo.}
 
-\item{sha}{The SHA of a commit in \code{repo}}
+\item{rev}{Commit to base the new branch on, as a
+\href{http://git-scm.com/docs/git-rev-parse.html#_specifying_revisions}{revision
+string}, e.g. \code{HEAD^}, \code{branchname}, \code{SHA-1} or a leading
+substring thereof}
 }
 \description{
 Create a new local branch. You must specify the \code{name} of the new
 branch, at the very least. By default, the new branch will point at current
-HEAD. Optionally, you can specify another commit to base the branch on, via
-its SHA.
+HEAD. Optionally, you can specify another commit to base the branch on, via a
+\href{http://git-scm.com/docs/git-rev-parse.html#_specifying_revisions}{revision
+string}, e.g. \code{HEAD^}, \code{branchname}, \code{SHA-1} or a leading
+substring thereof.
 }
 \details{
 Convenience wrapper around
@@ -43,7 +48,7 @@ git_branch_list()
 
 ## create new branch that points at *first commit*, via its SHA
 (gl <- git_history())
-git_branch_create("hindsight", sha = gl$sha[[2]])
+git_branch_create("hindsight", rev = gl$sha[[2]])
 git_branch_list()
 
 \dontrun{

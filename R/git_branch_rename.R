@@ -41,6 +41,6 @@ git_branch_rename <- function(from, to, repo = ".") {
     stop("Could not rename branch '", from, "' to '", to, "'.", call. = FALSE)
   }
 
-  message("Branch renamed:\n  * ", from, " --> ", to)
-  invisible(sha_with_hint(git_branch_tip_commit(to_branch)))
+  message("Branch renamed:\n  * ", from_branch@name, " --> ", to_branch@name)
+  invisible(sha_with_hint(git_rev_resolve(to_branch@name, repo = repo)))
 }

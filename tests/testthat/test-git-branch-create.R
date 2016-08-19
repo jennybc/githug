@@ -7,7 +7,7 @@ test_that("branch can be created from SHA", {
   write_file("b", dir = tpath)
   git_commit("b", message = "b", repo = tpath)
   gl <- git_history(repo = tpath)
-  gb <- git_branch_create("new_branch", repo = tpath, sha = gl$sha[2])
+  gb <- git_branch_create("new_branch", repo = tpath, rev = gl$sha[2])
   expect_identical(gc1, gb)
   expect_true("new_branch" %in% git_branch_list(repo = tpath)$branch)
 })

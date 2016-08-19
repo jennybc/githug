@@ -40,9 +40,9 @@ Create a new Git repository and set that as working directory for the duration o
 ``` r
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pBzVhmN/githug-example-ae204524265f
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … mpGlCek1/githug-example-ec5101cb062
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pBzVhmN/githug-example-ae204524265f
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … mpGlCek1/githug-example-ec5101cb062
 knitr::opts_knit$set(root.dir = repo)
 ```
 
@@ -72,7 +72,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Commit:
-#>   * [9fc7140] 2016-08-17: Brains'll only get you so far and luck always runs out.
+#>   * [cff1853] 2016-08-19: Brains'll only get you so far and luck always runs out.
 ```
 
 Add new file and commit it. Inspect commit history.
@@ -83,13 +83,13 @@ git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
 #> Staged these paths:
 #>   * jimmy.txt
 #> Commit:
-#>   * [83fcc3d] 2016-08-17: That's the code word. I miss you, Peaches.
+#>   * [dce83e7] 2016-08-19: That's the code word. I miss you, Peaches.
 git_history()
 #> # A tibble: 2 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 83fcc3d That's the code word. I… 2016-08-17 16:19 louise
-#> 2 9fc7140 Brains'll only get you … 2016-08-17 16:19 louise
+#> 1 dce83e7 That's the code word. I… 2016-08-19 16:10 louise
+#> 2 cff1853 Brains'll only get you … 2016-08-19 16:10 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -98,14 +98,14 @@ Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 ``` r
 git_uncommit(ask = FALSE)
 #> Uncommit:
-#>   * [83fcc3d] 2016-08-17: That's the code word. I miss you, Peaches.
-#> HEAD now points to:
-#>   * [9fc7140] 2016-08-17: Brains'll only get you so far and luck always runs out.
+#>   * [dce83e7] 2016-08-19: That's the code word. I miss you, Peaches.
+#> HEAD reset to:
+#>   * [cff1853] 2016-08-19: Brains'll only get you so far and luck always runs out.
 git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 9fc7140 Brains'll only get you … 2016-08-17 16:19 louise
+#> 1 cff1853 Brains'll only get you … 2016-08-19 16:10 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -141,7 +141,7 @@ git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 9fc7140 Brains'll only get you … 2016-08-17 16:19 louise
+#> 1 cff1853 Brains'll only get you … 2016-08-19 16:10 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 git_branch()
 #> [1] "master"
@@ -184,22 +184,23 @@ Overview of functions
 
 ``` r
 Sys.time()
-#> [1] "2016-08-17 16:19:43 PDT"
+#> [1] "2016-08-19 16:10:10 PDT"
 git2r::repository("~/rrr/githug0")
 #> Local:    master /Users/jenny/rrr/githug0/
 #> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [7b35ad0] 2016-08-17: git_status: user-facing vs programming treatment
+#> Head:     [a71a73b] 2016-08-19: git_rev_parse() helper
 covr::package_coverage("~/rrr/githug0/")
-#> githug Coverage: 90.57%
+#> githug Coverage: 90.27%
 #> R/git_history.R: 66.67%
 #> R/git_unstage.R: 75.00%
 #> R/git_stage-add.R: 83.08%
-#> R/utils.R: 86.79%
-#> R/git_branch_create.R: 88.46%
+#> R/utils.R: 85.00%
+#> R/git_branch_create.R: 85.71%
+#> R/utils-git2r.R: 87.50%
 #> R/git_branch_rename.R: 92.86%
 #> R/git_commit.R: 93.75%
+#> R/git_uncommit.R: 96.00%
 #> R/git_branch_checkout.R: 96.30%
-#> R/git_uncommit.R: 96.55%
 #> R/git_branch_delete.R: 100.00%
 #> R/git_branch.R: 100.00%
 #> R/git_config.R: 100.00%

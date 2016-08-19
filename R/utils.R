@@ -54,8 +54,6 @@ normalize_path_strict <- function(path) {
   normalizePath(path, winslash = "/", mustWork = TRUE)
 }
 
-message_nl <- function(...) message(paste(..., collapse = "\n"))
-
 yesno <- function(...) {
   cat(paste0(..., collapse = ""))
   utils::menu(c("yes", "no")) == 1
@@ -79,21 +77,4 @@ midlipsize <- function(x, n = 20, ellipsis = "\u2026") {
   paste0(substr(x, start = 1, stop = ceiling(half)),
          ellipsis,
          substr(x, start = nchar(x) - floor(half) + 1, stop = nchar(x)))
-}
-
-bulletize_git_commit <- function(gco) {
-  stopifnot(git2r::is_commit(gco))
-  posix_when <- methods::as(gco@author@when, "POSIXct")
-  sprintf("  * [%s] %s: %s",
-          substr(gco@sha, 1, 7),
-          format(posix_when, format = "%Y-%m-%d"),
-          ellipsize(gco@message, 55))
-}
-
-sha_with_hint <- function(gco) {
-  stopifnot(git2r::is_commit(gco))
-  posix_when <- methods::as(gco@author@when, "POSIXct")
-  structure(gco@sha,
-            hint = paste(format(posix_when, format = "%Y-%m-%d %H:%M"),
-                         ellipsize(gco@message, 45)))
 }

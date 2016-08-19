@@ -141,12 +141,6 @@ parse_branches <- function(x) {
   res
 }
 
-## input: git_branch object
-## output git_commit object
-git_branch_tip_commit <- function(b) {
-  git2r::lookup(repo = b@repo, sha = git2r::branch_target(b))
-}
-
 ## input: branch name
 ## output git_branch object
 git_branch_from_name <- function(name, repo) {
