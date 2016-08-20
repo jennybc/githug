@@ -19,7 +19,7 @@ Rename an existing local branch. It's fine to rename the branch you're on.
 }
 \details{
 Convenience wrapper around
-\code{\link[git2r:branch_create]{git2r::branch_create}()}.
+\code{\link[git2r:branch_create]{git2r::branch_rename}()}.
 }
 \examples{
 repo <- git_init(tempfile("githug-branches-"))

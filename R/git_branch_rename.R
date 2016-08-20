@@ -3,7 +3,7 @@
 #' Rename an existing local branch. It's fine to rename the branch you're on.
 #'
 #' Convenience wrapper around
-#' \code{\link[git2r:branch_create]{git2r::branch_create}()}.
+#' \code{\link[git2r:branch_create]{git2r::branch_rename}()}.
 #'
 #' @param from Name of the existing branch
 #' @param to New name for the branch
@@ -41,6 +41,6 @@ git_branch_rename <- function(from, to, repo = ".") {
     stop("Could not rename branch '", from, "' to '", to, "'.", call. = FALSE)
   }
 
-  message("Branch renamed:\n  * ", from, " --> ", to)
-  invisible(sha_with_hint(git_branch_tip_commit(to_branch)))
+  message("Branch renamed:\n  * ", from_branch@name, " --> ", to_branch@name)
+  invisible(sha_with_hint(git_rev_resolve(to_branch@name, repo = repo)))
 }

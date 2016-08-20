@@ -35,8 +35,6 @@ is_named <- function(x) {
     all(nzchar(nms))
 }
 
-`%||%` <- function(x, y) if (is.null(x)) y else x
-
 ## walk up parent dirs until you find one that exists
 least_existing_dir <- function(path) {
   stopifnot(length(path) == 1L, is.character(path), path != "")
@@ -55,8 +53,6 @@ normalize_path <- function(path) {
 normalize_path_strict <- function(path) {
   normalizePath(path, winslash = "/", mustWork = TRUE)
 }
-
-message_nl <- function(...) message(paste(..., collapse = "\n"))
 
 yesno <- function(...) {
   cat(paste0(..., collapse = ""))
@@ -83,19 +79,14 @@ midlipsize <- function(x, n = 20, ellipsis = "\u2026") {
          substr(x, start = nchar(x) - floor(half) + 1, stop = nchar(x)))
 }
 
-bulletize_git_commit <- function(gco) {
-  stopifnot(git2r::is_commit(gco))
-  posix_when <- methods::as(gco@author@when, "POSIXct")
-  sprintf("  * [%s] %s: %s",
-          substr(gco@sha, 1, 7),
-          format(posix_when, format = "%Y-%m-%d"),
-          ellipsize(gco@message, 55))
+## helpful for seeing non-interactive behavior in an interactive session,
+## i.e. for development and test writing
+interactive <- function() {
+  if (getOption("allow_interaction", default = TRUE)) {
+    base::interactive()
+  } else {
+    FALSE
+  }
 }
-
-sha_with_hint <- function(gco) {
-  stopifnot(git2r::is_commit(gco))
-  posix_when <- methods::as(gco@author@when, "POSIXct")
-  structure(gco@sha,
-            hint = paste(format(posix_when, format = "%Y-%m-%d %H:%M"),
-                         ellipsize(gco@message, 45)))
-}
+prohibit_interaction <- function() options(allow_interaction = FALSE)
+allow_interaction <- function() options(allow_interaction = TRUE)
