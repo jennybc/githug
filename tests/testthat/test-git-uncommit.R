@@ -1,12 +1,14 @@
 context("git uncommit")
 
 test_that("git_uncommit requires explicit permission to rewrite history", {
+  prohibit_interaction()
   tpath <- init_tmp_repo()
   write_file("a", dir = tpath)
   gco <- git_commit("a", message = "commit 1", repo = tpath)
   un <- git_uncommit(repo = tpath)
   expect_null(un)
   expect_equivalent(gco, git_history(repo = tpath, n = 1)$sha)
+  allow_interaction()
 })
 
 test_that("git_uncommit moves HEAD back to parent and leaves things staged", {

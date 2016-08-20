@@ -1,12 +1,16 @@
 #' Open a Git repository, the git2r way
 #'
-#' \code{githug} uses the \code{\link{git2r}} package, under the hood, to
-#' perform local Git operations. \code{\link{git2r}} handles Git repos as
-#' objects of class \code{\linkS4class{git_repository}}. This function provides
-#' a more flexible version of \code{\link[git2r]{repository}()}, which converts a
-#' path to a \code{\linkS4class{git_repository}}. You might need this for more
-#' exotic Git operations, i.e. to call \code{\link{git2r}} functions that aren't
-#' exposed via \code{githug}.
+#' Use this to convert a path into a \code{\linkS4class{git_repository}} object,
+#' which is how the \code{\link{git2r}} package handles Git repositories. This
+#' function is a slightly more flexible version of
+#' \code{\link[git2r:repository]{git2r::repository}()}.
+#'
+#' \code{githug} uses \code{\link{git2r}}, under the hood, to perform local Git
+#' operations. While \code{githug} always identifies the repository via its
+#' path, \code{\link{git2r}} handles repositories as objects of class
+#' \code{\linkS4class{git_repository}}. If you want to do a Git operation that
+#' isn't exposed via \code{githug}, this function helps you specify the
+#' repository \code{\link{git2r}}-style.
 #'
 #' @param x path that is or is in a Git repository; defaults to working
 #'   directory

@@ -42,7 +42,7 @@ git_branch <- function(where = NULL, repo = ".") {
   git_branch_list(where = where, repo = repo)
 }
 
-#' @section git_branch:
+#' @section git_branch_current:
 #'
 #'   \code{git_branch()} tells which branch you're currently on.
 #'
@@ -139,12 +139,6 @@ parse_branches <- function(x) {
   )
   res$remote[res$remote == ""] <- NA_character_
   res
-}
-
-## input: git_branch object
-## output git_commit object
-git_branch_tip_commit <- function(b) {
-  git2r::lookup(repo = b@repo, sha = git2r::branch_target(b))
 }
 
 ## input: branch name

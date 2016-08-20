@@ -46,7 +46,6 @@
 git_uncommit <- function(ask = TRUE, repo = ".") {
   stopifnot(is_lol(ask))
   just_do_it <- !ask
-  gr <- as.git_repository(repo)
 
   ## TO WORRY: what if HEAD is detached?
 
@@ -69,15 +68,14 @@ git_uncommit <- function(ask = TRUE, repo = ".") {
     return(invisible())
   }
 
-  current_head <- git2r::revparse_single(gr, "HEAD")
-  stopifnot(git2r::is_commit(current_head))
+  ## TO DO: make the safety branch or stash RIGHT HERE
+
+  current_head <- git_HEAD(repo = repo)
   message("Uncommit:\n", bulletize_git_commit(current_head))
 
-  new_head <- git2r::revparse_single(gr, "HEAD^")
-  stopifnot(git2r::is_commit(new_head))
+  new_head <- git_rev_resolve(rev = "HEAD^", repo = repo)
   git2r::reset(new_head, reset_type = "soft")
 
-  message("HEAD now points to:\n",
-          bulletize_git_commit(new_head))
+  message("HEAD reset to:\n", bulletize_git_commit(new_head))
   invisible(sha_with_hint(new_head))
 }

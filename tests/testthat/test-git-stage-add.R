@@ -35,11 +35,13 @@ test_that("git_stage works, with repo elsewhere and in wd", {
 })
 
 test_that("git_stage() admits when it can't do anything", {
+  prohibit_interaction()
   tpath <- init_tmp_repo()
   expect_message(git_add(repo = tpath, all = TRUE), "No changes to stage")
   write_file("whatever", dir = tpath)
   expect_message(git_add(repo = tpath), "Nothing staged")
   expect_message(git_add(repo = tpath, all = FALSE), "No changes staged")
+  allow_interaction()
 })
 
 test_that("git_stage() correctly messages when re-staging a file", {

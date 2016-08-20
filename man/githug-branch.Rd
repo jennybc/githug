@@ -33,7 +33,9 @@ branches in the repository.
 
   If the \code{where} argument is given, its value is passed through to
   \code{git_branch_list()}.
+}
 
+\section{git_branch_current}{
 
 
   \code{git_branch()} tells which branch you're currently on.
