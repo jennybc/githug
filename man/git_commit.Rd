@@ -36,7 +36,8 @@ staged and it's an interactive session, you'll get an offer to "just stage &
 commit everything: Y/N?". To explicitly authorize "stage and commit" for all
 current file additions, deletions, and modifications, use
 \code{git_commit(all = TRUE)}, which emulates \code{git add -A && git
-commit}.
+commit}. In an interactive session, you will also get the chance to enter a
+missing commit message.
 }
 \details{
 Convenience wrapper around \code{\link[git2r:commit]{git2r::commit}()} and,

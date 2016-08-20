@@ -42,7 +42,7 @@ git_branch <- function(where = NULL, repo = ".") {
   git_branch_list(where = where, repo = repo)
 }
 
-#' @section git_branch:
+#' @section git_branch_current:
 #'
 #'   \code{git_branch()} tells which branch you're currently on.
 #'

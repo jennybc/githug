@@ -3,7 +3,7 @@
 #' Rename an existing local branch. It's fine to rename the branch you're on.
 #'
 #' Convenience wrapper around
-#' \code{\link[git2r:branch_create]{git2r::branch_create}()}.
+#' \code{\link[git2r:branch_create]{git2r::branch_rename}()}.
 #'
 #' @param from Name of the existing branch
 #' @param to New name for the branch

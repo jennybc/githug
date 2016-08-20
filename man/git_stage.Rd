@@ -33,7 +33,7 @@ Stage changes to files in preparation for a commit. In an interactive
 session, you'll get the chance to "just stage everything: Y/N?", if you
 haven't pre-staged or specified any paths. To pre-authorize the staging of
 all current file additions, deletions, and modifications, use
-\code{git_commit(all = TRUE)}.
+\code{git_stage(all = TRUE)}.
 }
 \details{
 \code{git_add()} and \code{git_stage()} are aliases for each other, so use
