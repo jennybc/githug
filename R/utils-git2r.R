@@ -1,5 +1,20 @@
-git_HEAD <- function(repo = ".", stop = NULL) {
+git_HEAD <- function(repo = ".", stop = paste0(
+  "Can't find the most recent commit (a.k.a. HEAD) in this repo:\n",
+  git2r::workdir(as.git_repository(repo)))) {
   git_rev_resolve(rev = "HEAD", repo = repo, stop = stop)
+}
+
+git_HEAD_parent <- function(repo = ".", stop = NULL) {
+  ## https://github.com/jennybc/githug0/issues/32
+  git_rev_resolve(rev = "HEAD^", repo = repo, paste0(
+    "Can't find the parent of the most recent commit\n",
+    "  (a.k.a. HEAD^) in this repo:\n",
+    git2r::workdir(as.git_repository(repo)),
+    "\n\ngithug can't carry out the current operation\n",
+    "  without this parent commit.\n",
+    "One day githug will be able to workaround this,\n",
+    "  But that is not this day :("
+  ))
 }
 
 git_rev_resolve <- function(rev = "HEAD", repo = ".", stop = NULL) {

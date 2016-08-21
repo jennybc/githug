@@ -1,5 +1,10 @@
 is_lol <- function(x) is.logical(x) && length(x) == 1L
 
+isFALSE <- function(x) identical(x, FALSE)
+is_not_TRUE <- function(x) !isTRUE(x)
+is_not_FALSE <- function(x) !isFALSE(x)
+
+
 dir_exists <- function(x) {
   stopifnot(is.character(x), length(x) == 1L)
   utils::file_test("-d", x)
@@ -54,9 +59,9 @@ normalize_path_strict <- function(path) {
   normalizePath(path, winslash = "/", mustWork = TRUE)
 }
 
-yesno <- function(...) {
+yesno <- function(..., yes = "yes", no = "no") {
   cat(paste0(..., collapse = ""))
-  utils::menu(c("yes", "no")) == 1
+  utils::menu(c(yes, no)) == 1
 }
 
 get_user_input <- function(...) {
@@ -90,3 +95,8 @@ interactive <- function() {
 }
 prohibit_interaction <- function() options(allow_interaction = FALSE)
 allow_interaction <- function() options(allow_interaction = TRUE)
+
+no_string <- function(x) {
+  stopifnot(is.character(x), length(x) <= 1)
+  length(x) == 0L || x == ""
+}
