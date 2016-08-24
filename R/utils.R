@@ -71,6 +71,7 @@ get_user_input <- function(...) {
 }
 
 ellipsize <- function(x, n = 20, ellipsis = "\u2026") {
+  x <- strsplit(x, "\n")[[1]][[1]]
   ifelse(nchar(x) > n,
          paste0(substr(x, start = 1, stop = n - nchar(ellipsis)), ellipsis),
          x)

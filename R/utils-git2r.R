@@ -32,19 +32,24 @@ git_rev_resolve <- function(rev = "HEAD", repo = ".", stop = NULL) {
   gco
 }
 
-bulletize_git_commit <- function(gco) {
-  stopifnot(git2r::is_commit(gco))
-  posix_when <- methods::as(gco@author@when, "POSIXct")
-  sprintf("  * [%s] %s: %s",
-          substr(gco@sha, 1, 7),
-          format(posix_when, format = "%Y-%m-%d"),
-          ellipsize(gco@message, 55))
-}
-
 sha_with_hint <- function(gco) {
   stopifnot(git2r::is_commit(gco))
-  posix_when <- methods::as(gco@author@when, "POSIXct")
   structure(gco@sha,
-            hint = paste(format(posix_when, format = "%Y-%m-%d %H:%M"),
-                         ellipsize(gco@message, 45)))
+            when = methods::as(gco@author@when, "POSIXct"),
+            msg_start = substr(gco@message, 1, 72))
 }
+
+bulletize_sha <- function(sha, format = "%Y-%m-%d") {
+  sprintf("  * [%s] %s: %s",
+          substr(sha, 1, 7),
+          format(attr(sha, "when"), format = format),
+          ellipsize(attr(sha, "msg_start"), 55))
+}
+
+bulletize_git_commit <- function(gco, format = "%Y-%m-%d") {
+  stopifnot(git2r::is_commit(gco))
+  sha <- sha_with_hint(gco)
+  bulletize_sha(sha, format = format)
+}
+
+
