@@ -7,8 +7,9 @@
 #' \code{git_uncommit()} will not change your files. It just reverses the act of
 #' making the most recent Git commit. Even the staged / unstaged status of your
 #' modifications is preserved. When might you use this? To undo the last commit
-#' and stage a few more changes to your files and/or retry your commit, but with
-#' a better message.
+#' so you can stage different changes or files and/or redo your commit, but with
+#' a better message. Note that \code{\link{git_amend}()} might be a more
+#' efficient way to do that.
 #'
 #' When might you NOT want to use this? If you have already pushed the most
 #' recent commit to a remote. It could still be OK if you're sure no one else
@@ -40,17 +41,21 @@
 #' ## re-do that 2nd commit but with message in ALL CAPS
 #' git_commit(message = "THAT'S THE CODE WORD. I MISS YOU, PEACHES.")
 #' git_history()   ## see? back to 2 commits
-#' git_history()   ## see? back to 2 commits
 #' setwd(owd)
 #' @export
 git_uncommit <- function(ask = TRUE, repo = ".") {
   stopifnot(is_lol(ask))
-  just_do_it <- !ask
+  just_do_it <- isFALSE(ask)
 
   ## TO WORRY: what if HEAD is detached?
 
+  git_HEAD(repo = repo)
+  ## temporary measure: abort now if HEAD^ doesn't exist
+  ## https://github.com/jennybc/githug0/issues/32
+  git_HEAD_parent(repo = repo)
+
   ## TO DO: once I can check status of remote tracking branch, refine this.
-  if (ask) {
+  if (is_not_FALSE(ask)) {
     message("Warning: changing history!\n\n",
             "git_uncommit() leaves your files intact,\n",
             "  but removes a commit from the history.\n",
@@ -63,19 +68,27 @@ git_uncommit <- function(ask = TRUE, repo = ".") {
       message("\nYou must explicitly authorize this with 'ask = FALSE'.")
     }
   }
+
   if (!just_do_it) {
     message("Aborting.")
     return(invisible())
   }
 
-  ## TO DO: make the safety branch or stash RIGHT HERE
+  git_uncommit_do(repo = repo)
+
+}
+
+git_uncommit_do <- function(repo = ".") {
 
   current_head <- git_HEAD(repo = repo)
   message("Uncommit:\n", bulletize_git_commit(current_head))
+
+  ## TO DO: make the safety branch or stash RIGHT HERE
 
   new_head <- git_rev_resolve(rev = "HEAD^", repo = repo)
   git2r::reset(new_head, reset_type = "soft")
 
   message("HEAD reset to:\n", bulletize_git_commit(new_head))
   invisible(sha_with_hint(new_head))
+
 }
