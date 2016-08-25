@@ -2,10 +2,17 @@
 #'
 #' Remove file modifications from the staging area for the next commit, BUT
 #' LEAVE YOUR FILES ALONE. This function is "working directory safe". It will
-#' not change your files. It only unstages them. When might you use this? If you
-#' decide you'd like to exclude certain changes that are present in your working
-#' directory from the next commit. In terms of command line Git, this is
-#' \code{git reset <paths>}, which is the opposite of \code{git add <paths>}.
+#' not change your files. It only unstages them. When would you use this? If
+#' you've staged changes by mistake and you don't want them in the next commit
+#' after all.
+#'
+#' \code{git_unstage()} addresses a popular question on StackOverflow:
+#' \href{http://stackoverflow.com/questions/348170/how-to-undo-git-add-before-commit}{How
+#' to undo 'git add' before commit?}, with over 1.3 million views.  In terms of
+#' command line Git, this reverses \code{git add file.txt}. The call
+#' \code{git_unstage("file.txt")} is equivalent to \code{git reset file.txt},
+#' which is short for \code{git reset --mixed HEAD file.txt}, i.e. a mixed reset
+#' of \code{file.txt} to the commit pointed to by current HEAD.
 #'
 #' @param ... One or more paths that will be matched against files with changes
 #'   that are staged for the next commit. Paths that match will be unstaged,

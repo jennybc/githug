@@ -63,7 +63,7 @@ write("You get what you settle for.", "louise.txt")
 git_status()
 ```
 
-Commit with `all = TRUE` to automatically accept all current changes. *In interactive use, you get a chance to authorize accept this.*
+Commit with `all = TRUE` to automatically accept all current changes. *In interactive use, if `all` is unspecified, you get an offer to just stage all current changes.*
 
 ```{r}
 git_commit(all = TRUE,
@@ -95,7 +95,7 @@ git_status()
 ```
 
 See history.  
-Create and checkout a branch. *In an interactive session, you'd get the chance to approve new branch creation.* Go back to master.
+Create and checkout a branch. *In an interactive session, if `create` is unspecified and branch does not exist, you are asked if you want to create the branch.* Go back to master.
 
 ```{r}
 git_history()
@@ -120,6 +120,7 @@ git_add(), Synonym for git_stage()
 git_unstage(), Unstage (changes to) a path
 git_commit(), Make a commit
 git_uncommit(), Undo a Git commit but leave files alone
+git_amend(), Re-do the most recent commit
 git_branch(), Report current branch or list all branches
 git_switch(), Switch to another branch
 git_branch_*(), \"Lower level functions to list, create, rename, delete, and checkout branches\"

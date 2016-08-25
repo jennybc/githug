@@ -25,8 +25,9 @@ before uncommitting a commit that you have pushed (see Details).
 \code{git_uncommit()} will not change your files. It just reverses the act of
 making the most recent Git commit. Even the staged / unstaged status of your
 modifications is preserved. When might you use this? To undo the last commit
-and stage a few more changes to your files and/or retry your commit, but with
-a better message.
+so you can stage different changes or files and/or redo your commit, but with
+a better message. Note that \code{\link{git_amend}()} might be a more
+efficient way to do that.
 
 When might you NOT want to use this? If you have already pushed the most
 recent commit to a remote. It could still be OK if you're sure no one else
@@ -54,7 +55,6 @@ git_history()   ## see? only 1st commit is in history
 git_status()    ## see? jimmy.txt is a new, staged file
 ## re-do that 2nd commit but with message in ALL CAPS
 git_commit(message = "THAT'S THE CODE WORD. I MISS YOU, PEACHES.")
-git_history()   ## see? back to 2 commits
 git_history()   ## see? back to 2 commits
 setwd(owd)
 }
