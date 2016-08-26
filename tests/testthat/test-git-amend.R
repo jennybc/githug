@@ -47,6 +47,6 @@ test_that("git_amend results in new SHA, new message, new snapshot", {
   expect_false(identical(gco_old, gco_new))
   expect_equivalent(gco_new, gl$sha[1])
   expect_identical(gl$message[1], "commit 2, take 2")
-  expect_identical(nrow(git_status(repo = tpath)), 0L)
+  expect_output(expect_identical(nrow(git_status(repo = tpath)), 0L))
   expect_identical(readLines(file.path(tpath, "b")), c("b", "more b"))
 })

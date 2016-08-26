@@ -9,7 +9,7 @@ test_that("git_status() messages current branch", {
   tpath <- init_tmp_repo()
   write_file("a", dir = tpath)
   git_commit("a", message = "init", repo = tpath)
-  expect_message(git_status(repo = tpath), "On branch:\n  \\* master")
+  expect_output(git_status(repo = tpath), "On branch:\n  \\* master")
 })
 
 test_that("status messages and returns NULL if not in git repo", {

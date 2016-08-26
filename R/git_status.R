@@ -39,7 +39,8 @@
 git_status <- function(repo = ".", ls = FALSE) {
   gbn <- git_branch(repo = repo)
   if (!is.null(gbn)) {
-    message("On branch:\n  * ", gbn)
+    ## this is cat(), not message(), to help auto-generate safety commit messages
+    cat("On branch:\n  *", gbn, "\n")
     ## TODO: maybe add sthg about last commit?
   }
   git_status_check(repo = repo, ls = ls)
