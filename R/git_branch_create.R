@@ -12,10 +12,7 @@
 #'
 #' @param name Name for the new branch
 #' @template repo
-#' @param rev Commit to base the new branch on, as a
-#' \href{http://git-scm.com/docs/git-rev-parse.html#_specifying_revisions}{revision
-#' string}, e.g. \code{HEAD^}, \code{branchname}, \code{SHA-1} or a leading
-#' substring thereof
+#' @template rev
 #'
 #' @examples
 #' repo <- git_init(tempfile("githug-branches-"))

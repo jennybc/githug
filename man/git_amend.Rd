@@ -18,8 +18,9 @@ the message, including an option to reuse the original message.}
 checked to see if it is or is inside a Git repo.}
 }
 \value{
-SHA of the commit, with a hint about commit time and message stored
-  in the \code{hint} attribute
+SHA of the commit. The \code{when} attribute holds the commit time as
+  \code{POSIXct}. An excerpt of the commit message is in the \code{msg_start}
+  attribute.
 }
 \description{
 Undo the most recent commit WHILE LEAVING ALL YOUR FILES ALONE, combine those
