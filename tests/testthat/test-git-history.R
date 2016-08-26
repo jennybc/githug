@@ -15,4 +15,5 @@ test_that("git_history n argument works", {
   git_commit(all = TRUE, message = "c", repo = tpath)
   expect_identical(nrow(git_history(repo = tpath, n = 2)), 2L)
   expect_identical(nrow(git_history(repo = tpath, n = 10)), 3L)
+  expect_identical(git_history(repo = tpath)$message, c("c", "b", "a"))
 })
