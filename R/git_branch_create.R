@@ -51,7 +51,7 @@ git_branch_create <- function(name, repo = ".", rev = "HEAD") {
 
   stop <- sprintf("rev '%s' doesn't resolve to a commit in this repo:\n%s",
                   rev, git2r::workdir(gr))
-  gco <- git_rev_resolve(rev = rev, repo = repo, stop = stop)
+  gco <- git_rev_gco(rev = rev, repo = repo, stop = stop)
 
   ## I'm intentionally not exposing 'force'
   gb <- git2r::branch_create(commit = gco, name = name, force = FALSE)
@@ -60,7 +60,7 @@ git_branch_create <- function(name, repo = ".", rev = "HEAD") {
          bulletize_git_commit(gco), call. = FALSE)
   }
 
-  gco <- git_rev_resolve(rev = gb@name, repo = repo)
+  gco <- git_rev_gco(rev = gb@name, repo = repo)
   message("New branch '", name, "' pointed at:\n", bulletize_git_commit(gco))
   invisible(sha_with_hint(gco))
 

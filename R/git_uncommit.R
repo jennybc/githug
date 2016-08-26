@@ -85,7 +85,7 @@ git_uncommit_do <- function(repo = ".") {
 
   ## TO DO: make the safety branch or stash RIGHT HERE
 
-  new_head <- git_rev_resolve(rev = "HEAD^", repo = repo)
+  new_head <- git_rev_gco(rev = "HEAD^", repo = repo)
   git2r::reset(new_head, reset_type = "soft")
 
   message("HEAD reset to:\n", bulletize_git_commit(new_head))

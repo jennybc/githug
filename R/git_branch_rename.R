@@ -42,5 +42,5 @@ git_branch_rename <- function(from, to, repo = ".") {
   }
 
   message("Branch renamed:\n  * ", from_branch@name, " --> ", to_branch@name)
-  invisible(sha_with_hint(git_rev_resolve(to_branch@name, repo = repo)))
+  invisible(git_rev_sha(to_branch@name, repo = repo))
 }
