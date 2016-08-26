@@ -19,7 +19,8 @@ git_HEAD_parent <- function(repo = ".", stop = NULL) {
 
 git_rev_resolve <- function(rev = "HEAD", repo = ".", stop = NULL) {
   stopifnot(is.character(rev), length(rev) == 1)
-  gco <- try(git2r::revparse_single(as.git_repository(repo), rev), silent = TRUE)
+  gr <- as.git_repository(repo)
+  gco <- try(git2r::revparse_single(gr, rev), silent = TRUE)
   if (inherits(gco, "try-error")) {
     stop(stop %||% gco, call. = FALSE)
   }
@@ -52,4 +53,14 @@ bulletize_git_commit <- function(gco, format = "%Y-%m-%d") {
   bulletize_sha(sha, format = format)
 }
 
+## https://git-scm.com/docs/git-rev-parse.html#_specifying_revisions
+## usage:
+## git_rev_resolve(rev_spell(text = "thelma"))
+## git_rev_resolve(rev_spell(rev = "1234567", n = 2))
+rev_spell <- function(rev = "HEAD", n = 0, text = character()) {
+  if (length(text) == 0L) {
+    return(paste0(rev, strrep("^", n)))
+  }
+  paste0(rev, "^{/", text, "}")
+}
 
