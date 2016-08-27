@@ -89,10 +89,8 @@ git_switch <- function(name = "master", create = NA, repo = ".") {
 git_branch_checkout <- function(name = "master", create = FALSE,
                                 force = FALSE, repo = ".") {
   stopifnot(is.character(name), length(name) == 1L)
-  stopifnot(is_lol(create))
-  stopifnot(is_lol(force))
+  stopifnot(is_lol(create), is_lol(force))
   gb <- git_branch_from_name(name, repo)
-  gr <- as.git_repository(repo)
 
   if (is.null(gb) && !create) {
     stop("'", name, "' is not the name of any existing local branch.\n",
@@ -101,7 +99,8 @@ git_branch_checkout <- function(name = "master", create = FALSE,
 
   ## TO DO: if 'force = TRUE', make the safety branch or stash RIGHT HERE
 
-  git2r::checkout(object = gr, branch = name, create = create, force = force)
+  git2r::checkout(as.git_repository(repo), branch = name,
+                  create = create, force = force)
 
   current_branch <- git_branch_current(repo = repo)
   message("Switched to branch:\n  * ", current_branch)

@@ -79,10 +79,9 @@ git_branch_current <- function(repo = ".") {
 #' @export
 #' @rdname githug-branch
 git_branch_list <- function(where = c("local", "all", "remote"), repo = ".") {
-  gr <- as.git_repository(repo)
   where <- match.arg(where)
 
-  gb <- git2r::branches(repo = gr, flags = where)
+  gb <- git2r::branches(repo = as.git_repository(repo), flags = where)
   if (length(gb) < 1) {
     message("No branches to list.")
     return(invisible())

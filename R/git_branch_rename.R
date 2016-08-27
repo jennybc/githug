@@ -27,12 +27,11 @@
 git_branch_rename <- function(from, to, repo = ".") {
   stopifnot(is.character(from), length(from) == 1L)
   stopifnot(is.character(to), length(to) == 1L)
-  gr <- as.git_repository(repo)
 
   from_branch <- git_branch_from_name(name = from, repo = repo)
   if (!git2r::is_branch(from_branch)) {
     stop("No existing local branch named '", from, "' found in this repo:\n",
-         git2r::workdir(gr), call. = FALSE)
+         git2r::workdir(as.git_repository(repo)), call. = FALSE)
   }
 
   ## I'm intentionally not exposing 'force'

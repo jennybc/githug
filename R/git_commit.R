@@ -32,11 +32,10 @@
 #' setwd(owd)
 #' @export
 git_commit <- function(..., all = FALSE, force = FALSE,
-                       message = NULL, repo = ".") {
-  gr <- as.git_repository(repo)
+                       message = character(), repo = ".") {
   path <- as.character(c(...))
-  stopifnot(is_lol(force))
-  if (is.null(message) && !interactive()) {
+  stopifnot(is_lol(all), is_lol(force))
+  if (no_string(message) && !interactive()) {
     stop("You must provide a commit message. Aborting.", call. = FALSE)
   }
 
@@ -63,17 +62,26 @@ git_commit <- function(..., all = FALSE, force = FALSE,
     return(invisible())
   }
 
-  if (is.null(message) && interactive()) {
+  if (no_string(message) && interactive()) {
     message <- get_user_input("You must provide a commit message.",
                               "Enter it now (ESC to abort)")
+  }
+  if (no_string(message)) {
+    stop("Commit message is required. Aborting.")
   }
 
   ## command line git would say something like this:
   ##  1 file changed, 5 insertions(+), 5 deletions(-)
   ## should I also indicate something about the nature of the changes?
   ## if I'm going to say that, maybe do it before prompting for message?
-  gco <- git2r::commit(repo = gr, message = message)
-  sha <- sha_with_hint(gco)
+  sha <- git_commit_do(repo = repo, message = message)
   message("Commit:\n", bulletize_sha(sha))
   invisible(sha)
+}
+
+git_commit_do <- function(repo = ".", message) {
+  stopifnot(is.character(message), length(message) == 1L)
+  gco <- git2r::commit(repo = as.git_repository(repo), message = message)
+  sha <- sha_with_hint(gco)
+  sha
 }

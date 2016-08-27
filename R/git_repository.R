@@ -36,7 +36,7 @@ as.git_repository <- function(x, ...) UseMethod("as.git_repository")
 
 #' @export
 as.git_repository.character <- function(x, ...) {
-  git2r::repository(find_repo_path(x, ...))
+  git2r::repository(repo_path(x, ...))
 }
 
 #' @export
@@ -44,7 +44,7 @@ as.git_repository.NULL <- function(x, ...) as.git_repository(x = ".", ...)
 
 
 
-find_repo_path <- function(x = ".", ...) {
+repo_path <- function(x = ".", ...) {
 
   if (!dir_exists(x)) {
     stop("directory does not exist:\n", x, call. = FALSE)

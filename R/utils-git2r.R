@@ -19,8 +19,7 @@ git_HEAD_parent <- function(repo = ".", stop = NULL) {
 
 git_rev_gco <- function(rev = "HEAD", repo = ".", stop = NULL) {
   stopifnot(is.character(rev), length(rev) == 1)
-  gr <- as.git_repository(repo)
-  gco <- try(git2r::revparse_single(gr, rev), silent = TRUE)
+  gco <- try(git2r::revparse_single(as.git_repository(repo), rev), silent = TRUE)
   if (inherits(gco, "try-error")) {
     stop(stop %||% gco, call. = FALSE)
   }

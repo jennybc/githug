@@ -49,12 +49,11 @@ git_status <- function(repo = ".", ls = FALSE) {
 git_status_check <- function(repo = ".", ls = FALSE) {
 
   stopifnot(is_lol(ls))
-  gr <- as.git_repository(repo)
 
   ## convert from git2r's git_status object (a list)
   ## to a tibble (maybe a githug_status object + print method? shelving for now)
-  s <- git2r::status(repo = gr, staged = TRUE, unstaged = TRUE,
-                     untracked = TRUE, ignored = ls)
+  s <- git2r::status(repo = as.git_repository(repo), staged = TRUE,
+                     unstaged = TRUE, untracked = TRUE, ignored = ls)
 
   if (sum(lengths(s)) > 0) {
 

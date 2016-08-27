@@ -4,7 +4,8 @@
 \alias{git_commit}
 \title{Make a commit}
 \usage{
-git_commit(..., all = FALSE, force = FALSE, message = NULL, repo = ".")
+git_commit(..., all = FALSE, force = FALSE, message = character(),
+  repo = ".")
 }
 \arguments{
 \item{...}{One or more paths or shell glob patterns that will be matched

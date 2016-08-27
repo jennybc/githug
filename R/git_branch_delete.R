@@ -41,12 +41,11 @@
 #' @export
 git_branch_delete <- function(name, repo = ".") {
   stopifnot(is.character(name), length(name) == 1L)
-  gr <- as.git_repository(repo)
 
   gb <- git_branch_from_name(name = name, repo = repo)
   if (!git2r::is_branch(gb)) {
     stop("No existing local branch named '", name, "' found in this repo:\n",
-         git2r::workdir(gr), call. = FALSE)
+         git2r::workdir(as.git_repository(repo)), call. = FALSE)
   }
 
   git2r::branch_delete(gb)

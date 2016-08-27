@@ -47,10 +47,9 @@ git_branch_create <- function(name, repo = ".", rev = "HEAD") {
 
   stopifnot(is.character(name), length(name) == 1L)
   stopifnot(is.character(rev),  length(rev) == 1L)
-  gr <- as.git_repository(repo)
 
   stop <- sprintf("rev '%s' doesn't resolve to a commit in this repo:\n%s",
-                  rev, git2r::workdir(gr))
+                  rev, git2r::workdir(as.git_repository(repo)))
   gco <- git_rev_gco(rev = rev, repo = repo, stop = stop)
 
   ## I'm intentionally not exposing 'force'
