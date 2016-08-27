@@ -46,13 +46,14 @@ sha_with_hint <- function(gco) {
 }
 
 bulletize_sha <- function(sha, format = "%Y-%m-%d") {
+  stopifnot(is.character(sha))
   sprintf("  * [%s] %s: %s",
           substr(sha, 1, 7),
           format(attr(sha, "when"), format = format),
           ellipsize(attr(sha, "msg_start"), 55))
 }
 
-bulletize_git_commit <- function(gco, format = "%Y-%m-%d") {
+bulletize_gco <- function(gco, format = "%Y-%m-%d") {
   stopifnot(git2r::is_commit(gco))
   sha <- sha_with_hint(gco)
   bulletize_sha(sha, format = format)

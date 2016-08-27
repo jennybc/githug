@@ -101,6 +101,7 @@ git_amend <- function(message = character(), ask = TRUE, repo = ".") {
 
   gco <- git_uncommit_do(repo = repo)
   gco <- git2r::commit(repo = gr, message = message)
-  message("Commit:\n", bulletize_git_commit(gco))
-  invisible(sha_with_hint(gco))
+  sha <- sha_with_hint(gco)
+  message("Commit:\n", bulletize_sha(sha))
+  invisible(sha)
 }

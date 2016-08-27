@@ -73,6 +73,7 @@ git_commit <- function(..., all = FALSE, force = FALSE,
   ## should I also indicate something about the nature of the changes?
   ## if I'm going to say that, maybe do it before prompting for message?
   gco <- git2r::commit(repo = gr, message = message)
-  message("Commit:\n", bulletize_git_commit(gco))
-  invisible(sha_with_hint(gco))
+  sha <- sha_with_hint(gco)
+  message("Commit:\n", bulletize_sha(sha))
+  invisible(sha)
 }
