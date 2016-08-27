@@ -45,7 +45,7 @@ git_branch_delete <- function(name, repo = ".") {
   gb <- git_branch_from_name(name = name, repo = repo)
   if (!git2r::is_branch(gb)) {
     stop("No existing local branch named '", name, "' found in this repo:\n",
-         git2r::workdir(as.git_repository(repo)), call. = FALSE)
+         repo_path(repo), call. = FALSE)
   }
 
   git2r::branch_delete(gb)

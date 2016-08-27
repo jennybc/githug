@@ -1,6 +1,6 @@
 git_HEAD <- function(repo = ".", stop = paste0(
   "Can't find the most recent commit (a.k.a. HEAD) in this repo:\n",
-  git2r::workdir(as.git_repository(repo)))) {
+  repo_path(repo))) {
   git_rev_gco(rev = "HEAD", repo = repo, stop = stop)
 }
 
@@ -9,7 +9,7 @@ git_HEAD_parent <- function(repo = ".", stop = NULL) {
   git_rev_gco(rev = "HEAD^", repo = repo, paste0(
     "Can't find the parent of the most recent commit\n",
     "  (a.k.a. HEAD^) in this repo:\n",
-    git2r::workdir(as.git_repository(repo)),
+    repo_path(repo),
     "\n\ngithug can't carry out the current operation\n",
     "  without this parent commit.\n",
     "One day githug will be able to workaround this,\n",
