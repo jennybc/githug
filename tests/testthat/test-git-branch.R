@@ -8,6 +8,22 @@ test_that("current branch and list when no commits or branches", {
   expect_null(gbl)
 })
 
+test_that("detached HEAD", {
+  tpath <- init_tmp_repo()
+  write_file("a", dir = tpath)
+  c01 <- git_commit("a", message = "a", repo = tpath)
+  write_file("b", dir = tpath)
+  git_commit("b", message = "b", repo = tpath)
+  ## come back when there's a better way to check out based on SHA
+  ghist <- git_history(repo = tpath)
+  gc01 <- ghist$commit[[which(ghist$sha == c01)]]
+  git2r::checkout(gc01)
+  expect_message(gb <- git_branch_current(repo = tpath), "Detached HEAD!")
+  expect_identical(gb, NA_character_)
+  gbl <- git_branch_list(repo = tpath)
+  expect_false(any(gbl$HEAD))
+})
+
 test_that("current branch and list reporting when 1 branch exists", {
   tpath <- init_tmp_repo()
   write_file("a", dir = tpath)
