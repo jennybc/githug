@@ -42,6 +42,6 @@
 as.git_commit <- function(x, repo = ".", ...) UseMethod("as.git_commit")
 
 #' @export
-as.git_commit.character <- function(x, repo = ".", ...) {
-  git_revision_gco(rev = x, repo = repo)
+as.git_commit.character <- function(x = "HEAD", repo = ".", ...) {
+  git_revision_gco(x, repo = repo)
 }
