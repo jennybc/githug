@@ -68,7 +68,7 @@ git_branch_list()
 
 ## commit and ... now we have master
 write("Well, we're not in the middle of nowhere,", "nowhere.txt")
-c01 <- git_commit(all = TRUE, message = "1ouise: not in the middle of nowhere")
+git_commit(all = TRUE, message = "1ouise: not in the middle of nowhere")
 git_branch()
 git_branch_list()
 
@@ -76,6 +76,7 @@ git_branch_list()
 write("but we can see it from here.", "nowhere.txt", append = TRUE)
 git_commit(all = TRUE, message = "louise: but can see it")
 ## TODO: come back and make this nicer when more functions exist
+c01 <- git_revision("HEAD^")
 c01 <- git_history()$commit[[which(git_history()$sha == c01)]]
 git2r::checkout(c01)
 git_branch()

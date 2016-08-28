@@ -25,6 +25,7 @@ test_that("detached HEAD", {
 })
 
 test_that("current branch and list reporting when 1 branch exists", {
+  ## why test for this explicitly? there were dimension dropping problems once
   tpath <- init_tmp_repo()
   write_file("a", dir = tpath)
   git_commit("a", message = "a", repo = tpath)

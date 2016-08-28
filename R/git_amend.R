@@ -58,7 +58,7 @@ git_amend <- function(message = character(), ask = TRUE, repo = ".") {
 
   ## TO DO: describe if/how staging area differs from HEAD
 
-  message_before <- git_rev_gco("HEAD", repo = repo)@message
+  message_before <- git_revision_gco("HEAD", repo = repo)@message
 
   if (is_not_FALSE(ask)) {
     message("Warning: changing history!\n\n",
