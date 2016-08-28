@@ -20,23 +20,44 @@
 #' @return An S4 \code{\linkS4class{git_repository}} object
 #'
 #' @examples
-#' \dontrun{
-#' as.git_repository()
-#' as.git_repository("path")
-#' as.git_repository("repo-path/subdir")
-#' as.git_repository("repo-path/subdir", ceiling = 0)
+#' repo <- git_init(tempfile("git-repository-example-"))
 #'
+#' ## you can specify the path explicitly
+#' as.git_repository(repo)
+#'
+#' ## switch working directory to the repo
+#' owd <- setwd(repo)
+#'
+#' ## as.git_repository() with no args consults working directory
+#' as.git_repository()
+#'
+#' dir.create("subdir")
+#'
+#' ## as.git_repository() walks up parents, looking for a repo
+#' as.git_repository("subdir")
+#'
+#' setwd("subdir")
+#' as.git_repository()
+#' ## unless you put a ceiling on the walk
+#' \dontrun{
+#' as.git_repository("repo-path/subdir", ceiling = 0)
+#' }
+#'
+#' setwd(owd)
+#'
+#' \dontrun{
 #' ## here's a rather exotic Git operation that githug is unlikely to expose:
 #' ## odb_blobs() lists "all blobs reachable from the commits in the object database"
 #' ## pre-process the repo with as_git_repository() to prepare for git2r
-#' git2r::odb_blobs(as.git_repository("repo-path"))
+#' git2r::odb_blobs(as.git_repository("path_to_a_git_repo"))
 #' }
+#'
 #' @export
 as.git_repository <- function(x, ...) UseMethod("as.git_repository")
 
 #' @export
 as.git_repository.character <- function(x, ...) {
-  git2r::repository(find_repo_path(x, ...))
+  git2r::repository(repo_path(x, ...))
 }
 
 #' @export
@@ -44,7 +65,7 @@ as.git_repository.NULL <- function(x, ...) as.git_repository(x = ".", ...)
 
 
 
-find_repo_path <- function(x = ".", ...) {
+repo_path <- function(x = ".", ...) {
 
   if (!dir_exists(x)) {
     stop("directory does not exist:\n", x, call. = FALSE)

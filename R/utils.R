@@ -71,7 +71,8 @@ get_user_input <- function(...) {
 }
 
 ellipsize <- function(x, n = 20, ellipsis = "\u2026") {
-  x <- strsplit(x, "\n")[[1]][[1]]
+  if (length(x) == 0L || nchar(x) <= n) return(x)
+  x <- replace_newlines(x)
   ifelse(nchar(x) > n,
          paste0(substr(x, start = 1, stop = n - nchar(ellipsis)), ellipsis),
          x)
@@ -79,11 +80,14 @@ ellipsize <- function(x, n = 20, ellipsis = "\u2026") {
 
 midlipsize <- function(x, n = 20, ellipsis = "\u2026") {
   if (length(x) == 0L || nchar(x) <= n) return(x)
+  x <- replace_newlines(x)
   half <- (n - nchar(ellipsis))/2
   paste0(substr(x, start = 1, stop = ceiling(half)),
          ellipsis,
          substr(x, start = nchar(x) - floor(half) + 1, stop = nchar(x)))
 }
+
+replace_newlines <- function(x) gsub("\n+", "; ", x)
 
 ## helpful for seeing non-interactive behavior in an interactive session,
 ## i.e. for development and test writing

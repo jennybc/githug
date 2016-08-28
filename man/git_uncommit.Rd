@@ -13,8 +13,9 @@ git_uncommit(ask = TRUE, repo = ".")
 checked to see if it is or is inside a Git repo.}
 }
 \value{
-SHA of the commit, with a hint about commit time and message stored
-  in the \code{hint} attribute
+SHA of the commit. The \code{when} attribute holds the commit time as
+  \code{POSIXct}. An excerpt of the commit message is in the \code{msg_start}
+  attribute.
 }
 \description{
 Make it as if the last Git commit never happened BUT LEAVE YOUR FILES ALONE.
