@@ -1,2 +1,3 @@
-#' @return SHA of the commit, with a hint about commit time and message stored
-#'   in the \code{hint} attribute
+#' @return SHA of the commit. The \code{when} attribute holds the commit time as
+#'   \code{POSIXct}. An excerpt of the commit message is in the \code{msg_start}
+#'   attribute.

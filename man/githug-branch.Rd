@@ -67,8 +67,17 @@ git_branch()
 git_branch_list()
 
 ## commit and ... now we have master
-writeLines("Well, we're not in the middle of nowhere...", "nowhere.txt")
+write("Well, we're not in the middle of nowhere,", "nowhere.txt")
 git_commit(all = TRUE, message = "1ouise: not in the middle of nowhere")
+git_branch()
+git_branch_list()
+
+## make a new commit then checkout initial commit, thereby detaching HEAD
+write("but we can see it from here.", "nowhere.txt", append = TRUE)
+git_commit(all = TRUE, message = "louise: but can see it")
+## TODO: come back and make this nicer when more functions exist
+init_commit <- as.git_commit(git_revision("HEAD^"))
+git2r::checkout(init_commit)
 git_branch()
 git_branch_list()
 

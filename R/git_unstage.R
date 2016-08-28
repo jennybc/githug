@@ -38,7 +38,6 @@
 git_unstage <- function(..., all = FALSE, repo = ".") {
   path <- as.character(c(...))
   stopifnot(is_lol(all))
-  gr <- as.git_repository(repo)
 
   status_before <- git_status_check(repo = repo)
   staged_before <- status_before$status == "staged"
@@ -75,7 +74,7 @@ git_unstage <- function(..., all = FALSE, repo = ".") {
     }
   }
 
-  git2r::reset(gr, path)
+  git2r::reset(as.git_repository(repo), path)
 
   status_after <- git_status_check(repo = repo)
   staged_after <- status_after$status == "staged"

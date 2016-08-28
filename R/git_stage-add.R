@@ -46,7 +46,7 @@ git_stage <- function(..., all = FALSE, force = FALSE, repo = ".") {
   path <- as.character(c(...))
   stopifnot(is_lol(all))
   stopifnot(is_lol(force))
-  gr <- as.git_repository(repo)
+
 
   status_before <- git_status_check(repo = repo, ls = force)
   stageable <- c("unstaged", "untracked", if (force) "ignored")
@@ -89,7 +89,7 @@ git_stage <- function(..., all = FALSE, force = FALSE, repo = ".") {
     }
   }
 
-  git2r::add(repo = gr, path = path, force = force)
+  git_add_do(repo = repo, path = path, force = force)
 
   status_after <- git_status_check(repo = repo, ls = force)
   stageable_after <- status_after$status %in% stageable
@@ -123,3 +123,7 @@ git_stage <- function(..., all = FALSE, force = FALSE, repo = ".") {
 #' @rdname git_stage
 #' @export
 git_add <- git_stage
+
+git_add_do <- function(repo = ".", path, force = FALSE) {
+  git2r::add(repo = as.git_repository(repo), path = path, force = force)
+}

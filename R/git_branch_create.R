@@ -12,10 +12,7 @@
 #'
 #' @param name Name for the new branch
 #' @template repo
-#' @param rev Commit to base the new branch on, as a
-#' \href{http://git-scm.com/docs/git-rev-parse.html#_specifying_revisions}{revision
-#' string}, e.g. \code{HEAD^}, \code{branchname}, \code{SHA-1} or a leading
-#' substring thereof
+#' @template rev
 #'
 #' @examples
 #' repo <- git_init(tempfile("githug-branches-"))
@@ -49,22 +46,19 @@
 git_branch_create <- function(name, repo = ".", rev = "HEAD") {
 
   stopifnot(is.character(name), length(name) == 1L)
-  stopifnot(is.character(rev), length(rev) == 1)
-  gr <- as.git_repository(repo)
+  stopifnot(is.character(rev),  length(rev) == 1L)
 
-  stop <- sprintf("rev '%s' doesn't resolve to a commit in this repo:\n%s",
-                  rev, git2r::workdir(gr))
-  gco <- git_rev_resolve(rev = rev, repo = repo, stop = stop)
+  gco <- git_revision_gco(rev = rev, repo = repo)
 
   ## I'm intentionally not exposing 'force'
   gb <- git2r::branch_create(commit = gco, name = name, force = FALSE)
   if (!git2r::is_branch(gb)) {
     stop("Could not create new branch '", name,"' pointed at:\n",
-         bulletize_git_commit(gco), call. = FALSE)
+         bulletize_gco(gco), call. = FALSE)
   }
 
-  gco <- git_rev_resolve(rev = gb@name, repo = repo)
-  message("New branch '", name, "' pointed at:\n", bulletize_git_commit(gco))
-  invisible(sha_with_hint(gco))
+  sha <- git_revision_sha(rev = gb@name, repo = repo)
+  message("New branch '", name, "' pointed at:\n", bulletize_sha(sha))
+  invisible(sha)
 
 }
