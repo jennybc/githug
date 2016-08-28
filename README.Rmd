@@ -124,7 +124,7 @@ git_amend(), Re-do the most recent commit
 git_branch(), Report current branch or list all branches
 git_switch(), Switch to another branch
 git_branch_*(), \"Lower level functions to list, create, rename, delete, and checkout branches\"
-git_revision, Identify a specific commit 
+git_revision(), Identify a specific commit 
 as.git_repository(), Open a Git repo in the style of the `git2r` package
 as.git_commit(), Get a specific commit in the style of the `git2r` package
 "

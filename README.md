@@ -40,9 +40,9 @@ Create a new Git repository and set that as working directory for the duration o
 ``` r
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … mpfaXNlV/githug-example-a6cbf51891e
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pWgcbHf/githug-example-b0b45b16204c
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … mpfaXNlV/githug-example-a6cbf51891e
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pWgcbHf/githug-example-b0b45b16204c
 knitr::opts_knit$set(root.dir = repo)
 ```
 
@@ -72,7 +72,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Commit:
-#>   * [7f5565e] 2016-08-28: Brains'll only get you so far and luck always runs out.
+#>   * [d49b853] 2016-08-28: Brains'll only get you so far and luck always runs out.
 ```
 
 Add new file and commit it. Inspect commit history.
@@ -83,13 +83,13 @@ git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
 #> Staged these paths:
 #>   * jimmy.txt
 #> Commit:
-#>   * [fa374dd] 2016-08-28: That's the code word. I miss you, Peaches.
+#>   * [239fbd1] 2016-08-28: That's the code word. I miss you, Peaches.
 git_history()
 #> # A tibble: 2 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 fa374dd That's the code word. I… 2016-08-28 14:45 louise
-#> 2 7f5565e Brains'll only get you … 2016-08-28 14:45 louise
+#> 1 239fbd1 That's the code word. I… 2016-08-28 14:53 louise
+#> 2 d49b853 Brains'll only get you … 2016-08-28 14:53 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -98,14 +98,14 @@ Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 ``` r
 git_uncommit(ask = FALSE)
 #> Uncommit:
-#>   * [fa374dd] 2016-08-28: That's the code word. I miss you, Peaches.
+#>   * [239fbd1] 2016-08-28: That's the code word. I miss you, Peaches.
 #> HEAD reset to:
-#>   * [7f5565e] 2016-08-28: Brains'll only get you so far and luck always runs out.
+#>   * [d49b853] 2016-08-28: Brains'll only get you so far and luck always runs out.
 git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 7f5565e Brains'll only get you … 2016-08-28 14:45 louise
+#> 1 d49b853 Brains'll only get you … 2016-08-28 14:53 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 ```
 
@@ -141,7 +141,7 @@ git_history()
 #> # A tibble: 1 x 6
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 7f5565e Brains'll only get you … 2016-08-28 14:45 louise
+#> 1 d49b853 Brains'll only get you … 2016-08-28 14:53 louise
 #> # ... with 2 more variables: email <chr>, commit <list>
 git_branch()
 #> [1] "master"
@@ -179,7 +179,7 @@ Overview of functions
 | git\_branch()        | Report current branch or list all branches                                   |
 | git\_switch()        | Switch to another branch                                                     |
 | git\_branch\_\*()    | Lower level functions to list, create, rename, delete, and checkout branches |
-| git\_revision        | Identify a specific commit                                                   |
+| git\_revision()      | Identify a specific commit                                                   |
 | as.git\_repository() | Open a Git repo in the style of the `git2r` package                          |
 | as.git\_commit()     | Get a specific commit in the style of the `git2r` package                    |
 
@@ -187,11 +187,11 @@ Overview of functions
 
 ``` r
 Sys.time()
-#> [1] "2016-08-28 14:45:55 PDT"
+#> [1] "2016-08-28 14:53:51 PDT"
 git2r::repository("~/rrr/githug0")
 #> Local:    master /Users/jenny/rrr/githug0/
 #> Remote:   master @ origin (https://github.com/jennybc/githug0.git)
-#> Head:     [6932106] 2016-08-28: tests for git_revision and as.git_commit stuff
+#> Head:     [7d9a42c] 2016-08-28: Add git_revision() as.git_commit() to README; re-render
 covr::package_coverage("~/rrr/githug0/")
 #> githug Coverage: 88.24%
 #> R/git_history.R: 66.67%
