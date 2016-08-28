@@ -6,10 +6,10 @@
 \alias{githug-switch}
 \title{Switch to another branch}
 \usage{
-git_switch(name = "master", create = NA, repo = ".")
+git_switch(name = "master", create = NA, repo = ".", rev = "HEAD")
 
 git_branch_checkout(name = "master", create = FALSE, force = FALSE,
-  repo = ".")
+  repo = ".", rev = "HEAD")
 }
 \arguments{
 \item{name}{Name of the branch}
@@ -19,19 +19,27 @@ git_branch_checkout(name = "master", create = FALSE, force = FALSE,
 \item{repo}{Path to a Git repo. If unspecified, current working directory is
 checked to see if it is or is inside a Git repo.}
 
+\item{rev}{Target commit, as a
+\href{http://git-scm.com/docs/git-rev-parse.html#_specifying_revisions}{revision
+ string}, e.g. \code{HEAD^}, \code{branchname}, \code{SHA-1} or a leading
+substring thereof.}
+
 \item{force}{Whether to overwrite current files with the versions in branch
 \code{name}, even if this means discarding uncommited changes. Default is
 \code{FALSE}.}
 }
 \description{
 Switch to or "checkout" another branch. Optionally, create the branch if it
-doesn't exist yet and then check it out. If you currently have uncommitted
-changes, it is possible to lose those changes when you switch to another
-branch. \code{git_switch()} will never let that happen. If that's really what
-you want, call the lower-level function \code{git_branch_checkout(..., force
-= TRUE)}.
+doesn't exist yet and then check it out.
 }
 \details{
+If you currently have uncommitted changes, it is possible -- though not
+inevitable -- to lose those changes when you switch to another branch.
+\code{git_switch()} will never let that happen. You should seriously consider
+committing or stashing those at-risk changes. However, if you really want to
+nuke them, call the lower-level function \code{git_branch_checkout(..., force
+= TRUE)}.
+
 Convenience wrappers around \code{\link{git2r}}'s
 \code{\link[git2r]{checkout,git_branch-method}}.
 }

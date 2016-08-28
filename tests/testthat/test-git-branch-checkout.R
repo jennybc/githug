@@ -75,3 +75,12 @@ test_that("at risk files protected when 'force = FALSE' and not when 'force = TR
   expect_true("new_branch a" %in% readLines(file.path(tpath, "a")))
 })
 
+test_that("create and check out with specific rev works from git_branch_checkout", {
+  tpath <- init_tmp_repo()
+  write_file("a", dir = tpath)
+  gc1 <- git_commit("a", message = "a", repo = tpath)
+  write_file("b", dir = tpath)
+  git_commit("b", message = "b", repo = tpath)
+  git_branch_checkout("new_branch", create = TRUE, repo = tpath, rev = gc1)
+  expect_identical(gc1, git_revision("HEAD", repo = tpath))
+})
