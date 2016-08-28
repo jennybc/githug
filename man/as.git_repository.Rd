@@ -31,16 +31,37 @@ isn't exposed via \code{githug}, this function helps you specify the
 repository \code{\link{git2r}}-style.
 }
 \examples{
-\dontrun{
-as.git_repository()
-as.git_repository("path")
-as.git_repository("repo-path/subdir")
-as.git_repository("repo-path/subdir", ceiling = 0)
+repo <- git_init(tempfile("git-repository-example-"))
 
+## you can specify the path explicitly
+as.git_repository(repo)
+
+## switch working directory to the repo
+owd <- setwd(repo)
+
+## as.git_repository() with no args consults working directory
+as.git_repository()
+
+dir.create("subdir")
+
+## as.git_repository() walks up parents, looking for a repo
+as.git_repository("subdir")
+
+setwd("subdir")
+as.git_repository()
+## unless you put a ceiling on the walk
+\dontrun{
+as.git_repository("repo-path/subdir", ceiling = 0)
+}
+
+setwd(owd)
+
+\dontrun{
 ## here's a rather exotic Git operation that githug is unlikely to expose:
 ## odb_blobs() lists "all blobs reachable from the commits in the object database"
 ## pre-process the repo with as_git_repository() to prepare for git2r
-git2r::odb_blobs(as.git_repository("repo-path"))
+git2r::odb_blobs(as.git_repository("path_to_a_git_repo"))
 }
+
 }
 
