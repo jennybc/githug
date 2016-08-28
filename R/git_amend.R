@@ -49,14 +49,16 @@
 git_amend <- function(message = character(), ask = TRUE, repo = ".") {
   stopifnot(is_lol(ask))
   just_do_it <- isFALSE(ask)
+  stop_if_no_rev(rev = "HEAD", repo = repo,
+                 desc = "the most recent commit (a.k.a. HEAD)")
+  ## temporary measure: abort now if HEAD^ doesn't exist
+  ## https://github.com/jennybc/githug0/issues/32
+  stop_if_no_rev(rev = "HEAD^", repo = repo,
+                 desc = "parent of the most recent commit (a.k.a. HEAD^)")
 
   ## TO DO: describe if/how staging area differs from HEAD
 
-  head_commit <- git_HEAD(repo = repo)
-  message_before <- head_commit@message
-  ## temporary measure: abort now if HEAD^ doesn't exist
-  ## https://github.com/jennybc/githug0/issues/32
-  git_HEAD_parent(repo = repo)
+  message_before <- git_rev_gco("HEAD", repo = repo)@message
 
   if (is_not_FALSE(ask)) {
     message("Warning: changing history!\n\n",

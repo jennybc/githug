@@ -39,5 +39,5 @@ test_that("git_uncommit aborts if HEAD^ does not exist", {
   write_file("a", dir = tpath)
   git_commit("a", message = "commit 1", repo = tpath)
   expect_error(git_uncommit(ask = FALSE, repo = tpath),
-               "Can't find the parent")
+               "Can't find parent")
 })

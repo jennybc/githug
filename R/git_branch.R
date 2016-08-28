@@ -29,8 +29,17 @@ NULL
 #' git_branch_list()
 #'
 #' ## commit and ... now we have master
-#' writeLines("Well, we're not in the middle of nowhere...", "nowhere.txt")
-#' git_commit(all = TRUE, message = "1ouise: not in the middle of nowhere")
+#' write("Well, we're not in the middle of nowhere,", "nowhere.txt")
+#' c01 <- git_commit(all = TRUE, message = "1ouise: not in the middle of nowhere")
+#' git_branch()
+#' git_branch_list()
+#'
+#' ## make a new commit then checkout initial commit, thereby detaching HEAD
+#' write("but we can see it from here.", "nowhere.txt", append = TRUE)
+#' git_commit(all = TRUE, message = "louise: but can see it")
+#' ## TODO: come back and make this nicer when more functions exist
+#' c01 <- git_history()$commit[[which(git_history()$sha == c01)]]
+#' git2r::checkout(c01)
 #' git_branch()
 #' git_branch_list()
 #'
@@ -49,12 +58,18 @@ git_branch <- function(where = NULL, repo = ".") {
 #' @export
 #' @rdname githug-branch
 git_branch_current <- function(repo = ".") {
-  gr <- as.git_repository(repo)
-  h <- git2r::head(gr)
+  h <- git2r::head(as.git_repository(repo))
   if (is.null(h)) {
     message("Not on a branch.")
     return(invisible(h))
   }
+  if (git2r::is_commit(h)) {
+    message("Detached HEAD! Not on a branch.\n",
+            "HEAD pointing at a commit:\n", bulletize_gco(h))
+    return(invisible(NA_character_))
+  }
+  ## h is a git_branch = the default scenario ... at least, it better be!
+  stopifnot(git2r::is_branch(h))
   h@name
 }
 

@@ -45,14 +45,16 @@
 #' @export
 git_uncommit <- function(ask = TRUE, repo = ".") {
   stopifnot(is_lol(ask))
+  stop_if_no_rev(rev = "HEAD", repo = repo,
+                 desc = "the most recent commit (a.k.a. HEAD)")
+  ## temporary measure: abort now if HEAD^ doesn't exist
+  ## https://github.com/jennybc/githug0/issues/32
+  stop_if_no_rev(rev = "HEAD^", repo = repo,
+                 desc = "parent of the most recent commit (a.k.a. HEAD^)")
+
   just_do_it <- isFALSE(ask)
 
   ## TO WORRY: what if HEAD is detached?
-
-  git_HEAD(repo = repo)
-  ## temporary measure: abort now if HEAD^ doesn't exist
-  ## https://github.com/jennybc/githug0/issues/32
-  git_HEAD_parent(repo = repo)
 
   ## TO DO: once I can check status of remote tracking branch, refine this.
   if (is_not_FALSE(ask)) {
@@ -80,8 +82,8 @@ git_uncommit <- function(ask = TRUE, repo = ".") {
 
 git_uncommit_do <- function(repo = ".") {
 
-  current_head <- git_HEAD(repo = repo)
-  message("Uncommit:\n", bulletize_gco(current_head))
+  current_head <- git_rev_sha("HEAD", repo = repo)
+  message("Uncommit:\n", bulletize_sha(current_head))
 
   ## TO DO: make the safety branch or stash RIGHT HERE
 

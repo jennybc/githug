@@ -19,7 +19,7 @@ test_that("git_amend aborts if HEAD^ does not exist", {
   write_file("a", dir = tpath)
   gco <- git_commit("a", message = "commit 1", repo = tpath)
   expect_error(git_amend(ask = FALSE, repo = tpath),
-               "Can't find the parent")
+               "Can't find parent")
   expect_equivalent(gco, git_history(repo = tpath, n = 1)$sha)
 })
 
