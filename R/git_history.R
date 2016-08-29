@@ -1,19 +1,26 @@
 #' Get the commit history
 #'
 #' Get an overview of the last \code{n} commits. Convenience wrapper around
-#' \code{\link[git2r:commits]{git2r::commits}()}, which returns
-#' \code{\linkS4class{git_commit}} objects, and the
-#' \code{\link[git2r]{coerce-git_repository-method}}, which coerces the commit
-#' log of the repository to a data frame. The print method shows truncated
-#' versions of selected variables, e.g., the commit message, time, and SHA, but
-#' rest assured the full information is present in the returned object.
+#' \code{\link[git2r:commits]{git2r::commits}()}. The print method shows
+#' truncated versions of selected variables, e.g., the commit message, time, and
+#' SHA, but rest assured the full information is present in the returned object.
 #'
-#' @param n Optional upper limit on the number of commits to output.
 #' @template repo
+#' @param ... Optional parameters passed through to
+#'   \code{\link[git2r:commits]{git2r::commits}()}. Can include:
+#'   \itemize{
+#'   \item \code{n} Max number of commits.
+#'   \item \code{topological} Logical, requests topological sort, i.e.
+#'   parent before child, defaults to \code{TRUE}. Can be combined with
+#'   \code{time}.
+#'   \item \code{time} Logical, requests chronological sort, defaults to
+#'   \code{TRUE}. Can be combined with \code{topological}.
+#'   \item \code{reverse} Logical, reverses the order, defaults to
+#'   \code{FALSE}.
+#'   }
 #' @return A data frame with S3 class \code{git_history}, solely for printing
 #'   purposes. Variables: the \code{SHA}, commit \code{message}, \code{when} the
-#'   commit happened, \code{author}, \code{email}, and a list-column of objects
-#'   of class \code{\linkS4class{git_commit}}.
+#'   commit happened, \code{author}, and \code{email}.
 #' @export
 #' @examples
 #' repo <- git_init(tempfile("git-history-"))
@@ -27,27 +34,23 @@
 #' git_commit("tl.txt", message = "second commit")
 #' git_history()
 #' setwd(owd)
-git_history <- function(repo = ".", n = NULL) {
-  gr <- as.git_repository(repo)
-  ghistory <- tibble::as_tibble(methods::as(gr, "data.frame"))
-  if (nrow(ghistory) == 0L) {
+git_history <- function(repo = ".", ...) {
+  commits <- git2r::commits(as.git_repository(repo), ...)
+  if (length(commits) == 0L) {
     message("No commits yet.")
     return(invisible())
   }
-  vars <- c("sha", "summary", "when", "author", "email")
-  ghistory <- ghistory[vars]
-  names(ghistory)[names(ghistory) == "summary"] <- "message"
-  commits <- git2r::commits(gr, n = n)
-  commits <-
-    tibble::tibble(
-      sha = purrr::map_chr(commits, methods::slot, "sha"),
-      commit = commits
-      )
-  if (!is.null(n)) {
-    ghistory <- ghistory[ghistory$sha %in% commits$sha, ]
-  }
-  ghistory$commit <- commits$commit[match(ghistory$sha, commits$sha)]
-  structure(ghistory, class = c("git_history", class(ghistory)))
+  raw_author <- purrr::map(commits, methods::slot, "author")
+  ctbl <- tibble::tibble(
+        sha = purrr::map_chr(commits, methods::slot, "sha"),
+    message = purrr::map_chr(commits, methods::slot, "message"),
+       when = purrr::map(raw_author, methods::slot, "when"),
+     author = purrr::map_chr(raw_author, methods::slot, "name"),
+      email = purrr::map_chr(raw_author, methods::slot, "email")
+  )
+  ctbl$when <- purrr::map(ctbl$when, ~ methods::as(.x, "POSIXct"))
+  ctbl$when <- do.call(c, ctbl$when)
+  structure(ctbl, class = c("git_history", class(ctbl)))
 }
 
 #' @export
@@ -57,8 +60,7 @@ print.git_history <- function(x, ...) {
     message = sprintf("%-24s", ellipsize(x$message, 24)),
     when = format(x$when, format = "%Y-%m-%d %H:%M"),
     author = x$author,
-    email = x$email,
-    commit = x$commit
+    email = x$email
   )
   print(x_pretty)
   invisible(x)

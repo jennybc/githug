@@ -14,10 +14,7 @@ test_that("detached HEAD", {
   c01 <- git_commit("a", message = "a", repo = tpath)
   write_file("b", dir = tpath)
   git_commit("b", message = "b", repo = tpath)
-  ## come back when there's a better way to check out based on SHA
-  ghist <- git_history(repo = tpath)
-  gc01 <- ghist$commit[[which(ghist$sha == c01)]]
-  git2r::checkout(gc01)
+  git2r::checkout(as.git_commit(c01, repo = tpath))
   expect_message(gb <- git_branch_current(repo = tpath), "Detached HEAD!")
   expect_identical(gb, NA_character_)
   gbl <- git_branch_list(repo = tpath)

@@ -40,9 +40,9 @@ Create a new Git repository and set that as working directory for the duration o
 ``` r
 repo <- git_init(tempfile("githug-example-"))
 #> * Creating directory:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pt5w2FP/githug-example-dd4526f84ee4
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … Qg3M4c/githug-example-104c22b3c3d11
 #> * Initialising git repository in:
-#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … pt5w2FP/githug-example-dd4526f84ee4
+#>   /var/folders/vt/4sdxy0rd1b3b65nqssx … Qg3M4c/githug-example-104c22b3c3d11
 knitr::opts_knit$set(root.dir = repo)
 ```
 
@@ -72,7 +72,7 @@ git_commit(all = TRUE,
 #>   * louise.txt
 #>   * max.txt
 #> Commit:
-#>   * [dcca13f] 2016-08-28: Brains'll only get you so far and luck always runs out.
+#>   * [ef9c2d2] 2016-08-29: Brains'll only get you so far and luck always runs out.
 ```
 
 Add new file and commit it. Inspect commit history.
@@ -83,14 +83,14 @@ git_commit("jimmy.txt", message = "That's the code word. I miss you, Peaches.")
 #> Staged these paths:
 #>   * jimmy.txt
 #> Commit:
-#>   * [b1989d8] 2016-08-28: That's the code word. I miss you, Peaches.
+#>   * [5ce96ed] 2016-08-29: That's the code word. I miss you, Peaches.
 git_history()
-#> # A tibble: 2 x 6
+#> # A tibble: 2 x 5
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 b1989d8 That's the code word. I… 2016-08-28 21:53 louise
-#> 2 dcca13f Brains'll only get you … 2016-08-28 21:53 louise
-#> # ... with 2 more variables: email <chr>, commit <list>
+#> 1 5ce96ed That's the code word. I… 2016-08-28 17:11 louise
+#> 2 ef9c2d2 Brains'll only get you … 2016-08-28 17:11 louise
+#> # ... with 1 more variables: email <chr>
 ```
 
 Uncommit, i.e. leave files as they are, but go back to parent of current commit.
@@ -98,15 +98,15 @@ Uncommit, i.e. leave files as they are, but go back to parent of current commit.
 ``` r
 git_uncommit(ask = FALSE)
 #> Uncommit:
-#>   * [b1989d8] 2016-08-28: That's the code word. I miss you, Peaches.
+#>   * [5ce96ed] 2016-08-29: That's the code word. I miss you, Peaches.
 #> HEAD reset to:
-#>   * [dcca13f] 2016-08-28: Brains'll only get you so far and luck always runs out.
+#>   * [ef9c2d2] 2016-08-29: Brains'll only get you so far and luck always runs out.
 git_history()
-#> # A tibble: 1 x 6
+#> # A tibble: 1 x 5
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 dcca13f Brains'll only get you … 2016-08-28 21:53 louise
-#> # ... with 2 more variables: email <chr>, commit <list>
+#> 1 ef9c2d2 Brains'll only get you … 2016-08-28 17:11 louise
+#> # ... with 1 more variables: email <chr>
 ```
 
 Verify files and staging are OK. Unstage a file.
@@ -138,17 +138,17 @@ Create and checkout a branch. *In an interactive session, if `create` is unspeci
 
 ``` r
 git_history()
-#> # A tibble: 1 x 6
+#> # A tibble: 1 x 5
 #>       sha                  message             when author
 #>     <chr>                    <chr>            <chr>  <chr>
-#> 1 dcca13f Brains'll only get you … 2016-08-28 21:53 louise
-#> # ... with 2 more variables: email <chr>, commit <list>
+#> 1 ef9c2d2 Brains'll only get you … 2016-08-28 17:11 louise
+#> # ... with 1 more variables: email <chr>
 git_branch()
 #> [1] "master"
 git_switch("new_branch", create = TRUE)
 #> 'new_branch' is not the name of any existing local branch.
 #> New branch 'new_branch' pointed at:
-#>   * [dcca13f] 2016-08-28: Brains'll only get you so far and luck always runs out.
+#>   * [ef9c2d2] 2016-08-29: Brains'll only get you so far and luck always runs out.
 #> Switched to branch:
 #>   * new_branch
 git_branch()
@@ -192,13 +192,13 @@ Overview of functions
 
 ``` r
 Sys.time()
-#> [1] "2016-08-28 21:53:08 PDT"
+#> [1] "2016-08-29 00:11:16 PDT"
 git2r::repository("~/rrr/githug0")
-#> Local:    git-rename /Users/jenny/rrr/githug0/
-#> Head:     [7f468d2] 2016-08-28: Merge pull request #45 from jennybc/switch-improvements
+#> Local:    refactor-history /Users/jenny/rrr/githug0/
+#> Head:     [2b7f8ff] 2016-08-28: wrap git2r::commits() myself
 covr::package_coverage("~/rrr/githug0/")
-#> githug Coverage: 87.08%
-#> R/git_history.R: 66.67%
+#> githug Coverage: 87.14%
+#> R/git_history.R: 64.00%
 #> R/git_unstage.R: 74.55%
 #> R/git_amend.R: 76.09%
 #> R/git_branch_checkout.R: 76.67%
