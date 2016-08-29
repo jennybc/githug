@@ -6,7 +6,7 @@
 \alias{githug-switch}
 \title{Switch to another branch}
 \usage{
-git_switch(name = "master", create = NA, repo = ".", rev = "HEAD")
+git_switch(name = character(), create = NA, repo = ".", rev = "HEAD")
 
 git_branch_checkout(name = "master", create = FALSE, force = FALSE,
   repo = ".", rev = "HEAD")

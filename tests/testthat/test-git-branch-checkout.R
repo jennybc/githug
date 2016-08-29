@@ -3,7 +3,7 @@ context("git branch checkout")
 test_that("check out when no commits or branches exists", {
   prohibit_interaction()
   tpath <- init_tmp_repo()
-  expect_error(git_switch(repo = tpath), "Aborting")
+  expect_error(git_switch(repo = tpath), "Specify the target branch")
   expect_error(git_branch_checkout(repo = tpath), "Aborting")
   allow_interaction()
 })
@@ -13,7 +13,10 @@ test_that("check out when requested branch does not exist", {
   tpath <- init_tmp_repo()
   write_file("a", dir = tpath)
   git_commit("a", message = "a", repo = tpath)
-  expect_error(git_switch("b", repo = tpath), "Aborting")
+  expect_message(
+    expect_error(git_switch("b", repo = tpath), "Authorize its creation"),
+    "not the name of any existing local branch"
+  )
   expect_error(git_branch_checkout("b", repo = tpath), "Aborting")
   allow_interaction()
 })

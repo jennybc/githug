@@ -60,17 +60,50 @@ NULL
 #'
 #' @rdname githug-switch
 #' @export
-git_switch <- function(name = "master", create = NA, repo = ".", rev = "HEAD") {
-  stopifnot(is.character(name), length(name) == 1L)
+git_switch <- function(name = character(), create = NA, repo = ".", rev = "HEAD") {
+  stopifnot(is.character(name), length(name) <= 1L)
   stopifnot(is_lol(create))
+
+  if (length(name) == 0L) {     ## we are switching branch, not creating one
+                                ## but we don't know which one
+                                ## try to justify switch to master
+    suppressMessages(current_branch <- git_branch_current(repo = repo))
+    master_exists <- git_revision_exists("master", repo = repo)
+    if (master_exists && current_branch != "master") {
+      name <- "master"
+    }
+  }
+  if (length(name) == 0L) {     ## we are switching branch, not creating one
+                                ## but we don't know which one
+                                ## and can't just switch to master
+    if (!interactive()) {
+      stop("Specify the target branch by name.", call. = FALSE)
+    }
+    gbl <- git_branch_list(where = "local", repo = repo)
+    gbl <- gbl[!gbl$HEAD, ]
+    if (nrow(gbl) == 0L) {
+      stop("Can't find a local branch to switch to.", call. = FALSE)
+    }
+    i <- 0L
+    i <- utils::menu(gbl$branch, title = "Pick a branch.\nEnter 0 to exit.")
+    if (i == 0L) {
+      stop("Aborting.", call. = FALSE)
+    }
+    name <- gbl$branch[i]
+  }
+  ## we have a branch name now
+
   gb <- git_branch_from_name(name, repo)
 
-  if (is.null(gb) && is.na(create)) {
+  if (is.null(gb)) {            ## branch does not exist
     message("'", name, "' is not the name of any existing local branch.\n")
-    create <- FALSE
-    if (interactive()) {
+    if (is.na(create)) {        ## not pre-authorized to create it
+      if (!interactive()) {
+        stop("\nAuthorize its creation with 'create = TRUE'.", call. = FALSE)
+      }
+      create <- FALSE
       create <- yesno("Would you like to create it, then check it out?")
-    }
+    }                           ## create is either TRUE or FALSE now
     if (!create) {
       stop("Aborting.", call. = FALSE)
     }
