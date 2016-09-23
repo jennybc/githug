@@ -121,10 +121,12 @@ git_unstage(), Unstage (changes to) a path
 git_commit(), Make a commit
 git_uncommit(), Undo a Git commit but leave files alone
 git_amend(), Re-do the most recent commit
+git_file_rename(), Rename or move and file and stage it
+git_mv(), Synonym for git_file_rename()
 git_branch(), Report current branch or list all branches
 git_switch(), Switch to another branch
 git_branch_*(), \"Lower level functions to list, create, rename, delete, and checkout branches\"
-git_revision, Identify a specific commit 
+git_revision(), Identify a specific commit 
 as.git_repository(), Open a Git repo in the style of the `git2r` package
 as.git_commit(), Get a specific commit in the style of the `git2r` package
 "
