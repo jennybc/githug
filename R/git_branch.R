@@ -158,6 +158,6 @@ parse_branches <- function(x) {
 ## input: branch name
 ## output git_branch object
 git_branch_from_name <- function(name, repo) {
-  gbl <- git_branch_list(where = "local", repo = repo)
+  suppressMessages(gbl <- git_branch_list(where = "local", repo = repo))
   gbl$gb[[name]]
 }

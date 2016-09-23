@@ -3,7 +3,7 @@ context("git branch checkout")
 test_that("check out when no commits or branches exists", {
   prohibit_interaction()
   tpath <- init_tmp_repo()
-  expect_error(git_switch(repo = tpath), "Aborting")
+  expect_error(git_switch(repo = tpath), "Specify the target branch")
   expect_error(git_branch_checkout(repo = tpath), "Aborting")
   allow_interaction()
 })
@@ -13,7 +13,10 @@ test_that("check out when requested branch does not exist", {
   tpath <- init_tmp_repo()
   write_file("a", dir = tpath)
   git_commit("a", message = "a", repo = tpath)
-  expect_error(git_switch("b", repo = tpath), "Aborting")
+  expect_message(
+    expect_error(git_switch("b", repo = tpath), "Authorize its creation"),
+    "not the name of any existing local branch"
+  )
   expect_error(git_branch_checkout("b", repo = tpath), "Aborting")
   allow_interaction()
 })
@@ -75,3 +78,12 @@ test_that("at risk files protected when 'force = FALSE' and not when 'force = TR
   expect_true("new_branch a" %in% readLines(file.path(tpath, "a")))
 })
 
+test_that("create and check out with specific rev works from git_branch_checkout", {
+  tpath <- init_tmp_repo()
+  write_file("a", dir = tpath)
+  gc1 <- git_commit("a", message = "a", repo = tpath)
+  write_file("b", dir = tpath)
+  git_commit("b", message = "b", repo = tpath)
+  git_branch_checkout("new_branch", create = TRUE, repo = tpath, rev = gc1)
+  expect_identical(gc1, git_revision("HEAD", repo = tpath))
+})

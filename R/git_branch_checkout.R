@@ -1,10 +1,13 @@
 #' Switch to another branch
 #'
 #' Switch to or "checkout" another branch. Optionally, create the branch if it
-#' doesn't exist yet and then check it out. If you currently have uncommitted
-#' changes, it is possible to lose those changes when you switch to another
-#' branch. \code{git_switch()} will never let that happen. If that's really what
-#' you want, call the lower-level function \code{git_branch_checkout(..., force
+#' doesn't exist yet and then check it out.
+#'
+#' If you currently have uncommitted changes, it is possible -- though not
+#' inevitable -- to lose those changes when you switch to another branch.
+#' \code{git_switch()} will never let that happen. You should seriously consider
+#' committing or stashing those at-risk changes. However, if you really want to
+#' nuke them, call the lower-level function \code{git_branch_checkout(..., force
 #' = TRUE)}.
 #'
 #' Convenience wrappers around \code{\link{git2r}}'s
@@ -16,6 +19,7 @@
 #'   \code{name}, even if this means discarding uncommited changes. Default is
 #'   \code{FALSE}.
 #' @template repo
+#' @template rev
 #'
 #' @name githug-switch
 #' @aliases git_switch git_branch_checkout
@@ -56,23 +60,57 @@ NULL
 #'
 #' @rdname githug-switch
 #' @export
-git_switch <- function(name = "master", create = NA, repo = ".") {
-  stopifnot(is.character(name), length(name) == 1L)
+git_switch <- function(name = character(), create = NA, repo = ".", rev = "HEAD") {
+  stopifnot(is.character(name), length(name) <= 1L)
   stopifnot(is_lol(create))
+
+  if (length(name) == 0L) {     ## we are switching branch, not creating one
+                                ## but we don't know which one
+                                ## try to justify switch to master
+    suppressMessages(current_branch <- git_branch_current(repo = repo))
+    master_exists <- git_revision_exists("master", repo = repo)
+    if (master_exists && current_branch != "master") {
+      name <- "master"
+    }
+  }
+  if (length(name) == 0L) {     ## we are switching branch, not creating one
+                                ## but we don't know which one
+                                ## and can't just switch to master
+    if (!interactive()) {
+      stop("Specify the target branch by name.", call. = FALSE)
+    }
+    gbl <- git_branch_list(where = "local", repo = repo)
+    gbl <- gbl[!gbl$HEAD, ]
+    if (nrow(gbl) == 0L) {
+      stop("Can't find a local branch to switch to.", call. = FALSE)
+    }
+    i <- 0L
+    i <- utils::menu(gbl$branch, title = "Pick a branch.\nEnter 0 to exit.")
+    if (i == 0L) {
+      stop("Aborting.", call. = FALSE)
+    }
+    name <- gbl$branch[i]
+  }
+  ## we have a branch name now
+
   gb <- git_branch_from_name(name, repo)
 
-  if (is.null(gb) && is.na(create)) {
+  if (is.null(gb)) {            ## branch does not exist
     message("'", name, "' is not the name of any existing local branch.\n")
-    create <- FALSE
-    if (interactive()) {
+    if (is.na(create)) {        ## not pre-authorized to create it
+      if (!interactive()) {
+        stop("\nAuthorize its creation with 'create = TRUE'.", call. = FALSE)
+      }
+      create <- FALSE
       create <- yesno("Would you like to create it, then check it out?")
-    }
+    }                           ## create is either TRUE or FALSE now
     if (!create) {
       stop("Aborting.", call. = FALSE)
     }
   }
 
-  git_branch_checkout(name = name, create = create, force = FALSE, repo = repo)
+  git_branch_checkout(name = name, create = create, force = FALSE,
+                      repo = repo, rev = rev)
 
 }
 
@@ -87,20 +125,24 @@ git_switch <- function(name = "master", create = NA, repo = ".") {
 #' @rdname githug-switch
 #' @export
 git_branch_checkout <- function(name = "master", create = FALSE,
-                                force = FALSE, repo = ".") {
+                                force = FALSE, repo = ".", rev = "HEAD") {
   stopifnot(is.character(name), length(name) == 1L)
   stopifnot(is_lol(create), is_lol(force))
   gb <- git_branch_from_name(name, repo)
 
-  if (is.null(gb) && !create) {
+  if (is.null(gb) && is_not_TRUE(create)) {
     stop("'", name, "' is not the name of any existing local branch.\n",
          "Aborting.", call. = FALSE)
   }
 
   ## TO DO: if 'force = TRUE', make the safety branch or stash RIGHT HERE
 
+  if (is.null(gb) && isTRUE(create)) {
+    git_branch_create(name = name, repo = repo, rev = rev)
+  }
+
   git2r::checkout(as.git_repository(repo), branch = name,
-                  create = create, force = force)
+                  create = FALSE, force = force)
 
   current_branch <- git_branch_current(repo = repo)
   message("Switched to branch:\n  * ", current_branch)

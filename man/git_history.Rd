@@ -4,28 +4,35 @@
 \alias{git_history}
 \title{Get the commit history}
 \usage{
-git_history(repo = ".", n = NULL)
+git_history(repo = ".", ...)
 }
 \arguments{
 \item{repo}{Path to a Git repo. If unspecified, current working directory is
 checked to see if it is or is inside a Git repo.}
 
-\item{n}{Optional upper limit on the number of commits to output.}
+\item{...}{Optional parameters passed through to
+\code{\link[git2r:commits]{git2r::commits}()}. Can include:
+\itemize{
+\item \code{n} Max number of commits.
+\item \code{topological} Logical, requests topological sort, i.e.
+parent before child, defaults to \code{TRUE}. Can be combined with
+\code{time}.
+\item \code{time} Logical, requests chronological sort, defaults to
+\code{TRUE}. Can be combined with \code{topological}.
+\item \code{reverse} Logical, reverses the order, defaults to
+\code{FALSE}.
+}}
 }
 \value{
 A data frame with S3 class \code{git_history}, solely for printing
   purposes. Variables: the \code{SHA}, commit \code{message}, \code{when} the
-  commit happened, \code{author}, \code{email}, and a list-column of objects
-  of class \code{\linkS4class{git_commit}}.
+  commit happened, \code{author}, and \code{email}.
 }
 \description{
 Get an overview of the last \code{n} commits. Convenience wrapper around
-\code{\link[git2r:commits]{git2r::commits}()}, which returns
-\code{\linkS4class{git_commit}} objects, and the
-\code{\link[git2r]{coerce-git_repository-method}}, which coerces the commit
-log of the repository to a data frame. The print method shows truncated
-versions of selected variables, e.g., the commit message, time, and SHA, but
-rest assured the full information is present in the returned object.
+\code{\link[git2r:commits]{git2r::commits}()}. The print method shows
+truncated versions of selected variables, e.g., the commit message, time, and
+SHA, but rest assured the full information is present in the returned object.
 }
 \examples{
 repo <- git_init(tempfile("git-history-"))
